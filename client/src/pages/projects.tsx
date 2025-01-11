@@ -5,13 +5,11 @@ import Project from '../components/project.tsx'
 
 const Projects: React.FC = () => {
   const apiUrl = import.meta.env.VITE_API_URL;
-  //console.log(import.meta.env);
   const [projects, setProjects] = useState([]);
   useEffect(() => {
     fetch(`${apiUrl}/api/projects`)
       .then((response) => response.json())
       .then((data) => {
-        //console.log(data);
         setProjects(data);
       })
       .catch((err) => {
@@ -24,9 +22,11 @@ const Projects: React.FC = () => {
       <ContentDiv className="m-5">
         <h1 class="text-center m-0">Projects</h1>
       </ContentDiv>
-      { projects.map((project, index) => (
-        <Project project={project}></Project>
-      ))}
+      <div class="row">
+          { projects.map((project, index) => (
+            <Project project={project} className="col"></Project>
+          ))}
+      </div>
     </div>
   );
 }

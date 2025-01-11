@@ -2,13 +2,13 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import ContentDiv from '../components/content-div.tsx'
 
-const Project: React.FC = ({project}) => {
+const Project: React.FC = ({project, className=""}) => {
   //console.log(project);
   //console.log(project.urls);
   const apiUrl = import.meta.env.VITE_API_URL;
 
   return (
-    <div>
+    <div class={className}>
       <ContentDiv className="m-5" childrenClass="ms-3 me-3">
         <h2 class="text-center m-0">{project.name}</h2>
         <img src={`${apiUrl}/${project.image_location}`} width="100%"></img>
