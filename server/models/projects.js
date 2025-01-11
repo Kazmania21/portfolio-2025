@@ -4,7 +4,6 @@ const { projectUrlSchema } = require('./project_urls.js');
 const projectSchema = new mongoose.Schema({
   name: {
     type: String,
-    ref: 'user',
     required: true
   },
   tagline: {
@@ -17,6 +16,10 @@ const projectSchema = new mongoose.Schema({
   technologies: {
     type: [mongoose.Schema.Types.ObjectId], 
     ref: 'Technology',
+    required: true
+  },
+  image_location: {
+    type: String,
     required: true
   }
 });

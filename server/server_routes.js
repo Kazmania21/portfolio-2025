@@ -34,6 +34,37 @@ class ServerRoute {
         // Add more routes as needed
     }
 
+    getPopulatePaths(schemaPaths = this.model.schema.paths) {
+        //const schemaPaths = this.model.schema.paths;
+        const populatePaths = [];
+
+        for (const [path, schemaType] of Object.entries(schemaPaths)) {
+            if (schemaType.options && schemaType.options.ref) {
+                //populatePaths.push(path);
+                //console.log(path)
+                //console.log(schemaType)
+                const refModel = this.database_connector.model(schemaType.options.ref);
+                //console.log(refModel.schema.paths);
+                const nestedPaths = this.getPopulatePaths(refModel.schema.paths).map(
+                    (nestedPath) => nestedPath
+                );
+                //console.log(nestedPaths);
+                populatePaths.push({path: path, populate: nestedPaths});
+            } else if (schemaType.schema) {
+                //console.log(path)
+                //console.log(Object.entries(schemaType.schema.paths))
+                //console.log(schemaType.schema.options.collection)
+                const nestedPaths = this.getPopulatePaths(schemaType.schema.paths).map(
+                    (nestedPath) => nestedPath
+                );
+                populatePaths.push({path: path, populate: nestedPaths});
+            }
+        }
+        //console.log(populatePaths);
+
+        return populatePaths;
+    };
+
     index = async (req, res) => {
         //res.sendFile(path.join(__dirname, this.file));
         /*var database_connector = this.database_connector
@@ -52,8 +83,10 @@ class ServerRoute {
         const conditions = req.query;
         // console.log(conditions)
 
+        const populateFields = this.getPopulatePaths();
+
         // Fetch all users
-        this.model.find(conditions)
+        this.model.find(conditions).populate(populateFields)
           .then(results => {
             /*console.log(results)
             console.log(`results: ${results}`)
@@ -78,8 +111,14 @@ class ServerRoute {
           }
         })*/
 
+        const schemaPaths = this.model.schema.paths;
+
+        const populateFields = Object.keys(schemaPaths).filter(
+            (path) => schemaPaths[path].options && schemaPaths[path].options.ref
+        );
+
         try {
-            const item = await this.model.findById(id);
+            const item = await this.model.findById(id).populate(populateFields);
             if (subitem) {
                 if (id2) {
                     for (var row of item[subitem]) {

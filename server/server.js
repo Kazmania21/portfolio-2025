@@ -8,6 +8,7 @@ const { ProjectUrl } = require('./models/project_urls.js');
 const { Project } = require('./models/projects.js');
 //const { body, validationResult } = require('express-validator');
 const cors = require('cors');
+const path = require('path');
 
 const uri = 'mongodb://localhost:27017/portfolio';
 
@@ -16,6 +17,8 @@ mongoose.connect(uri, { useNewUrlParser: true, useUnifiedTopology: true })
   .catch(err => console.error('Connection error:', err));
 
 const app = express();
+
+app.use('/static', express.static(path.join(__dirname, 'uploads')));
 
 app.use(cors({
   origin: 'http://localhost:5173',
