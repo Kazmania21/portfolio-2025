@@ -20,6 +20,7 @@ class ServerRoute {
         this.router.get('/:id/:item', this.get_id);
         this.router.get('/:id/:item/:id2', this.get_id);
         this.router.post('/', this.create);
+        this.router.put('/:id', this.updateOne);
     }
 
     getPopulatePaths(schemaPaths = this.model.schema.paths) {
@@ -99,6 +100,36 @@ class ServerRoute {
         newDocument.save()
           .then(data => res.json({'message': 'Data saved:', 'data': data}))
           .catch(err => res.json({'message': err.message}));
+    }
+
+    updateAll = async (req, res) => {
+        console.log(req.body);
+        console.log(this.insert_form.validate(req));
+        const newDocument = new this.model(req.body);
+        console.log(newDocument)
+        newDocument.save()
+          .then(data => res.json({'message': 'Data saved:', 'data': data}))
+          .catch(err => res.json({'message': err.message}));
+    }
+
+    updateOne = async (req, res) => {
+        const id = req.params.id;
+        try {
+          const updatedItem = await this.model.findByIdAndUpdate(
+            id,
+            req.body,
+            { new: true }
+          );
+
+          if (!updatedItem) {
+            return res.status(404).json({ message: "Item not found" });
+          }
+
+          res.status(200).json(updatedItem);
+        } catch (error) {
+          console.log(error);
+          res.status(500).json({ message: "Error updating item", error });
+        }
     }
 }
 

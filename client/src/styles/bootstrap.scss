@@ -75,4 +75,10 @@ body {
     background-position: center;
 }
 
+.invisible-box {
+    background-color: transparent !important;
+    border: none !important;
+    outline: none !important; /* Optional: Removes focus outline */
+}
+
 @import "bootstrap/scss/bootstrap";

@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import ContentDiv from '../components/content-div.tsx'
+import EditableText from '../components/editable-text.tsx'
 
 const Project: React.FC = ({project, className=""}) => {
   //console.log(project);
@@ -10,7 +11,7 @@ const Project: React.FC = ({project, className=""}) => {
   return (
     <div class={className}>
       <ContentDiv className="m-5" childrenClass="ms-3 me-3">
-        <h2 class="text-center m-0">{project.name}</h2>
+        <EditableText text={project.name} Tag="h2" updateUrl={`${apiUrl}/api/projects/${project._id}`} className="text-center m-0"></EditableText>
         <img src={`${apiUrl}/${project.image_location}`} width="100%"></img>
         <div class="ms-2">
           <p class="mb-0">{project.tagline}</p>
