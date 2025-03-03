@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import ContentDiv from '../components/content-div.tsx'
 import Input from '../components/input.tsx'
 import Fieldset from '../components/fieldset.tsx'
@@ -19,13 +19,36 @@ const AddProject: React.FC = () => {
       })
   })
 
+  const navigate = useNavigate();
+
+  const submitForm = (event) => {
+    event.preventDefault();
+    const form = event.target;
+    const formData = new FormData(form);
+    //form.submit();
+    console.log(Object.fromEntries(formData));
+    fetch(`${apiUrl}/api/projects`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(Object.fromEntries(formData)),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+          console.log("Server response:", data)
+          navigate("/projects")
+        })
+      .catch((error) => console.error("Error:", error));
+  }
+
   return (
     <div>
       <ContentDiv className="m-5">
         <h1 class="text-center m-0">Add Project</h1>
       </ContentDiv>
       <ContentDiv className="m-5">
-        <form class="p-2" method="POST" action={`${apiUrl}/api/projects`}>
+        <form class="p-2" method="POST" action={`${apiUrl}/api/projects`} onSubmit={submitForm}>
           <Input labelText="Name" placeholder="Project Name" inputName="name"></Input>
           <Input labelText="Tagline" placeholder="Project Tagline" inputName="tagline"></Input>
           <Input labelText="Image" placeholder="Project Image" inputName="imageFile" inputType="file"></Input>

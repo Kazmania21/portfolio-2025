@@ -10,9 +10,9 @@ var createProjectForm = new Form([
   body('tagline')
     .isLength({ min:5, max: 255 })
     .withMessage('Tagline must be betweeb 5 and 50 characters long'),
-  body('image_location')
+  body('imageFile')
     .notEmpty()
-    .withMessage('Image location is required'),
+    .withMessage('Thumbnail image is required'),
   body('technologies')
     .notEmpty()
     .withMessage('Technologies required'),

@@ -21,6 +21,7 @@ class ServerRoute {
         this.router.get('/:id/:item/:id2', this.get_id);
         this.router.post('/', this.create);
         this.router.put('/:id', this.updateOne);
+        this.router.delete('/:id', this.deleteOne);
     }
 
     getPopulatePaths(schemaPaths = this.model.schema.paths) {
@@ -95,10 +96,20 @@ class ServerRoute {
     create = async (req, res) => {
         console.log(req.body);
         console.log(this.insert_form.validate(req));
-        const newDocument = new this.model(req.body);
+        var fields = {...req.body};
+        for (var key of Object.keys(req.body)) {
+            if (key.includes("File")) {
+                var new_key = key.replace("File", "_location");
+                fields[new_key] = `static/images/${req.body[key]}`;
+            }
+        }
+        console.log("fields");
+        console.log(fields);
+        const newDocument = new this.model(fields);
         console.log(newDocument)
         newDocument.save()
           .then(data => res.json({'message': 'Data saved:', 'data': data}))
+          //.then(data => res.redirect("/projects"))
           .catch(err => res.json({'message': err.message}));
     }
 
@@ -119,6 +130,24 @@ class ServerRoute {
             id,
             req.body,
             { new: true }
+          );
+
+          if (!updatedItem) {
+            return res.status(404).json({ message: "Item not found" });
+          }
+
+          res.status(200).json(updatedItem);
+        } catch (error) {
+          console.log(error);
+          res.status(500).json({ message: "Error updating item", error });
+        }
+    }
+
+    deleteOne = async (req, res) => {
+        const id = req.params.id;
+        try {
+          const updatedItem = await this.model.findByIdAndDelete(
+            id
           );
 
           if (!updatedItem) {

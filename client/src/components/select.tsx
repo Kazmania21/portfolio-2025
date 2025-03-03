@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react';
 
 const Select: React.FC = ({optionsUrl, className="", inputName="", defaultText="Select Item", labelText=""}) => {
   const apiUrl = import.meta.env.VITE_API_URL;
-  console.log(optionsUrl);
+  //console.log(optionsUrl);
   const [options, setOptions] = useState([]);
   useEffect(() => {
     fetch(`${optionsUrl}`)

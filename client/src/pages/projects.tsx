@@ -20,7 +20,14 @@ const Projects: React.FC = () => {
   return (
     <div>
       <ContentDiv className="m-5">
-        <h1 class="text-center m-0">Projects</h1>
+        <div class="row">
+          <div class="col">
+            <h1 class="text-center m-0">Projects</h1>
+          </div>
+          <div class="col-auto">
+            <Link class="btn btn-primary" to="/add-project">Add Project</Link>
+          </div>
+        </div>
       </ContentDiv>
       <div class="row">
           { projects.map((project, index) => (
