@@ -24,41 +24,10 @@ const AddProject: React.FC = () => {
   const submitForm = (event) => {
     event.preventDefault();
     const form = event.target;
-    //const formData = new FormData(form);
+    const formData = new FormData(form);
 
-    const formData = new FormData();
-
-    // Manually append all form fields
-    new FormData(form).forEach((value, key) => {
-      formData.append(key, value);
-    });
-
-	var formEntries = new URLSearchParams();
-
-	for (const [key, value] of formData.entries()) {
-	  //console.log(`${key}:`, value);
-	  //if (key.includes("File")) {
-        //formEntries[key] = Object.fromEntries(value);
-	  //}
-	  //else {
-	    //formEntries[key] = value;
-	  //}
-
-      console.log(value);
-	  //if (key.includes("File")) {
-      //  value = value.toJSON();
-	  //}
-	  formEntries.append(key, value);
-	  console.log(formEntries.get(key));
-	}
-
-    //form.submit();
-    console.log(JSON.stringify(formEntries));
     fetch(`${apiUrl}/api/projects`, {
       method: "POST",
-	  //headers: {
-      //  "Content-Type": "application/x-www-form-urlencoded"
-	  //},
       body: formData,
     })
       .then((response) => response.json())

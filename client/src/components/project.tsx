@@ -22,7 +22,7 @@ const Project: React.FC = ({project, className=""}) => {
         </div>
         <img src={`${apiUrl}/${project.image_location}`} width="100%"></img>
         <div class="ms-2">
-          <p class="mb-0">{project.tagline}</p>
+          <EditableText text={project.tagline} updateUrl={`${apiUrl}/api/projects/${project._id}`} fieldName="tagline" class="mb-0"></EditableText>
           <h3>Technologies Used</h3>
           {project.technologies.map((technology) => (
             <div>

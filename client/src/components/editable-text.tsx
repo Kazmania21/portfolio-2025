@@ -1,7 +1,7 @@
 //import React from 'react';
 import { useState } from 'react';
 
-const EditableText: React.FC = ({text="", className="", Tag="p", updateUrl=""}) => {
+const EditableText: React.FC = ({text="", className="", Tag="p", updateUrl="", fieldName="name"}) => {
   const [isEditing, setIsEditing] = useState(false);
   const [_text, setText] = useState(text);
   const apiUrl = import.meta.env.VITE_API_URL;
@@ -9,12 +9,14 @@ const EditableText: React.FC = ({text="", className="", Tag="p", updateUrl=""}) 
 
   const handleBlur = async () => {
     setIsEditing(false);
+	var reqBody = {};
+	reqBody[fieldName] = _text;
 
     try {
       const response = await fetch(`${updateUrl}`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ name: _text }),
+        body: JSON.stringify(reqBody),
       });
 
       if (!response.ok) {
