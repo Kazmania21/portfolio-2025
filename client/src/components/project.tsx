@@ -3,6 +3,8 @@ import { Link } from 'react-router-dom';
 import ContentDiv from '../components/content-div.tsx'
 import EditableText from '../components/editable-text.tsx'
 import DeleteButton from '../components/delete-button.tsx'
+import Modal from '../components/modal.tsx'
+import Select from '../components/select.tsx'
 
 const Project: React.FC = ({project, className=""}) => {
   //console.log(project);
@@ -23,14 +25,29 @@ const Project: React.FC = ({project, className=""}) => {
         <img src={`${apiUrl}/${project.image_location}`} width="100%"></img>
         <div class="ms-2">
           <EditableText text={project.tagline} updateUrl={`${apiUrl}/api/projects/${project._id}`} fieldName="tagline" class="mb-0"></EditableText>
-          <h3>Technologies Used</h3>
+		  <div class="row">
+		    <Modal modalId={`technologies-modal-${project._id}`} title="Add Technology to Project" formMethod="PATCH" formUrl={`${apiUrl}/api/projects/${project._id}/add`} >
+			  <Select labelText="Technology" defaultText="Select Technology" optionsUrl={`${apiUrl}/api/technologies`} inputName="technologies"></Select>
+			</Modal>
+		  	<div class="col-auto">
+              <h3>Technologies Used</h3>
+			</div>
+			<div class="col-auto">
+		      <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target={`#technologies-modal-${project._id}`}>Add Technology</button>
+			</div>
+		  </div>
           {project.technologies.map((technology) => (
-            <div>
-              <span><b>{technology.type.name}:</b></span>
-              <Link to={technology.url} class="text-center mb-0">
-                <img src={`${apiUrl}/${technology.image_location}`} width="50px"></img>
-                {technology.name}
-              </Link>
+            <div class="row">
+			  <div class="col-auto">
+                <span><b>{technology.type.name}:</b></span>
+                <Link to={technology.url} class="text-center mb-0">
+                  <img src={`${apiUrl}/${technology.image_location}`} width="50px"></img>
+                  {technology.name}
+                </Link>
+			  </div>
+			  <div class="col-auto">
+                <DeleteButton deleteUrl={`${apiUrl}/api/projects/${project._id}/remove`}  reqBody={{"technologies": technology._id}} formMethod="PATCH"></DeleteButton>
+			  </div>
             </div>
           ))}
           <h3>Project Links</h3>

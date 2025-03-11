@@ -1,15 +1,17 @@
 //import React from 'react';
 import { useState } from 'react';
 
-const EditableText: React.FC = ({className="", deleteUrl=""}) => {
+const EditableText: React.FC = ({className="", deleteUrl="", formMethod="DELETE", reqBody={}}) => {
   const apiUrl = import.meta.env.VITE_API_URL;
   //console.log(updateUrl);
 
   const deleteItem = async () => {
+    console.log(reqBody);
     try {
       const response = await fetch(`${deleteUrl}`, {
-        method: "DELETE",
+        method: formMethod,
         headers: { "Content-Type": "application/json" },
+		body: JSON.stringify(reqBody)
       });
 
       if (!response.ok) {

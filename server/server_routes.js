@@ -23,6 +23,8 @@ class ServerRoute {
         this.router.get('/:id/:item/:id2', this.get_id);
         this.router.post('/', this.upload.array("imageFile"), this.create);
         this.router.put('/:id', this.updateOne);
+		this.router.patch('/:id/add', this.patchAddOne);
+		this.router.patch('/:id/remove', this.patchRemoveOne);
         this.router.delete('/:id', this.deleteOne);
     }
 
@@ -153,6 +155,50 @@ class ServerRoute {
           res.status(500).json({ message: "Error updating item", error });
         }
     }
+
+	patchAddOne = async (req, res) => {
+        const id = req.params.id;
+		console.log(req.body);
+        try {
+          const updatedItem = await this.model.findByIdAndUpdate(
+            id,
+		    {$push: req.body},
+            { new: true }
+          );
+
+          if (!updatedItem) {
+            return res.status(404).json({ message: "Item not found" });
+          }
+
+          res.status(200).json(updatedItem);
+        } catch (error) {
+          console.log(error);
+          res.status(500).json({ message: "Error updating item", error });
+        }
+    }
+
+	patchRemoveOne = async (req, res) => {
+        const id = req.params.id;
+		console.log(req.body);
+        try {
+          const updatedItem = await this.model.findByIdAndUpdate(
+            id,
+		    {$pull: req.body},
+            { new: true }
+          );
+
+          if (!updatedItem) {
+            return res.status(404).json({ message: "Item not found" });
+          }
+
+          res.status(200).json(updatedItem);
+        } catch (error) {
+          console.log(error);
+          res.status(500).json({ message: "Error updating item", error });
+        }
+    }
+
+
 
     deleteOne = async (req, res) => {
         const id = req.params.id;
