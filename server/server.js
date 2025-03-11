@@ -10,6 +10,7 @@ const { createProjectForm } = require('./forms/create_project_form.js');
 //const { body, validationResult } = require('express-validator');
 const cors = require('cors');
 const path = require('path');
+const multer = require('multer');
 
 const uri = 'mongodb://localhost:27017/portfolio';
 

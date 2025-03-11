@@ -1,5 +1,6 @@
 const express = require('express');
 const path = require('path');
+const multer = require('multer');
 
 class ServerRoute {
     constructor(database_connector, model, insert_form=null) {
@@ -8,6 +9,7 @@ class ServerRoute {
         this.insert_form = insert_form;
         //console.log(this.model);
         //console.log(insert_form);
+		this.upload = multer({dest: "uploads/images"});
         this.router = express.Router("");
         this.initRoutes();
         this.index = this.index.bind(this);
@@ -19,7 +21,7 @@ class ServerRoute {
         this.router.get('/:id', this.get_id);
         this.router.get('/:id/:item', this.get_id);
         this.router.get('/:id/:item/:id2', this.get_id);
-        this.router.post('/', this.create);
+        this.router.post('/', this.upload.array("imageFile"), this.create);
         this.router.put('/:id', this.updateOne);
         this.router.delete('/:id', this.deleteOne);
     }
@@ -94,17 +96,26 @@ class ServerRoute {
     }
 
     create = async (req, res) => {
+		console.log(req.headers['content-type']);
         console.log(req.body);
+		console.log(req.body.urls);
         console.log(this.insert_form.validate(req));
         var fields = {...req.body};
-        for (var key of Object.keys(req.body)) {
+        /*for (var key of Object.keys(req.body)) {
             if (key.includes("File")) {
                 var new_key = key.replace("File", "_location");
                 fields[new_key] = `static/images/${req.body[key]}`;
             }
-        }
-        console.log("fields");
-        console.log(fields);
+
+			//if key.includes() {
+//
+			//}
+        }*/
+		for (var file of req.files) {
+          fields[file.fieldname.replace("File", "_location")] = `static/images/${file.filename}`;
+		}
+        //console.log("fields");
+        //console.log(fields);
         const newDocument = new this.model(fields);
         console.log(newDocument)
         newDocument.save()
