@@ -5,6 +5,7 @@ import EditableText from '../components/editable-text.tsx'
 import DeleteButton from '../components/delete-button.tsx'
 import Modal from '../components/modal.tsx'
 import Select from '../components/select.tsx'
+import Input from '../components/input.tsx'
 
 const Project: React.FC = ({project, className=""}) => {
   //console.log(project);
@@ -49,15 +50,34 @@ const Project: React.FC = ({project, className=""}) => {
                 <DeleteButton deleteUrl={`${apiUrl}/api/projects/${project._id}/remove`}  reqBody={{"technologies": technology._id}} formMethod="PATCH"></DeleteButton>
 			  </div>
             </div>
-          ))}
-          <h3>Project Links</h3>
+          ))} 
+		  <Modal modalId={`urls-modal-${project._id}`} title="Add URL to Project" formMethod="PATCH" formUrl={`${apiUrl}/api/projects/${project._id}/add`} >
+			  <Select labelText="URL Type" defaultText="Select URL Type" optionsUrl={`${apiUrl}/api/project_url_types`} inputName="urls[type]"></Select>
+			  <Input labelText="URL" placeholderText="URL" inputName="urls[url]"></Input>
+			</Modal>
+		  <div class="row">
+		    <div class="col-auto">
+              <h3>Project Links</h3>
+			</div>
+			<div class="col-auto">
+		      <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target={`#urls-modal-${project._id}`}>Add Link</button>
+		    </div>
+		  </div>
           <div class="row justify-content-center">
             {project.urls.map((url) => (
               <p class="col col-auto">
-                <Link to={url.url} class="btn btn-primary text-center mb-0">
-                  <img src={`${apiUrl}/${url.type.image_location}`} width="20px"></img>
-                  {url.type.name}
-                </Link>
+			  	<div class="row">
+				  <div class="col-auto">
+                    <Link to={url.url} class="btn btn-primary text-center mb-0">
+                      <img src={`${apiUrl}/${url.type.image_location}`} width="20px"></img>
+                      {url.type.name}
+                    </Link>
+				  </div>
+				
+				  <div class="col-auto">
+                    <DeleteButton deleteUrl={`${apiUrl}/api/projects/${project._id}/remove`}  reqBody={{"urls": url}} formMethod="PATCH"></DeleteButton>
+				  </div>
+				</div>
               </p>
             ))}
           </div>

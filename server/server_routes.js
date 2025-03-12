@@ -157,6 +157,7 @@ class ServerRoute {
     }
 
 	patchAddOne = async (req, res) => {
+		console.log(req.headers['content-type']);
         const id = req.params.id;
 		console.log(req.body);
         try {

@@ -15,12 +15,13 @@ const Modal: React.FC = ({children, modalId, title, formMethod, formUrl, classNa
 	console.log("Saving Data");
 
     try {
+      console.log(new URLSearchParams(formData).toString());
       const response = await fetch(`${formUrl}`, {
         method: formMethod,
 		headers: {
-		  "Content-Type": "application/JSON",
+		  "Content-Type": "application/x-www-form-urlencoded",
 		},
-        body: JSON.stringify(Object.fromEntries(formData)),
+        body: new URLSearchParams(formData).toString(),
       });
 
 	  if (response.ok) {
