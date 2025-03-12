@@ -1,24 +1,23 @@
 const { body } = require('express-validator');
 const { Form } = require("../form.js")
 
-var createProjectForm = new Form([
+var createTechnologyForm = new Form([
   body('name')
     .isLength({ min: 5, max: 50 })
     .withMessage('Name must be between 5 and 50 characters long')
     .notEmpty()
     .withMessage('Name is required'),
-  body('tagline')
+  body('url')
     .isLength({ min:5, max: 255 })
-    .withMessage('Tagline must be between 5 and 255 characters long'),
+    .withMessage('URL must be between 5 and 255 characters long')
+    .notEmpty()
+    .withMessage('URL is required'),
   body('imageFile')
     .notEmpty()
     .withMessage('Thumbnail image is required'),
-  body('technologies')
+  body('technology_type')
     .notEmpty()
-    .withMessage('Technologies required'),
-  body('urls')
-    .notEmpty()
-    .withMessage('Urls required')
+    .withMessage('Technology type required')
 ])
 
-module.exports = { createProjectForm }
+module.exports = { createTechnologyForm }

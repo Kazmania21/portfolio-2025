@@ -29,6 +29,7 @@ const Project: React.FC = ({project, className=""}) => {
 		  <div class="row">
 		    <Modal modalId={`technologies-modal-${project._id}`} title="Add Technology to Project" formMethod="PATCH" formUrl={`${apiUrl}/api/projects/${project._id}/add`} >
 			  <Select labelText="Technology" defaultText="Select Technology" optionsUrl={`${apiUrl}/api/technologies`} inputName="technologies"></Select>
+			  <Link to="/add-technology">Technology not listed?</Link>
 			</Modal>
 		  	<div class="col-auto">
               <h3>Technologies Used</h3>

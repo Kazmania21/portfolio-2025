@@ -7,6 +7,7 @@ const { ProjectUrlType } = require('./models/project_url_types.js');
 const { ProjectUrl } = require('./models/project_urls.js');
 const { Project } = require('./models/projects.js');
 const { createProjectForm } = require('./forms/create_project_form.js');
+const { createTechnologyForm } = require('./forms/create_technology_form.js');
 //const { body, validationResult } = require('express-validator');
 const cors = require('cors');
 const path = require('path');
@@ -32,8 +33,8 @@ app.use(cors({
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-app.use('/api/technology_type', new ServerRoute(mongoose, TechnologyType).router);
-app.use('/api/technologies', new ServerRoute(mongoose, Technology).router);
+app.use('/api/technology_types', new ServerRoute(mongoose, TechnologyType).router);
+app.use('/api/technologies', new ServerRoute(mongoose, Technology, insert_form=createTechnologyForm).router);
 app.use('/api/project_url_types', new ServerRoute(mongoose, ProjectUrlType).router);
 app.use('/api/project_urls', new ServerRoute(mongoose, ProjectUrl).router);
 app.use('/api/projects', new ServerRoute(mongoose, Project, insert_form=createProjectForm).router);
