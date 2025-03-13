@@ -1,5 +1,5 @@
-import React, { useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import React, { useEffect, Component, useRef, useState } from 'react';
+import { Link, useLocation } from 'react-router-dom';
 import ContentDiv from '../components/content-div.tsx'
 import EditableText from '../components/editable-text.tsx'
 import DeleteButton from '../components/delete-button.tsx'
@@ -7,6 +7,66 @@ import { Modal as BootstrapModal } from 'bootstrap';
 
 const Modal: React.FC = ({children, modalId, title, formMethod, formUrl, className=""}) => {
   const apiUrl = import.meta.env.VITE_API_URL;
+  var closeButtonRef = useRef<HTMLElement | null>(null);
+  const [closeButton, setCloseButton] = useState<HTMLElement | null>(null);
+  //var closeButton = null;
+  //var closeButton = null;
+
+  const handleClose = () => {
+    console.log("closing");
+    document.body.classList.remove("modal-open");
+	document.body.style = "";
+	var modalBackdrops = document.getElementsByClassName("modal-backdrop");
+	for (var modalBackdrop of modalBackdrops) {
+	  modalBackdrop.className = "";
+	}
+    //alert("hi")
+	//console.log(closeButton);
+	if (closeButtonRef.current) {
+	  closeButtonRef.current.click();
+	}
+	//let myModal = new bootstrap.Modal(document.getElementById(modalId));
+	//console.log(myModal);
+	//myModal.hide();
+	//console.log(document.getElementById(modalId))
+	//document.getElementById(modalId).modal('hide');
+	//console.log(BootstrapModal);
+	//let myModal = BootstrapModal.getInstance(document.getElementById(modalId));
+	//console.log(myModal.hide);
+	//myModal.hide();
+	//console.log(myModal.hide());
+	//console.log(myModal);
+
+  }
+
+  //componentWillUnmount() {
+  //  document.body.classList.remove("modal-open");
+  //}
+  
+  const location = useLocation();
+
+  useEffect(() => {
+    //document.body.classList.remove("modal-open");
+	//console.log("hi");
+	/*if (!closeButtonRef) {
+	  console.log("setting close button");
+	  console.log(document.querySelector(`#${modalId} [data-bs-dismiss="modal"]`).cloneNode());
+	  let button = document.querySelector(`#${modalId} [data-bs-dismiss="modal"]`).cloneNode();
+      //setCloseButton(button);
+	  console.log(button);
+	  closeButton = document.querySelector(`#${modalId} [data-bs-dismiss="modal"]`).cloneNode();
+	}
+	console.log(closeButton);*/
+	/*if (!closeButton) {
+	  await setCloseButton(closeButtonRef.current.cloneNode(true) as HTMLElement);
+	  console.log(closeButtonRef.current.cloneNode(true));
+	}*/
+	//console.log(closeButton);
+
+	return() => {
+      handleClose();
+	}
+  }, []);
 
   const handleSave = async () => {
     event.preventDefault();
@@ -26,7 +86,7 @@ const Modal: React.FC = ({children, modalId, title, formMethod, formUrl, classNa
 
 	  if (response.ok) {
 	    console.log("Closing");
-		document.querySelector(`#${modalId} [data-bs-dismiss="modal"]`).click();
+		handleClose();
 	  }
 
       if (!response.ok) {
@@ -46,7 +106,7 @@ const Modal: React.FC = ({children, modalId, title, formMethod, formUrl, classNa
 			<div class="modal-content">
 			  <div class="modal-header">
 				<h5 class="modal-title" id="exampleModalLabel">{title}</h5>
-				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+				<button ref={closeButtonRef} type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 			  </div>
 			  <div class="modal-body">
 				  {children}
