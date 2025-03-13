@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { Link } from 'react-router-dom';
 import ContentDiv from '../components/content-div.tsx'
 import EditableText from '../components/editable-text.tsx'
@@ -6,11 +6,13 @@ import DeleteButton from '../components/delete-button.tsx'
 import Modal from '../components/modal.tsx'
 import Select from '../components/select.tsx'
 import Input from '../components/input.tsx'
+import { AuthContext } from '../components/auth-provider.tsx'
 
 const Project: React.FC = ({project, className=""}) => {
   //console.log(project);
   //console.log(project.urls);
   const apiUrl = import.meta.env.VITE_API_URL;
+  const { isLoggedIn, setIsLoggedIn } = useContext(AuthContext);
 
   return (
     <div class={className}>
@@ -19,9 +21,12 @@ const Project: React.FC = ({project, className=""}) => {
             <div class="col">
             <EditableText text={project.name} Tag="h2" updateUrl={`${apiUrl}/api/projects/${project._id}`} className="text-center m-0"></EditableText>
             </div>
-            <div class="col-auto">
-            <DeleteButton deleteUrl={`${apiUrl}/api/projects/${project._id}`}></DeleteButton>
-            </div>
+			{ isLoggedIn && (
+                <div class="col-auto">
+                  <DeleteButton deleteUrl={`${apiUrl}/api/projects/${project._id}`}></DeleteButton>
+                </div> 
+			  )
+			}
         </div>
         <img src={`${apiUrl}/${project.image_location}`} width="100%"></img>
         <div class="ms-2">
@@ -34,9 +39,12 @@ const Project: React.FC = ({project, className=""}) => {
 		  	<div class="col-auto">
               <h3>Technologies Used</h3>
 			</div>
-			<div class="col-auto">
-		      <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target={`#technologies-modal-${project._id}`}>Add Technology</button>
-			</div>
+			{ isLoggedIn && (
+			    <div class="col-auto">
+		          <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target={`#technologies-modal-${project._id}`}>Add Technology</button>
+			    </div>
+			  )
+			}
 		  </div>
           {project.technologies.map((technology) => (
             <div class="row">
@@ -47,9 +55,13 @@ const Project: React.FC = ({project, className=""}) => {
                   {technology.name}
                 </Link>
 			  </div>
-			  <div class="col-auto">
-                <DeleteButton deleteUrl={`${apiUrl}/api/projects/${project._id}/remove`}  reqBody={{"technologies": technology._id}} formMethod="PATCH"></DeleteButton>
-			  </div>
+
+			  { isLoggedIn && (
+			      <div class="col-auto">
+                    <DeleteButton deleteUrl={`${apiUrl}/api/projects/${project._id}/remove`}  reqBody={{"technologies": technology._id}} formMethod="PATCH"></DeleteButton>
+			      </div>
+			    )
+			  }
             </div>
           ))} 
 		  <Modal modalId={`urls-modal-${project._id}`} title="Add URL to Project" formMethod="PATCH" formUrl={`${apiUrl}/api/projects/${project._id}/add`} >
@@ -61,9 +73,12 @@ const Project: React.FC = ({project, className=""}) => {
 		    <div class="col-auto">
               <h3>Project Links</h3>
 			</div>
-			<div class="col-auto">
-		      <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target={`#urls-modal-${project._id}`}>Add Link</button>
-		    </div>
+			{ isLoggedIn && (
+			    <div class="col-auto">
+		          <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target={`#urls-modal-${project._id}`}>Add Link</button>
+		        </div>
+			  )
+			}
 		  </div>
           <div class="row justify-content-center">
             {project.urls.map((url) => (
@@ -76,9 +91,12 @@ const Project: React.FC = ({project, className=""}) => {
                     </Link>
 				  </div>
 				
-				  <div class="col-auto">
-                    <DeleteButton deleteUrl={`${apiUrl}/api/projects/${project._id}/remove`}  reqBody={{"urls": url}} formMethod="PATCH"></DeleteButton>
-				  </div>
+			      { isLoggedIn && (
+				      <div class="col-auto">
+                        <DeleteButton deleteUrl={`${apiUrl}/api/projects/${project._id}/remove`}  reqBody={{"urls": url}} formMethod="PATCH"></DeleteButton>
+				      </div>
+				    )
+				  }
 				</div>
               </p>
             ))}

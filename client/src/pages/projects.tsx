@@ -1,11 +1,13 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { Link } from 'react-router-dom';
 import ContentDiv from '../components/content-div.tsx'
 import Project from '../components/project.tsx'
+import { AuthContext } from '../components/auth-provider'
 
 const Projects: React.FC = () => {
   const apiUrl = import.meta.env.VITE_API_URL;
   const [projects, setProjects] = useState([]);
+  const {isLoggedIn} = useContext(AuthContext);
   useEffect(() => {
     fetch(`${apiUrl}/api/projects`)
       .then((response) => response.json())
@@ -20,14 +22,23 @@ const Projects: React.FC = () => {
   return (
     <div>
       <ContentDiv className="m-5">
-        <div class="row justify-content-end">
-          <div class="col-4">
-            <h1 class="text-center m-0">Projects</h1>
-          </div>
-          <div class="col-4">
-            <Link class="btn btn-primary text-center" to="/add-project">Add Project</Link>
-          </div>
-        </div>
+		{ isLoggedIn ? (
+            <div class="row justify-content-end">
+              <div class="col-4">
+                <h1 class="text-center m-0">Projects</h1>
+              </div>
+              <div class="col-4">
+                <Link class="btn btn-primary text-center" to="/add-project">Add Project</Link>
+              </div>
+            </div>
+		    ) : ( 
+			<div class="row justify-content-center">
+              <div class="col-4">
+                <h1 class="text-center m-0">Projects</h1>
+              </div>
+            </div>
+			)
+	      }
       </ContentDiv>
       <div class="row m-0">
           { projects.map((project, index) => (

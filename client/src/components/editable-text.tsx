@@ -1,9 +1,11 @@
 //import React from 'react';
-import { useState } from 'react';
+import { useState, useContext } from 'react';
+import { AuthContext } from '../components/auth-provider';
 
 const EditableText: React.FC = ({text="", className="", Tag="p", updateUrl="", fieldName="name"}) => {
   const [isEditing, setIsEditing] = useState(false);
   const [_text, setText] = useState(text);
+  const {isLoggedIn} = useContext(AuthContext);
   const apiUrl = import.meta.env.VITE_API_URL;
   //console.log(updateUrl);
 
@@ -31,7 +33,7 @@ const EditableText: React.FC = ({text="", className="", Tag="p", updateUrl="", f
 
   return (
     <div>
-        {isEditing ? (
+        {isEditing & isLoggedIn ? (
           <input value={_text} autoFocus onChange={(e) => setText(e.target.value)} onBlur={handleBlur} onKeyDown={(e: React.KeyboardEvent<HTMLInputElement>) => {
             if (e.key === "Enter") handleBlur();
           }} class={`form-control invisible-box ${className}`}></input>
