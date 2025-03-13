@@ -113,8 +113,10 @@ class ServerRoute {
 //
 			//}
         }*/
-		for (var file of req.files) {
-          fields[file.fieldname.replace("File", "_location")] = `static/images/${file.filename}`;
+		if (req.files) {
+		  for (var file of req.files) {
+            fields[file.fieldname.replace("File", "_location")] = `static/images/${file.filename}`;
+		  }
 		}
         //console.log("fields");
         //console.log(fields);

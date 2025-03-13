@@ -4,6 +4,7 @@ import ContentDiv from '../components/content-div.tsx'
 import Input from '../components/input.tsx'
 import Fieldset from '../components/fieldset.tsx'
 import Select from '../components/select.tsx'
+import Modal from '../components/modal.tsx'
 
 const AddTechnology: React.FC = () => {
   const apiUrl = import.meta.env.VITE_API_URL; 
@@ -28,6 +29,9 @@ const AddTechnology: React.FC = () => {
 
   return (
     <div>
+	  <Modal modalId="addTechnologyTypeModal" title="Add Technology Type" formMethod="POST" formUrl={`${apiUrl}/api/technology_types`}>
+		<Input labelText="TechnologyType" placeholder="Technology Type" inputName="name"></Input>
+	  </Modal>
       <ContentDiv className="m-5">
         <h1 class="text-center m-0">Add Technology</h1>
       </ContentDiv>
@@ -37,6 +41,7 @@ const AddTechnology: React.FC = () => {
           <Input labelText="URL" placeholder="Technology URL" inputName="url"></Input>
           <Input labelText="Image" placeholder="Project Image" inputName="imageFile" inputType="file"></Input>
           <Select labelText="Url Type" optionsUrl={`${apiUrl}/api/technology_types`} defaultText="Select Technology Type" inputName="type"></Select>
+		  <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target={`#addTechnologyTypeModal`}>Add Technology Type</button>
           <button type="submit" class="btn btn-primary">Submit</button>
         </form>
       </ContentDiv>
