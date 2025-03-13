@@ -1,8 +1,24 @@
 // src/components/Navbar.tsx
-import React from 'react';
-import { Link } from 'react-router-dom';  // Import Link from react-router-dom
+import React, { useState, useEffect, useContext } from 'react';
+import { Link, useLocation } from 'react-router-dom';  // Import Link from react-router-dom
+import { AuthContext } from './auth-provider'
 
 const Navbar: React.FC = () => {
+  //console.log(AuthContext)
+  //console.log(useContext(AuthContext))
+  const { isLoggedIn, setIsLoggedIn } = useContext(AuthContext);
+  const location = useLocation();
+
+  useEffect(() => {
+    const token = sessionStorage.getItem('authToken');
+    setIsLoggedIn(!!token);
+  }, [location]);
+
+  const handleSignOut = () => {
+    sessionStorage.removeItem("authToken");
+	setIsLoggedIn(false);
+  }
+
   return (
     <div>
     <nav className="navbar navbar-expand-lg navbar-light bg-primary">
@@ -11,7 +27,7 @@ const Navbar: React.FC = () => {
         <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
           <span className="navbar-toggler-icon"></span>
         </button>
-        <div className="collapse navbar-collapse" id="navbarNav">
+        <div className="collapse navbar-collapse justify-content-between" id="navbarNav">
           <ul className="navbar-nav">
             <li className="nav-item">
               <Link className="nav-link active" to="/">Home</Link>
@@ -23,6 +39,12 @@ const Navbar: React.FC = () => {
               <Link className="nav-link" to="/contact">Contact</Link>
             </li>
           </ul>
+		  { isLoggedIn?  (
+			  <button class="btn btn-dark float-right" onClick={handleSignOut}>Sign Out</button>
+			) : (
+		      <Link className="btn btn-dark float-right" to="/sign-in">Sign In</Link>
+			)
+		  }
         </div>
       </div>
     </nav>
