@@ -55,6 +55,7 @@ const Project: React.FC = ({project, className=""}) => {
 		  <Modal modalId={`urls-modal-${project._id}`} title="Add URL to Project" formMethod="PATCH" formUrl={`${apiUrl}/api/projects/${project._id}/add`} >
 			  <Select labelText="URL Type" defaultText="Select URL Type" optionsUrl={`${apiUrl}/api/project_url_types`} inputName="urls[type]"></Select>
 			  <Input labelText="URL" placeholderText="URL" inputName="urls[url]"></Input>
+			  <Link to="/add-url-type">URL type not listed?</Link>
 			</Modal>
 		  <div class="row">
 		    <div class="col-auto">
