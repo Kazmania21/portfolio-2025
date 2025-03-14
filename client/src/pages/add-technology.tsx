@@ -17,6 +17,9 @@ const AddTechnology: React.FC = () => {
 
     fetch(`${apiUrl}/api/technologies`, {
       method: "POST",
+	  headers: {
+        "authorization": `Bearer ${sessionStorage.getItem("authToken")}`
+	  },
       body: formData,
     })
       .then((response) => response.json())

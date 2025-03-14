@@ -80,6 +80,7 @@ const Modal: React.FC = ({children, modalId, title, formMethod, formUrl, classNa
         method: formMethod,
 		headers: {
 		  "Content-Type": "application/x-www-form-urlencoded",
+		  "authorization": `Bearer ${sessionStorage.getItem("authToken")}`
 		},
         body: new URLSearchParams(formData).toString(),
       });

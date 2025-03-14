@@ -1,6 +1,8 @@
 const express = require('express');
 const path = require('path');
 const multer = require('multer');
+const authMiddleware = require('./middleware/authorization.js');
+const storage = require('./multer_storage.js');
 
 class ServerRoute {
     constructor(database_connector, model, insert_form=null) {
@@ -9,7 +11,7 @@ class ServerRoute {
         this.insert_form = insert_form;
         //console.log(this.model);
         //console.log(insert_form);
-		this.upload = multer({dest: "uploads/images"});
+		this.upload = multer({storage});
         this.router = express.Router("");
         this.initRoutes();
         this.index = this.index.bind(this);
@@ -21,11 +23,11 @@ class ServerRoute {
         this.router.get('/:id', this.get_id);
         this.router.get('/:id/:item', this.get_id);
         this.router.get('/:id/:item/:id2', this.get_id);
-        this.router.post('/', this.upload.array("imageFile"), this.create);
-        this.router.put('/:id', this.updateOne);
-		this.router.patch('/:id/add', this.patchAddOne);
-		this.router.patch('/:id/remove', this.patchRemoveOne);
-        this.router.delete('/:id', this.deleteOne);
+        this.router.post('/', authMiddleware, this.upload.array("imageFile"), this.create);
+        this.router.put('/:id', authMiddleware, this.updateOne);
+		this.router.patch('/:id/add', authMiddleware, this.patchAddOne);
+		this.router.patch('/:id/remove', authMiddleware, this.patchRemoveOne);
+        this.router.delete('/:id', authMiddleware, this.deleteOne);
     }
 
     getPopulatePaths(schemaPaths = this.model.schema.paths) {

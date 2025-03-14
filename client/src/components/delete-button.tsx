@@ -10,7 +10,10 @@ const EditableText: React.FC = ({className="", deleteUrl="", formMethod="DELETE"
     try {
       const response = await fetch(`${deleteUrl}`, {
         method: formMethod,
-        headers: { "Content-Type": "application/json" },
+        headers: { 
+		  "Content-Type": "application/json" ,
+          "authorization": `Bearer ${sessionStorage.getItem("authToken")}`
+		},
 		body: JSON.stringify(reqBody)
       });
 

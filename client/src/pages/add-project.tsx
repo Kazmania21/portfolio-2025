@@ -28,6 +28,9 @@ const AddProject: React.FC = () => {
 
     fetch(`${apiUrl}/api/projects`, {
       method: "POST",
+	  headers: {
+		  "authorization": `Bearer ${sessionStorage.getItem("authToken")}`
+	  },
       body: formData,
     })
       .then((response) => response.json())

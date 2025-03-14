@@ -17,7 +17,10 @@ const EditableText: React.FC = ({text="", className="", Tag="p", updateUrl="", f
     try {
       const response = await fetch(`${updateUrl}`, {
         method: "PUT",
-        headers: { "Content-Type": "application/json" },
+        headers: { 
+		  "Content-Type": "application/json",
+		  "authorization": `Bearer ${sessionStorage.getItem("authToken")}`
+		},
         body: JSON.stringify(reqBody),
       });
 

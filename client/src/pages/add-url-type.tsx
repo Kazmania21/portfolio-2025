@@ -16,6 +16,9 @@ const AddUrlType: React.FC = () => {
 
     fetch(`${apiUrl}/api/project_url_types`, {
       method: "POST",
+	  headers: {
+        "authorization": `Bearer ${sessionStorage.getItem("authToken")}`
+	  },
       body: formData,
     })
       .then((response) => response.json())
