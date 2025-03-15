@@ -100,6 +100,11 @@ const Project: React.FC = ({project, className=""}) => {
 				</div>
               </p>
             ))}
+
+			{ project.urls == 0 && (
+                <p>No Links available at this time</p>
+			  )
+			}
           </div>
         </div>
       </ContentDiv>

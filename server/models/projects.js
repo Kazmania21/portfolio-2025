@@ -11,12 +11,12 @@ const projectSchema = new mongoose.Schema({
   },
   urls: {
     type: [projectUrlSchema],
-    required: true
+    required: false
   },
   technologies: {
     type: [mongoose.Schema.Types.ObjectId], 
     ref: 'Technology',
-    required: true
+    required: false
   },
   image_location: {
     type: String,
