@@ -1,14 +1,16 @@
-//import React from 'react';
-import { useState } from 'react';
+interface InputProps {
+  className?: string;
+  labelText?: string;
+  placeholder?: string;
+  inputName?: string;
+  inputType?: string;
+}
 
-const Input: React.FC = ({className="", inputType="text", inputName="", placeholder="", labelText=""}) => {
-  const apiUrl = import.meta.env.VITE_API_URL;
-  //console.log(updateUrl);
-
+const Input: React.FC<InputProps> = ({className="", inputType="text", inputName="", placeholder="", labelText=""}) => {
   return (
-    <div class="form-group">
-      <label for={inputName}>{labelText}</label>
-      <input type={inputType} class={`form-control ${className}`} id={inputName} name={inputName} placeholder={placeholder} />
+    <div className="form-group">
+      <label htmlFor={inputName}>{labelText}</label>
+      <input type={inputType} className={`form-control ${className}`} id={inputName} name={inputName} placeholder={placeholder} />
     </div>
   );
 }

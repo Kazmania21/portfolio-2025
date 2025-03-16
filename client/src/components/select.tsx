@@ -1,10 +1,27 @@
 //import React from 'react';
 import { useState, useEffect } from 'react';
 
-const Select: React.FC = ({optionsUrl, className="", inputName="", defaultText="Select Item", labelText=""}) => {
-  const apiUrl = import.meta.env.VITE_API_URL;
-  //console.log(optionsUrl);
-  const [options, setOptions] = useState([]);
+interface SelectProps {
+  optionsUrl: string;
+  className?: string;
+  inputName?: string;
+  defaultText?: string;
+  labelText?: string;
+}
+
+interface SelectOption {
+  _id: string;
+  name: string;
+}
+
+/*interface SelectOptionsState {
+  options: SelectOption,
+  setOptions: React.Dispatch<React.SetStateAction<UrlType[]>>;
+}*/
+
+const Select: React.FC<SelectProps> = ({optionsUrl, className="", inputName="", defaultText="Select Item", labelText=""}) => {
+  const [options, setOptions] = useState<SelectOption[]>([]);
+
   useEffect(() => {
     fetch(`${optionsUrl}`)
       .then((response) => response.json())
@@ -17,11 +34,11 @@ const Select: React.FC = ({optionsUrl, className="", inputName="", defaultText="
   })
 
   return (
-    <div class="form-group">
-      <label for={inputName}>{labelText}</label>
-      <select class={`form-select ${className}`} name={inputName}>
+    <div className="form-group">
+      <label htmlFor={inputName}>{labelText}</label>
+      <select className={`form-select ${className}`} name={inputName}>
           <option selected>{defaultText}</option>
-          { options.map((option, index) => (
+          { options.map((option) => (
             <option value={option._id}>{ option.name }</option>
           ))}
         </select>

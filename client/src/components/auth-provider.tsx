@@ -1,8 +1,17 @@
 import React, { useState, createContext } from 'react';
 
-export const AuthContext = createContext();
+interface AuthContextProps {
+  children: React.ReactNode;
+}
 
-export const AuthProvider: React.FC = ({children}) => {
+interface AuthContextType {
+  isLoggedIn: boolean;
+  setIsLoggedIn: React.Dispatch<React.SetStateAction<boolean>>;
+}
+
+export const AuthContext = createContext<AuthContextType>({isLoggedIn: false, setIsLoggedIn: () => {}});
+
+export const AuthProvider: React.FC<AuthContextProps> = ({children}) => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   return (

@@ -24,9 +24,9 @@ class ServerRoute {
         this.router.get('/:id/:item', this.get_id);
         this.router.get('/:id/:item/:id2', this.get_id);
         this.router.post('/', authMiddleware, this.upload.array("imageFile"), this.create);
-        this.router.put('/:id', authMiddleware, this.updateOne);
-		this.router.patch('/:id/add', authMiddleware, this.patchAddOne);
-		this.router.patch('/:id/remove', authMiddleware, this.patchRemoveOne);
+        this.router.put('/:id', authMiddleware, this.upload.array("imageFile"), this.updateOne);
+		this.router.patch('/:id/add', authMiddleware, this.upload.array("imageFile"), this.patchAddOne);
+		this.router.patch('/:id/remove', authMiddleware, this.upload.array("imageFile"), this.patchRemoveOne);
         this.router.delete('/:id', authMiddleware, this.deleteOne);
     }
 
@@ -141,6 +141,8 @@ class ServerRoute {
     }
 
     updateOne = async (req, res) => {
+		console.log(req.headers['content-type']);
+		console.log(req.body);
         const id = req.params.id;
         try {
           const updatedItem = await this.model.findByIdAndUpdate(

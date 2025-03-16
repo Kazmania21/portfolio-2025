@@ -1,18 +1,15 @@
-import React, { useState, useEffect } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import ContentDiv from '../components/content-div.tsx'
 import Input from '../components/input.tsx'
-import Fieldset from '../components/fieldset.tsx'
-import Select from '../components/select.tsx'
-import Modal from '../components/modal.tsx'
 
 const SignIn: React.FC = () => {
   const apiUrl = import.meta.env.VITE_API_URL; 
   const navigate = useNavigate();
 
-  const submitForm = (event) => {
+  const submitForm = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    const form = event.target;
+    const form = event.currentTarget;
     const formData = new FormData(form);
 
     fetch(`${apiUrl}/api/sign_in`, {
@@ -34,13 +31,13 @@ const SignIn: React.FC = () => {
   return (
     <div>
 	  <ContentDiv className="m-5">
-        <h1 class="text-center m-0">Sign In</h1>
+        <h1 className="text-center m-0">Sign In</h1>
       </ContentDiv>
       <ContentDiv className="m-5">
-        <form class="p-2" method="POST" action={`${apiUrl}/api/technologies`} onSubmit={submitForm}>
+        <form className="p-2" method="POST" action={`${apiUrl}/api/technologies`} onSubmit={submitForm}>
           <Input labelText="Username" placeholder="Username" inputName="username"></Input>
           <Input labelText="Password" placeholder="Password" inputName="password" inputType="password"></Input>
-          <button type="submit" class="btn btn-primary">Submit</button>
+          <button type="submit" className="btn btn-primary">Submit</button>
         </form>
       </ContentDiv>
     </div>

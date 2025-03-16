@@ -2,7 +2,7 @@ import React, { useContext } from 'react';
 import { Navigate, Outlet } from 'react-router-dom';
 import { AuthContext } from '../components/auth-provider';
 const ProtectedRouter: React.FC = () => {
-  const {isLoggedIn, setIsLoggedIn} = useContext(AuthContext);
+  const { isLoggedIn } = useContext(AuthContext);
 
   return (
     <div>

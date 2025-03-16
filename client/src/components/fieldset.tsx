@@ -1,9 +1,10 @@
-//import React from 'react';
-import { useState } from 'react';
+interface FieldsetProps {
+  children: React.ReactNode,
+  className?: string,
+  legendText?: string
+}
 
-const Input: React.FC = ({children, className="border p-2", legendText=""}) => {
-  const apiUrl = import.meta.env.VITE_API_URL;
-  //console.log(updateUrl);
+const Fieldset: React.FC<FieldsetProps> = ({children, className="border p-2", legendText=""}) => {
   var currentChildId = 1;
 
   const onAdd = () => {
@@ -11,7 +12,7 @@ const Input: React.FC = ({children, className="border p-2", legendText=""}) => {
     var children = document.getElementById(`${legendText}-children`);
     var originalChild = document.getElementById(`${legendText}-originalChild`);
 
-	var newChild = document.importNode(originalChild, true);
+	var newChild = document.importNode(originalChild!, true) as Element;
 	var inputs = newChild.getElementsByTagName("input");
 	var dropdowns = newChild.getElementsByTagName("select");
 
@@ -23,24 +24,26 @@ const Input: React.FC = ({children, className="border p-2", legendText=""}) => {
       dropdown.name = dropdown.name.replace("[0]", `[${currentChildId}]`)
 	}
 
-	children.appendChild(newChild);
+	if (children) {
+	  children.appendChild(newChild);
+	}
 
 	currentChildId++;
   }
 
   return (
-    <fieldset class={className}>
-      <legend class="w-auto text-left float-none"><h2>{ legendText }</h2></legend>
+    <fieldset className={className}>
+      <legend className="w-auto text-left float-none"><h2>{ legendText }</h2></legend>
 	  <div id={`${legendText}-children`}>
 	    <div id={`${legendText}-originalChild`}>
           {children}
 	    </div>
 	  </div>
-	  <button class="btn btn-success" onClick={onAdd} type="button">Add</button>
-	  <button class="btn btn-danger" type="button">Remove</button>
+	  <button className="btn btn-success" onClick={onAdd} type="button">Add</button>
+	  <button className="btn btn-danger" type="button">Remove</button>
     </fieldset>
   );
 }
 
-export default Input;
+export default Fieldset;
 

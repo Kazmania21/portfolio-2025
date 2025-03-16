@@ -7,57 +7,63 @@ import Modal from '../components/modal.tsx'
 import Select from '../components/select.tsx'
 import Input from '../components/input.tsx'
 import { AuthContext } from '../components/auth-provider.tsx'
+import { IProject } from '../types/project';
 
-const Project: React.FC = ({project, className=""}) => {
+interface ProjectProps {
+  project: IProject,
+  className?: string;
+}
+
+const Project: React.FC<ProjectProps> = ({project, className=""}) => {
   //console.log(project);
   //console.log(project.urls);
   const apiUrl = import.meta.env.VITE_API_URL;
-  const { isLoggedIn, setIsLoggedIn } = useContext(AuthContext);
+  const { isLoggedIn } = useContext(AuthContext);
 
   return (
-    <div class={className}>
+    <div className={className}>
       <ContentDiv className="m-5" childrenClass="ms-3 me-3">
-        <div class="row">
-            <div class="col">
+        <div className="row">
+            <div className="col">
             <EditableText text={project.name} Tag="h2" updateUrl={`${apiUrl}/api/projects/${project._id}`} className="text-center m-0"></EditableText>
             </div>
 			{ isLoggedIn && (
-                <div class="col-auto">
+                <div className="col-auto">
                   <DeleteButton deleteUrl={`${apiUrl}/api/projects/${project._id}`}></DeleteButton>
                 </div> 
 			  )
 			}
         </div>
         <img src={`${apiUrl}/${project.image_location}`} width="100%"></img>
-        <div class="ms-2">
-          <EditableText text={project.tagline} updateUrl={`${apiUrl}/api/projects/${project._id}`} fieldName="tagline" class="mb-0"></EditableText>
-		  <div class="row">
+        <div className="ms-2">
+          <EditableText text={project.tagline} updateUrl={`${apiUrl}/api/projects/${project._id}`} fieldName="tagline" className="mb-0"></EditableText>
+		  <div className="row">
 		    <Modal modalId={`technologies-modal-${project._id}`} title="Add Technology to Project" formMethod="PATCH" formUrl={`${apiUrl}/api/projects/${project._id}/add`} >
 			  <Select labelText="Technology" defaultText="Select Technology" optionsUrl={`${apiUrl}/api/technologies`} inputName="technologies"></Select>
 			  <Link to="/add-technology">Technology not listed?</Link>
 			</Modal>
-		  	<div class="col-auto">
+		  	<div className="col-auto">
               <h3>Technologies Used</h3>
 			</div>
 			{ isLoggedIn && (
-			    <div class="col-auto">
-		          <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target={`#technologies-modal-${project._id}`}>Add Technology</button>
+			    <div className="col-auto">
+		          <button type="button" className="btn btn-primary" data-bs-toggle="modal" data-bs-target={`#technologies-modal-${project._id}`}>Add Technology</button>
 			    </div>
 			  )
 			}
 		  </div>
           {project.technologies.map((technology) => (
-            <div class="row">
-			  <div class="col-auto">
+            <div className="row">
+			  <div className="col-auto">
                 <span><b>{technology.type.name}:</b></span>
-                <Link to={technology.url} class="text-center mb-0">
+                <Link to={technology.url} className="text-center mb-0">
                   <img src={`${apiUrl}/${technology.image_location}`} width="50px"></img>
                   {technology.name}
                 </Link>
 			  </div>
 
 			  { isLoggedIn && (
-			      <div class="col-auto">
+			      <div className="col-auto">
                     <DeleteButton deleteUrl={`${apiUrl}/api/projects/${project._id}/remove`}  reqBody={{"technologies": technology._id}} formMethod="PATCH"></DeleteButton>
 			      </div>
 			    )
@@ -66,33 +72,33 @@ const Project: React.FC = ({project, className=""}) => {
           ))} 
 		  <Modal modalId={`urls-modal-${project._id}`} title="Add URL to Project" formMethod="PATCH" formUrl={`${apiUrl}/api/projects/${project._id}/add`} >
 			  <Select labelText="URL Type" defaultText="Select URL Type" optionsUrl={`${apiUrl}/api/project_url_types`} inputName="urls[type]"></Select>
-			  <Input labelText="URL" placeholderText="URL" inputName="urls[url]"></Input>
+			  <Input labelText="URL" placeholder="URL" inputName="urls[url]"></Input>
 			  <Link to="/add-url-type">URL type not listed?</Link>
 			</Modal>
-		  <div class="row">
-		    <div class="col-auto">
+		  <div className="row">
+		    <div className="col-auto">
               <h3>Project Links</h3>
 			</div>
 			{ isLoggedIn && (
-			    <div class="col-auto">
-		          <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target={`#urls-modal-${project._id}`}>Add Link</button>
+			    <div className="col-auto">
+		          <button type="button" className="btn btn-primary" data-bs-toggle="modal" data-bs-target={`#urls-modal-${project._id}`}>Add Link</button>
 		        </div>
 			  )
 			}
 		  </div>
-          <div class="row justify-content-center">
+          <div className="row justify-content-center">
             {project.urls.map((url) => (
-              <p class="col col-auto">
-			  	<div class="row">
-				  <div class="col-auto">
-                    <Link to={url.url} class="btn btn-primary text-center mb-0">
+              <p className="col col-auto">
+			  	<div className="row">
+				  <div className="col-auto">
+                    <Link to={url.url} className="btn btn-primary text-center mb-0">
                       <img src={`${apiUrl}/${url.type.image_location}`} width="20px"></img>
                       {url.type.name}
                     </Link>
 				  </div>
 				
 			      { isLoggedIn && (
-				      <div class="col-auto">
+				      <div className="col-auto">
                         <DeleteButton deleteUrl={`${apiUrl}/api/projects/${project._id}/remove`}  reqBody={{"urls": url}} formMethod="PATCH"></DeleteButton>
 				      </div>
 				    )
@@ -101,7 +107,7 @@ const Project: React.FC = ({project, className=""}) => {
               </p>
             ))}
 
-			{ project.urls == 0 && (
+			{ Number(project.urls.length) === 0 && (
                 <p>No Links available at this time</p>
 			  )
 			}

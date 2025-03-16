@@ -2,16 +2,22 @@
 import { useState, useContext } from 'react';
 import { AuthContext } from '../components/auth-provider';
 
-const EditableText: React.FC = ({text="", className="", Tag="p", updateUrl="", fieldName="name"}) => {
+interface EditableTextProps {
+  text?: string;
+  className?: string;
+  Tag?: React.ElementType;
+  updateUrl?: string;
+  fieldName?: string;
+}
+
+const EditableText: React.FC<EditableTextProps> = ({text="", className="", Tag="p", updateUrl="", fieldName="name"}) => {
   const [isEditing, setIsEditing] = useState(false);
   const [_text, setText] = useState(text);
   const {isLoggedIn} = useContext(AuthContext);
-  const apiUrl = import.meta.env.VITE_API_URL;
-  //console.log(updateUrl);
 
   const handleBlur = async () => {
     setIsEditing(false);
-	var reqBody = {};
+	var reqBody: Record<string, string> = {};
 	reqBody[fieldName] = _text;
 
     try {
@@ -36,12 +42,12 @@ const EditableText: React.FC = ({text="", className="", Tag="p", updateUrl="", f
 
   return (
     <div>
-        {isEditing & isLoggedIn ? (
+        {isEditing && isLoggedIn ? (
           <input value={_text} autoFocus onChange={(e) => setText(e.target.value)} onBlur={handleBlur} onKeyDown={(e: React.KeyboardEvent<HTMLInputElement>) => {
             if (e.key === "Enter") handleBlur();
-          }} class={`form-control invisible-box ${className}`}></input>
+          }} className={`form-control invisible-box ${className}`}></input>
         ) : (
-          <Tag onClick={() => setIsEditing(true)} class={className}>{_text}</Tag>
+          <Tag onClick={() => setIsEditing(true)} className={className}>{_text}</Tag>
         )}
     </div>
   );

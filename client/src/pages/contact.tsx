@@ -9,7 +9,7 @@ const Contact: React.FC = () => {
         <h1>Contact Me</h1>
         <p><b>Phone:</b> <Link to="tel:7249449263">(724) 944-9263</Link></p>
         <p><b>Email:</b> <Link to="mailto:cameronkazmarski@gmail.com">cameronkazmarski@gmail.com</Link></p>
-        <p class="mb-0"><b>LinkedIn:</b> <Link to="https://www.linkedin.com/in/cameron-kazmarski-66b4a7260/">https://www.linkedin.com/in/cameron-kazmarski-66b4a7260/</Link></p>
+        <p className="mb-0"><b>LinkedIn:</b> <Link to="https://www.linkedin.com/in/cameron-kazmarski-66b4a7260/">https://www.linkedin.com/in/cameron-kazmarski-66b4a7260/</Link></p>
       </ContentDiv>
     </div>
   );

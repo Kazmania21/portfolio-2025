@@ -1,10 +1,11 @@
-//import React from 'react';
-import { useState } from 'react';
+interface DeleteButtonProps {
+  className?: string;
+  deleteUrl?: string;
+  formMethod?: string;
+  reqBody?: Record<string, unknown>;
+}
 
-const EditableText: React.FC = ({className="", deleteUrl="", formMethod="DELETE", reqBody={}}) => {
-  const apiUrl = import.meta.env.VITE_API_URL;
-  //console.log(updateUrl);
-
+const DeleteButton: React.FC<DeleteButtonProps> = ({className="", deleteUrl="", formMethod="DELETE", reqBody={}}) => {
   const deleteItem = async () => {
     console.log(reqBody);
     try {
@@ -29,10 +30,10 @@ const EditableText: React.FC = ({className="", deleteUrl="", formMethod="DELETE"
 
   return (
     <div>
-        <i class="fa fa-solid fa-trash text-danger" onClick={deleteItem}></i>
+        <i className={`fa fa-solid fa-trash text-danger ${className}`} onClick={deleteItem}></i>
     </div>
   );
 }
 
-export default EditableText;
+export default DeleteButton;
 

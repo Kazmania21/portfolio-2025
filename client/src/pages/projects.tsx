@@ -23,25 +23,25 @@ const Projects: React.FC = () => {
     <div>
       <ContentDiv className="m-5">
 		{ isLoggedIn ? (
-            <div class="row justify-content-end">
-              <div class="col-4">
-                <h1 class="text-center m-0">Projects</h1>
+            <div className="row justify-content-end">
+              <div className="col-4">
+                <h1 className="text-center m-0">Projects</h1>
               </div>
-              <div class="col-4">
-                <Link class="btn btn-primary text-center" to="/add-project">Add Project</Link>
+              <div className="col-4">
+                <Link className="btn btn-primary text-center" to="/add-project">Add Project</Link>
               </div>
             </div>
 		    ) : ( 
-			<div class="row justify-content-center">
-              <div class="col-4">
-                <h1 class="text-center m-0">Projects</h1>
+			<div className="row justify-content-center">
+              <div className="col-4">
+                <h1 className="text-center m-0">Projects</h1>
               </div>
             </div>
 			)
 	      }
       </ContentDiv>
-      <div class="row m-0">
-          { projects.map((project, index) => (
+      <div className="row m-0">
+          { projects.map((project) => (
             <Project project={project} className="col-12 col-md-6"></Project>
           ))}
       </div>

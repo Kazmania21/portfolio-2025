@@ -1,5 +1,5 @@
-import React, { useState, createContext, useContext } from 'react';
-import { Routes, Route, Navigate } from 'react-router-dom'; 
+import React from 'react';
+import { Routes, Route } from 'react-router-dom'; 
 import Navbar from './components/navbar';
 import Home from './pages/home';
 import Projects from './pages/projects';
@@ -8,7 +8,7 @@ import AddProject from './pages/add-project';
 import AddTechnology from './pages/add-technology';
 import AddUrlType from './pages/add-url-type';
 import SignIn from './pages/sign-in';
-import AuthProvider, { AuthContext } from './components/auth-provider';
+import AuthProvider from './components/auth-provider';
 import ProtectedRouter from './components/protected-router';
 
 const App: React.FC = () => {

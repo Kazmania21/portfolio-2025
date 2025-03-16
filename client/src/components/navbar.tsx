@@ -1,5 +1,4 @@
-// src/components/Navbar.tsx
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useEffect, useContext } from 'react';
 import { Link, useLocation } from 'react-router-dom';  // Import Link from react-router-dom
 import { AuthContext } from './auth-provider'
 
@@ -40,7 +39,7 @@ const Navbar: React.FC = () => {
             </li>
           </ul>
 		  { isLoggedIn?  (
-			  <button class="btn btn-dark float-right" onClick={handleSignOut}>Sign Out</button>
+			  <button className="btn btn-dark float-right" onClick={handleSignOut}>Sign Out</button>
 			) : (
 		      <Link className="btn btn-dark float-right" to="/sign-in">Sign In</Link>
 			)
@@ -48,8 +47,8 @@ const Navbar: React.FC = () => {
         </div>
       </div>
     </nav>
-    <div class="trapezoid-border bg-secondary">
-      <div class="trapezoid bg-primary"></div>
+    <div className="trapezoid-border bg-secondary">
+      <div className="trapezoid bg-primary"></div>
     </div>
     </div>
   );
