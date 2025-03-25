@@ -26,7 +26,15 @@ const Select: React.FC<SelectProps> = ({optionsUrl, className="", inputName="", 
 	}
 
 	fetchOptions();
-  })
+	
+	const interval = setInterval(() => {
+	  fetchOptions();
+	}, 5000)
+
+	return () => {
+	  clearInterval(interval);
+	}
+  }, [])
 
   return (
     <div className="form-group">
