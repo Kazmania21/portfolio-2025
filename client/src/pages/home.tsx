@@ -1,22 +1,47 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import ContentDiv from '../components/content-div.tsx'
+import EditableText from '../components/editable-text.tsx'
+import ApiService from '../services/api-service.tsx'
+import IMetadata from '../services/metadata.tsx'
 
 const Home: React.FC = () => {
+  const [metadata, setMetadata] = useState<IMetadata>();
+
+  useEffect(() => { 
+    const fetchMetadata = async () => {
+  	  var response = await ApiService({url: "/api/metadata"});
+	  var data = await response.json();
+	  setMetadata(data[0]);
+	  //console.log(await response.json());
+	  //console.log(data[0]);
+	  //console.log(metadata);
+    }
+
+    fetchMetadata();
+
+    const interval = setInterval(() => {
+      fetchMetadata();
+    }, 5000);
+
+	return () => {
+	  clearInterval(interval);
+	}
+  }, [])
+
   return (
     <div>
       <ContentDiv className="m-5">
-        <h1 className="text-center m-0">Hi! I'm Cameron Kazmarski. <br/>A Software Engineer</h1>
+		{ metadata && (
+		  <EditableText text={metadata.greeting} Tag="h1" InputTag="textarea" updateUrl={`/api/metadata/${metadata._id}`} fieldName="greeting" className="text-center m-0"></EditableText>
+		)}
       </ContentDiv>
 
       <ContentDiv className="m-2" childrenClass="ms-2">
         <h2>About Me</h2>
-        <p>
-        I am currently prusuing a computer science major with minors in web and mobile and cybersecurity. My experience with Python, Javascript, C#, and their associated libaries and frameworks shows my ability to learn new things quickly. My passion to learn and understand new technologies and subjects keeps me up to date when it comes to new innovations and solutions in the field.
-
-        This passion for learning has pushed me to become a programmer in the ComECal club at Geneva College and get on the Dean's list for three consecutive semesters. As a programmer and a student I am always looking for new challenges to overcome. For this reason, I am on the lookout for new internship opportunities. If you would like to contact me regarding any such opportunities click here.
-
-        Thank you for reading.</p>
+		{ metadata && (
+		  <EditableText text={metadata.bio} Tag="p" InputTag="textarea" updateUrl={`/api/metadata/${metadata._id}`} fieldName="bio" className="indented"></EditableText>
+		)}
         <p className="text-center mb-0">
           <Link to="/projects" className="btn btn-primary text-center mb-0">Projects</Link>
         </p>

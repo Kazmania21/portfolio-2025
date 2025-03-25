@@ -83,4 +83,8 @@ body {
     outline: none !important; /* Optional: Removes focus outline */
 }
 
+.indented {
+    text-indent: 40px;
+}
+
 @import "bootstrap/scss/bootstrap";

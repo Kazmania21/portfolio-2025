@@ -10,7 +10,7 @@ interface EditableTextProps {
   fieldName?: string;
 }
 
-const EditableText: React.FC<EditableTextProps> = ({text="", className="", Tag="p", updateUrl="", fieldName="name"}) => {
+const EditableText: React.FC<EditableTextProps> = ({text="", className="", Tag="p", updateUrl="", fieldName="name", InputTag="input"}) => {
   const [isEditing, setIsEditing] = useState(false);
   const [_text, setText] = useState(text);
   const {isLoggedIn} = useContext(AuthContext);
@@ -26,11 +26,18 @@ const EditableText: React.FC<EditableTextProps> = ({text="", className="", Tag="
   return (
     <div>
         {isEditing && isLoggedIn ? (
-          <input value={_text} autoFocus onChange={(e) => setText(e.target.value)} onBlur={handleBlur} onKeyDown={(e: React.KeyboardEvent<HTMLInputElement>) => {
-            if (e.key === "Enter") handleBlur();
-          }} className={`form-control invisible-box ${className}`}></input>
+          <InputTag value={_text} autoFocus onChange={(e) => setText(e.target.value)} onBlur={handleBlur} onKeyDown={(e: React.KeyboardEvent<HTMLInputElement>) => {
+            if (e.key === "Enter" && !e.shiftKey) handleBlur();
+          }} className={`form-control invisible-box ${className}`}></InputTag>
         ) : (
-          <Tag onClick={() => setIsEditing(true)} className={className}>{_text}</Tag>
+          <Tag onClick={() => setIsEditing(true)} className={className}>
+		    {_text.split("\n").map((line) => ( 
+			  <p className={className}>
+		        {line}
+			    <br />
+			  </p>
+			))}
+		  </Tag>
         )}
     </div>
   );
