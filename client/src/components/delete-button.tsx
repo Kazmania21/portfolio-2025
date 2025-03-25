@@ -1,3 +1,7 @@
+import { useContext } from 'react';
+import ApiService from '../services/api-service'; 
+import { AuthContext } from '../components/auth-provider.tsx'
+
 interface DeleteButtonProps {
   className?: string;
   deleteUrl?: string;
@@ -5,33 +9,22 @@ interface DeleteButtonProps {
   reqBody?: Record<string, unknown>;
 }
 
-const DeleteButton: React.FC<DeleteButtonProps> = ({className="", deleteUrl="", formMethod="DELETE", reqBody={}}) => {
+const DeleteButton: React.FC<DeleteButtonProps> = ({containerClassName="", className="", deleteUrl="", formMethod="DELETE", reqBody={}}) => { 
+  const { isLoggedIn } = useContext(AuthContext);
+  
   const deleteItem = async () => {
-    console.log(reqBody);
-    try {
-      const response = await fetch(`${deleteUrl}`, {
-        method: formMethod,
-        headers: { 
-		  "Content-Type": "application/json" ,
-          "authorization": `Bearer ${sessionStorage.getItem("authToken")}`
-		},
-		body: JSON.stringify(reqBody)
-      });
-
-      if (!response.ok) {
-        console.log(response);
-        throw new Error("Failed to delete text");
-      }
-    } catch (error) {
-      console.error("Error deleting item:", error);
-      // Optionally revert to the previous state if the delete fails
-    }
-  };
+    ApiService({url: deleteUrl, formMethod: formMethod, contentType: "application/json", reqBody: JSON.stringify(reqBody)});
+  }
 
   return (
-    <div>
-        <i className={`fa fa-solid fa-trash text-danger ${className}`} onClick={deleteItem}></i>
-    </div>
+    <>
+		{ isLoggedIn && (
+			<div className={containerClassName}>
+              <i className={`fa fa-solid fa-trash text-danger ${className}`} onClick={deleteItem}></i>
+			</div>
+		  )
+		}
+    </>
   );
 }
 

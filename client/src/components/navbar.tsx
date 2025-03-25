@@ -3,8 +3,6 @@ import { Link, useLocation } from 'react-router-dom';  // Import Link from react
 import { AuthContext } from './auth-provider'
 
 const Navbar: React.FC = () => {
-  //console.log(AuthContext)
-  //console.log(useContext(AuthContext))
   const { isLoggedIn, setIsLoggedIn } = useContext(AuthContext);
   const location = useLocation();
 

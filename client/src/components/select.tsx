@@ -1,5 +1,6 @@
 //import React from 'react';
 import { useState, useEffect } from 'react';
+import ApiService from '../services/api-service';
 
 interface SelectProps {
   optionsUrl: string;
@@ -14,23 +15,17 @@ interface SelectOption {
   name: string;
 }
 
-/*interface SelectOptionsState {
-  options: SelectOption,
-  setOptions: React.Dispatch<React.SetStateAction<UrlType[]>>;
-}*/
-
 const Select: React.FC<SelectProps> = ({optionsUrl, className="", inputName="", defaultText="Select Item", labelText=""}) => {
   const [options, setOptions] = useState<SelectOption[]>([]);
 
   useEffect(() => {
-    fetch(`${optionsUrl}`)
-      .then((response) => response.json())
-      .then((data) => {
-        setOptions(data);
-      })
-      .catch((err) => {
-        console.log(err.message);
-      })
+	const fetchOptions = async () => {
+	  var response = await ApiService({url: optionsUrl});
+	  //console.log(await response.json());
+	  setOptions(await response.json());
+	}
+
+	fetchOptions();
   })
 
   return (

@@ -2,29 +2,22 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import ContentDiv from '../components/content-div.tsx'
 import Input from '../components/input.tsx'
+import ApiService from '../services/api-service.tsx'
 
 const AddUrlType: React.FC = () => {
   const apiUrl = import.meta.env.VITE_API_URL; 
   const navigate = useNavigate();
 
-  const submitForm = (event: React.FormEvent<HTMLFormElement>) => {
+  const submitForm = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const form = event.currentTarget;
-    const formData = new FormData(form);
+    const formData = new FormData(form); 
 
-    fetch(`${apiUrl}/api/project_url_types`, {
-      method: "POST",
-	  headers: {
-        "authorization": `Bearer ${sessionStorage.getItem("authToken")}`
-	  },
-      body: formData,
-    })
-      .then((response) => response.json())
-      .then((data) => {
-          console.log("Server response:", data)
-          navigate("/projects")
-        })
-      .catch((error) => console.error("Error:", error));
+	var response = await ApiService({url: "/api/project_url_types", formMethod: "POST", reqBody: formData});
+	if (response.ok) {
+	  console.log("Server response: ", await response.json());
+	  navigate("/projects");
+	}
   }
 
   return (

@@ -100,7 +100,7 @@ class ServerRoute {
     }
 
     create = async (req, res) => {
-		console.log(req.headers['content-type']);
+		console.log(`Content Type: ${req.headers['content-type']}`);
         console.log(req.body);
 		console.log(req.body.urls);
         console.log(this.insert_form.validate(req));

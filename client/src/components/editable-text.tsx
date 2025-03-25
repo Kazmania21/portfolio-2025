@@ -1,6 +1,6 @@
-//import React from 'react';
 import { useState, useContext } from 'react';
 import { AuthContext } from '../components/auth-provider';
+import { ApiService } from '../services/api-service';
 
 interface EditableTextProps {
   text?: string;
@@ -20,25 +20,8 @@ const EditableText: React.FC<EditableTextProps> = ({text="", className="", Tag="
 	var reqBody: Record<string, string> = {};
 	reqBody[fieldName] = _text;
 
-    try {
-      const response = await fetch(`${updateUrl}`, {
-        method: "PUT",
-        headers: { 
-		  "Content-Type": "application/json",
-		  "authorization": `Bearer ${sessionStorage.getItem("authToken")}`
-		},
-        body: JSON.stringify(reqBody),
-      });
-
-      if (!response.ok) {
-        console.log(response);
-        throw new Error("Failed to update text");
-      }
-    } catch (error) {
-      console.error("Error updating text:", error);
-      // Optionally revert to the previous state if the update fails
-    }
-  };
+	ApiService({url: updateUrl, formMethod: "PUT", contentType: "application/json", reqBody: JSON.stringify(reqBody)});
+  }
 
   return (
     <div>

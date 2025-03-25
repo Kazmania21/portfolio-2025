@@ -1,4 +1,5 @@
 import React, { useEffect, useRef } from 'react';
+import ApiService from '../services/api-service';
 
 interface ModalProps {
   children: React.ReactNode;
@@ -38,27 +39,12 @@ const Modal: React.FC<ModalProps> = ({children, modalId, title, formMethod, form
     const formData = new FormData(form);
 	console.log("Saving Data");
 
-    try {
-      const response = await fetch(`${formUrl}`, {
-        method: formMethod,
-		headers: {
-		  "authorization": `Bearer ${sessionStorage.getItem("authToken")}`
-		},
-        body: formData,
-      });
+    var response = await ApiService({url: formUrl, formMethod: formMethod, reqBody: formData});
 
-	  if (response.ok) {
-	    console.log("Closing");
-		handleClose();
-	  }
-
-      if (!response.ok) {
-        console.log(response);
-        throw new Error("Failed to post");
-      }
-    } catch (error) {
-      console.error("Error:", error);
-    }
+	if (response.ok) {
+	  console.log("Closing");
+	  handleClose();
+	}
   };
 
   return (

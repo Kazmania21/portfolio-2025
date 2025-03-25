@@ -3,20 +3,19 @@ import { Link } from 'react-router-dom';
 import ContentDiv from '../components/content-div.tsx'
 import Project from '../components/project.tsx'
 import { AuthContext } from '../components/auth-provider'
+import ApiService from '../services/api-service.tsx'
 
 const Projects: React.FC = () => {
   const apiUrl = import.meta.env.VITE_API_URL;
   const [projects, setProjects] = useState([]);
   const {isLoggedIn} = useContext(AuthContext);
-  useEffect(() => {
-    fetch(`${apiUrl}/api/projects`)
-      .then((response) => response.json())
-      .then((data) => {
-        setProjects(data);
-      })
-      .catch((err) => {
-        console.log(err.message);
-      })
+  useEffect(() => { 
+	const fetchProjects = async () => {
+  	  var response = await ApiService({url: "/api/projects"});
+	  setProjects(await response.json());
+	}
+
+	fetchProjects();
   })
 
   return (

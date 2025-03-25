@@ -2,30 +2,24 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import ContentDiv from '../components/content-div.tsx'
 import Input from '../components/input.tsx'
+import ApiService from '../services/api-service.tsx'
 
 const SignIn: React.FC = () => {
   const apiUrl = import.meta.env.VITE_API_URL; 
   const navigate = useNavigate();
 
-  const submitForm = (event: React.FormEvent<HTMLFormElement>) => {
+  const submitForm = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const form = event.currentTarget;
     const formData = new FormData(form);
 
-    fetch(`${apiUrl}/api/sign_in`, {
-      method: "POST",
-	  headers: {
-		"Content-Type": "application/json"
-	  },
-      body: JSON.stringify(Object.fromEntries(formData)),
-    })
-      .then((response) => response.json())
-      .then((data) => {
-          console.log("Server response:", data)
-		  sessionStorage.setItem('authToken', data.token); 
-          navigate("/projects")
-        })
-      .catch((error) => console.error("Error:", error));
+	var response = await ApiService({url: "/api/sign_in", formMethod: "POST", contentType: "application/json", reqBody: JSON.stringify(Object.fromEntries(formData))});
+	if (response.ok) {
+	  var data = await response.json();
+	  console.log("Server response: ", data)
+	  sessionStorage.setItem('authToken', data.token); 
+      navigate("/projects");
+	}
   }
 
   return (
