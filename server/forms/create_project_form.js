@@ -18,7 +18,10 @@ var createProjectForm = new Form([
     .withMessage('Technologies required'),
   body('urls')
     .notEmpty()
-    .withMessage('Urls required')
+    .withMessage('Urls required'),
+  body('tags')
+    .notEmpty()
+    .withMessage('Tags required')
 ])
 
 module.exports = { createProjectForm }

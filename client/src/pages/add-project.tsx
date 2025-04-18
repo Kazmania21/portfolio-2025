@@ -1,10 +1,11 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import ContentDiv from '../components/content-div.tsx'
 import Input from '../components/input.tsx'
 import Fieldset from '../components/fieldset.tsx'
 import Select from '../components/select.tsx'
 import ApiService from '../services/api-service.tsx'
+import TagsInput from '../components/tags-input.tsx'
 
 const AddProject: React.FC = () => {
   const apiUrl = import.meta.env.VITE_API_URL;
@@ -15,7 +16,7 @@ const AddProject: React.FC = () => {
     event.preventDefault();
     const form = event.currentTarget;
     const formData = new FormData(form);
- 
+
     var response = await ApiService({url: "/api/projects", formMethod: "POST", reqBody: formData});
 	if (response.ok) {
 		console.log("Server Response: ", await response.json());
@@ -40,6 +41,7 @@ const AddProject: React.FC = () => {
           <Fieldset legendText="Technologies">
             <Select labelText="Technology" optionsUrl={`/api/technologies`} defaultText="Select Technology" inputName="technologies[0]"></Select>
           </Fieldset>
+          <TagsInput labelText="Tags" optionsUrl={`/api/projects?groupBy=tags`} defaultText="Add Tag" inputName="tags[]"></TagsInput>
           <button type="submit" className="btn btn-primary">Submit</button>
         </form>
       </ContentDiv>

@@ -18,6 +18,10 @@ const projectSchema = new mongoose.Schema({
     ref: 'Technology',
     required: false
   },
+  tags: {
+    type: [String], 
+    required: true
+  },
   image_location: {
     type: String,
     required: true

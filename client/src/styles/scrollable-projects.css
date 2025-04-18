@@ -1,0 +1,16 @@
+.scroll-item {
+  flex-shrink: 0;
+  width: 80%;
+}
+
+/*@media (min-width: 576px) {
+  .scroll-item {
+    width: 50%;
+  }
+}*/
+
+@media (min-width: 768px) {
+  .scroll-item {
+    width: 40%;
+  }
+}

@@ -5,6 +5,8 @@ import EditableText from '../components/editable-text.tsx'
 import DeleteButton from '../components/delete-button.tsx'
 import ProjectTechnologies from '../components/project-technologies.tsx'
 import ProjectUrls from '../components/project-urls.tsx'
+import ProjectTags from '../components/project-tags.tsx'
+import TagsInput from '../components/tags-input.tsx'
 import { IProject } from '../types/project';
 
 interface ProjectProps {
@@ -13,14 +15,15 @@ interface ProjectProps {
 }
 
 const Project: React.FC<ProjectProps> = ({project, className=""}) => {
+  console.log(project);
   const apiUrl = import.meta.env.VITE_API_URL;
 
   return (
     <div className={className}>
-      <ContentDiv className="m-5" childrenClass="ms-3 me-3">
+      <ContentDiv className="ms-3 me-3" childrenClass="ms-3 me-3">
         <div className="row">
             <div className="col">
-              <EditableText text={project.name} Tag="h2" updateUrl={`/api/projects/${project._id}`} className="text-center m-0"></EditableText>
+              <EditableText text={project.name} Tag="h3" updateUrl={`/api/projects/${project._id}`} className="text-center m-0"></EditableText>
             </div>
             <DeleteButton deleteUrl={`/api/projects/${project._id}`} containerClassName="col-auto"></DeleteButton>
         </div>
@@ -33,7 +36,9 @@ const Project: React.FC<ProjectProps> = ({project, className=""}) => {
 		  <ProjectTechnologies projectId={project._id} technologies={project.technologies}></ProjectTechnologies>
 
 		  <ProjectUrls projectId={project._id} urls={project.urls}></ProjectUrls>
+		  <ProjectTags projectId={project._id} tags={project.tags}></ProjectTags>
         </div>
+
       </ContentDiv>
     </div>
   );

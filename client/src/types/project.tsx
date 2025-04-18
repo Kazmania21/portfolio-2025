@@ -8,4 +8,5 @@ export interface IProject {
   urls: [Url];
   technologies: [Technology];
   image_location: string;
+  tags: [string];
 }
