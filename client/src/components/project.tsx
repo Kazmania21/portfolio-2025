@@ -1,12 +1,10 @@
-import React, { useContext } from 'react';
-import { Link } from 'react-router-dom';
+import React from 'react';
 import ContentDiv from '../components/content-div.tsx'
 import EditableText from '../components/editable-text.tsx'
 import DeleteButton from '../components/delete-button.tsx'
 import ProjectTechnologies from '../components/project-technologies.tsx'
 import ProjectUrls from '../components/project-urls.tsx'
 import ProjectTags from '../components/project-tags.tsx'
-import TagsInput from '../components/tags-input.tsx'
 import { IProject } from '../types/project';
 
 interface ProjectProps {
@@ -15,7 +13,7 @@ interface ProjectProps {
 }
 
 const Project: React.FC<ProjectProps> = ({project, className=""}) => {
-  console.log(project);
+  //console.log(project);
   const apiUrl = import.meta.env.VITE_API_URL;
 
   return (

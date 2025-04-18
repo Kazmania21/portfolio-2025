@@ -1,10 +1,9 @@
-import { useContext } from 'react';
 import { Link } from 'react-router-dom';
-import ITechnology from '../types/technology.tsx'
+import { ITechnology } from '../types/technology.tsx'
 import DeleteButton from '../components/delete-button.tsx'
 
 interface ProjectTechnologyProps {
-  projectId: int;
+  projectId: Number | String;
   technology: ITechnology;
 }
 

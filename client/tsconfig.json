@@ -5,6 +5,10 @@
     { "path": "./tsconfig.node.json" }
   ],
   "compilerOptions": {
-    "jsx": "react-jsx"
+    "jsx": "react-jsx",
+	"baseUrl": "src",
+    "paths": {
+      "bootstrap5-tags": ["plugins/bootstrap5-tags-master/types/tags.d.ts"]
+    }
   }
 }

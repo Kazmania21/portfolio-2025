@@ -1,12 +1,22 @@
-export const ApiService = async ({url, formMethod = "GET", contentType = null, reqBody = {}, baseUrl = import.meta.env.VITE_API_URL}) => {
+interface ApiServiceParams {
+  url: string;
+  formMethod?: string;
+  contentType?: string;
+  reqBody?: BodyInit;
+  baseUrl?: string;
+}
+
+export const ApiService = async ({url, formMethod = "GET", contentType, reqBody, baseUrl = import.meta.env.VITE_API_URL}: ApiServiceParams) => {
   //console.log(reqBody)
   //console.log(sessionStorage.getItem("authToken"));
   try {
-    var reqOptions = {
+	var headers: HeadersInit = { 
+      "authorization": `Bearer ${sessionStorage.getItem("authToken")}`
+	}
+
+    var reqOptions: RequestInit = {
       method: formMethod,
-      headers: { 
-        "authorization": `Bearer ${sessionStorage.getItem("authToken")}`
-	  },
+      headers: headers
     }
 
 	if (formMethod != "GET") {
@@ -15,7 +25,7 @@ export const ApiService = async ({url, formMethod = "GET", contentType = null, r
 
 	if (contentType != null) {
 	  console.log(`Content Type: ${contentType}`);
-      reqOptions["headers"]["Content-Type"] = contentType;
+      headers["Content-Type"] = contentType;
 	  console.log(`Content Type: ${contentType}`);
 	}
 

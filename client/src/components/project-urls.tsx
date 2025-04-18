@@ -1,18 +1,15 @@
-import { useContext } from 'react';
-import { Link } from 'react-router-dom';
 import ProjectUrl from '../components/project-url.tsx'
 import ProjectUrlModal from '../components/project-url-modal.tsx'
 import ProjectUrlModalButton from '../components/project-url-modal-button.tsx'
-import IUrl from '../types/url.tsx'
+import { IUrl } from '../types/url.tsx'
 
 
 interface ProjectUrlsProps {
-  projectId: int;
+  projectId: Number | String;
   urls: [IUrl];
 }
 
 const ProjectUrls: React.FC<ProjectUrlsProps> = ({projectId, urls}) => { 
-  const apiUrl = import.meta.env.VITE_API_URL;
   return (
     <div>
 	  <ProjectUrlModal projectId={projectId}></ProjectUrlModal>

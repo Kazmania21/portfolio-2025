@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import ContentDiv from '../components/content-div.tsx'
 import Input from '../components/input.tsx'
@@ -18,6 +18,11 @@ const AddProject: React.FC = () => {
     const formData = new FormData(form);
 
     var response = await ApiService({url: "/api/projects", formMethod: "POST", reqBody: formData});
+
+	if (!response) {
+	  return;
+	}
+
 	if (response.ok) {
 		console.log("Server Response: ", await response.json());
 		navigate("/projects");

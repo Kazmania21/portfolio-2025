@@ -1,16 +1,13 @@
 import { useContext } from 'react';
-import { Link } from 'react-router-dom';
-import Select from '../components/select.tsx'
-import Modal from '../components/modal.tsx'
 import { AuthContext } from '../components/auth-provider.tsx'
 
 interface ProjectTechnologyModalButtonProps {
-  projectId: int;
+  projectId: Number | String;
 }
 
 const ProjectTechnologyModalButton: React.FC<ProjectTechnologyModalButtonProps> = ({projectId}) => { 
   const { isLoggedIn } = useContext(AuthContext);
-  const apiUrl = import.meta.env.VITE_API_URL;
+
   return (
     <>
       { isLoggedIn && (

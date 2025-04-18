@@ -2,17 +2,23 @@ import React, { useState, useEffect, useContext } from 'react';
 import { Link } from 'react-router-dom';
 import ContentDiv from '../components/content-div.tsx'
 import Project from '../components/project.tsx'
+import { IGroupedData } from '../types/grouped.tsx'
+import { IProject } from '../types/project.tsx'
 import { AuthContext } from '../components/auth-provider'
 import ApiService from '../services/api-service.tsx'
 import '../styles/scrollable-projects.css'
 
 const Projects: React.FC = () => {
-  const apiUrl = import.meta.env.VITE_API_URL;
-  const [projectCategories, setProjectCategories] = useState([]);
+  const [projectCategories, setProjectCategories] = useState<IGroupedData[]>([]);
   const {isLoggedIn} = useContext(AuthContext);
   useEffect(() => { 
 	const fetchProjects = async () => {
   	  var response = await ApiService({url: "/api/projects?groupBy=tags&sortBy=tags_group,name"});
+
+	  if (!response) {
+		return;
+	  }
+
 	  var data = await response.json();
 	  console.log(data);
 	  setProjectCategories(data);
@@ -57,7 +63,7 @@ const Projects: React.FC = () => {
 				  <h2 className="text-center m-0">{projects._id}</h2>
 			    </ContentDiv>
 				<div className="d-flex overflow-auto flex-nowrap m-0">
-		          {projects.data.map((project) => (
+		          {projects.data.map((project: IProject) => (
                     <Project project={project} className="scroll-item"></Project>
                   ))}
 				</div>

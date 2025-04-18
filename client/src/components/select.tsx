@@ -21,7 +21,7 @@ const Select: React.FC<SelectProps> = ({optionsUrl, className="", inputName="", 
   useEffect(() => {
 	const fetchOptions = async () => {
 	  var response = await ApiService({url: optionsUrl});
-	  //console.log(await response.json());
+	  if (!response) {return;}
 	  setOptions(await response.json());
 	}
 

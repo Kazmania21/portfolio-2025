@@ -3,6 +3,7 @@ import ApiService from '../services/api-service';
 import { AuthContext } from '../components/auth-provider.tsx'
 
 interface DeleteButtonProps {
+  containerClassName?: string;
   className?: string;
   deleteUrl?: string;
   formMethod?: string;

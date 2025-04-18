@@ -1,7 +1,7 @@
-import { UrlType } from "./url_type";
+import { IUrlType } from "./url_type";
 
-export interface Url {
-  type: UrlType;
+export interface IUrl {
+  type: IUrlType;
   url: string;
   id: string;
 }

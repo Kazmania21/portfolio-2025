@@ -1,10 +1,9 @@
-import { useContext } from 'react';
 import { Link } from 'react-router-dom';
-import IUrl from '../types/url.tsx'
+import { IUrl } from '../types/url.tsx'
 import DeleteButton from '../components/delete-button.tsx'
 
 interface ProjectUrlProps {
-  projectId: int;
+  projectId: Number | String;
   url: IUrl;
 }
 

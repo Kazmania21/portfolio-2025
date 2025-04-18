@@ -1,15 +1,15 @@
-import { useContext } from 'react';
 import { Link } from 'react-router-dom';
-import ITechnology from '../types/technology.tsx'
+import { ITechnology } from '../types/technology.tsx'
 import DeleteButton from '../components/delete-button.tsx'
 
 interface ProjectTechnologyProps {
-  projectId: int;
+  projectId: Number | String;
   technology: ITechnology;
 }
 
 const ProjectTechnology: React.FC<ProjectTechnologyProps> = ({projectId, technology}) => { 
   const apiUrl = import.meta.env.VITE_API_URL;
+
   return (
     <div className="row">
       <div className="col-auto">

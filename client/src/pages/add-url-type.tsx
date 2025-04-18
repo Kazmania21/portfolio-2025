@@ -14,6 +14,11 @@ const AddUrlType: React.FC = () => {
     const formData = new FormData(form); 
 
 	var response = await ApiService({url: "/api/project_url_types", formMethod: "POST", reqBody: formData});
+
+	if (!response) {
+	  return;
+	}
+
 	if (response.ok) {
 	  console.log("Server response: ", await response.json());
 	  navigate("/projects");

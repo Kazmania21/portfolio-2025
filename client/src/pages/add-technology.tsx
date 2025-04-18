@@ -16,6 +16,11 @@ const AddTechnology: React.FC = () => {
     const formData = new FormData(form); 
 
 	var response = await ApiService({url: "/api/technologies", formMethod: "POST", reqBody: formData});
+
+	if (!response) {
+	  return;
+	}
+
 	if (response.ok) {
 		console.log("Server Response: ", await response.json());
 		navigate("/projects");

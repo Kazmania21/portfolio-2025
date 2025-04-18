@@ -14,6 +14,11 @@ const SignIn: React.FC = () => {
     const formData = new FormData(form);
 
 	var response = await ApiService({url: "/api/sign_in", formMethod: "POST", contentType: "application/json", reqBody: JSON.stringify(Object.fromEntries(formData))});
+
+	if (!response) {
+	  return;
+	}
+
 	if (response.ok) {
 	  var data = await response.json();
 	  console.log("Server response: ", data)

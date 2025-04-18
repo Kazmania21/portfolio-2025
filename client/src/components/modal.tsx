@@ -41,6 +41,10 @@ const Modal: React.FC<ModalProps> = ({children, modalId, title, formMethod, form
 
     var response = await ApiService({url: formUrl, formMethod: formMethod, reqBody: formData});
 
+	if (!response) {
+	  return;
+	}
+
 	if (response.ok) {
 	  console.log("Closing");
 	  handleClose();

@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import ContentDiv from '../components/content-div.tsx'
 import EditableText from '../components/editable-text.tsx'
 import ApiService from '../services/api-service.tsx'
-import IMetadata from '../services/metadata.tsx'
+import { IMetadata } from '../types/metadata.tsx'
 
 const Home: React.FC = () => {
   const [metadata, setMetadata] = useState<IMetadata>();
@@ -11,11 +11,13 @@ const Home: React.FC = () => {
   useEffect(() => { 
     const fetchMetadata = async () => {
   	  var response = await ApiService({url: "/api/metadata"});
+
+	  if (!response) {
+		return;
+	  }
+
 	  var data = await response.json();
 	  setMetadata(data[0]);
-	  //console.log(await response.json());
-	  //console.log(data[0]);
-	  //console.log(metadata);
     }
 
     fetchMetadata();

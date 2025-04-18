@@ -1,20 +1,18 @@
-import { useContext, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { useState } from 'react';
 import ProjectTechnology from '../components/project-technology.tsx'
 import CompactProjectTechnology from '../components/compact-project-technology.tsx'
 import ProjectTechnologyModal from '../components/project-technology-modal.tsx'
 import ProjectTechnologyModalButton from '../components/project-technology-modal-button.tsx'
-import ITechnology from '../types/technology.tsx'
+import { ITechnology } from '../types/technology.tsx'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChevronDown } from '@fortawesome/free-solid-svg-icons';
 
 interface ProjectTechnologiesProps {
-  projectId: int;
+  projectId: Number | String;
   technologies: [ITechnology];
 }
 
 const ProjectTechnologies: React.FC<ProjectTechnologiesProps> = ({projectId, technologies}) => { 
-  const apiUrl = import.meta.env.VITE_API_URL;
   const [isExpanded, setIsExpanded] = useState(false);
 
   return (

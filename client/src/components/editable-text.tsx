@@ -8,6 +8,7 @@ interface EditableTextProps {
   Tag?: React.ElementType;
   updateUrl?: string;
   fieldName?: string;
+  InputTag?: React.ElementType;
 }
 
 const EditableText: React.FC<EditableTextProps> = ({text="", className="", Tag="p", updateUrl="", fieldName="name", InputTag="input"}) => {
@@ -26,7 +27,7 @@ const EditableText: React.FC<EditableTextProps> = ({text="", className="", Tag="
   return (
     <div>
         {isEditing && isLoggedIn ? (
-          <InputTag value={_text} autoFocus onChange={(e) => setText(e.target.value)} onBlur={handleBlur} onKeyDown={(e: React.KeyboardEvent<HTMLInputElement>) => {
+          <InputTag value={_text} autoFocus onChange={(e: React.ChangeEvent<HTMLInputElement>) => setText(e.target.value)} onBlur={handleBlur} onKeyDown={(e: React.KeyboardEvent<HTMLInputElement>) => {
             if (e.key === "Enter" && !e.shiftKey) handleBlur();
           }} className={`form-control invisible-box ${className}`}></InputTag>
         ) : (
