@@ -3,7 +3,8 @@ import { useState, useEffect } from 'react';
 import ApiService from '../services/api-service';
 
 interface SelectProps {
-  optionsUrl: string;
+  optionsUrl?: string;
+  defaultOptions?: unknown[];
   className?: string;
   inputName?: string;
   defaultText?: string;
@@ -15,26 +16,32 @@ interface SelectOption {
   name: string;
 }
 
-const Select: React.FC<SelectProps> = ({optionsUrl, className="", inputName="", defaultText="Select Item", labelText=""}) => {
+const Select: React.FC<SelectProps> = ({optionsUrl=null, defaultOptions=null, className="", inputName="", defaultText="Select Item", labelText=""}) => {
   const [options, setOptions] = useState<SelectOption[]>([]);
 
   useEffect(() => {
 	const fetchOptions = async () => {
-	  var response = await ApiService({url: optionsUrl});
+	  var response = await ApiService({url: optionsUrl!});
 	  if (!response) {return;}
 	  setOptions(await response.json());
 	}
 
-	fetchOptions();
+	if (optionsUrl) {
+	  fetchOptions();
+	}
+
+	if (defaultOptions) {
+	  setOptions(defaultOptions as SelectOption[]);
+	}
 	
-	const interval = setInterval(() => {
+	/*const interval = setInterval(() => {
 	  fetchOptions();
 	}, 5000)
 
 	return () => {
 	  clearInterval(interval);
-	}
-  }, [])
+	}*/
+  }, [defaultOptions])
 
   return (
     <div className="form-group">

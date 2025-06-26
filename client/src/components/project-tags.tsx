@@ -3,7 +3,7 @@ import ProjectTagModalButton from '../components/project-tag-modal-button.tsx'
 
 
 interface ProjectTagsProps {
-  projectId: Number | String;
+  projectId: string | Number;
   tags: [string];
 }
 

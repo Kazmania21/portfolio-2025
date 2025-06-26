@@ -1,38 +1,36 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useEffect, useContext } from 'react';
 import { Link } from 'react-router-dom';
-import ContentDiv from '../components/content-div.tsx'
-import Project from '../components/project.tsx'
-import { IGroupedData } from '../types/grouped.tsx'
-import { IProject } from '../types/project.tsx'
-import { AuthContext } from '../components/auth-provider'
-import ApiService from '../services/api-service.tsx'
-import '../styles/scrollable-projects.css'
+import ContentDiv from '../components/content-div.tsx';
+import Project from '../components/project.tsx';
+import { IGroupedData } from '../types/grouped.tsx';
+import { IProject } from '../types/project.tsx';
+import { AuthContext } from '../components/auth-provider';
+import { CrudContext, CrudProvider } from '../components/crud-provider';
+import { useCrud } from '../hooks/use-crud.tsx';
+import '../styles/scrollable-projects.css';
 
 const Projects: React.FC = () => {
-  const [projectCategories, setProjectCategories] = useState<IGroupedData[]>([]);
+  return (
+	<CrudProvider>
+	  <ProjectContent></ProjectContent>
+	</CrudProvider>
+  )
+}
+
+const ProjectContent: React.FC = () => {
   const {isLoggedIn} = useContext(AuthContext);
-  useEffect(() => { 
-	const fetchProjects = async () => {
-  	  var response = await ApiService({url: "/api/projects?groupBy=tags&sortBy=tags_group,name"});
+  const {endpoints} = useContext(CrudContext);
 
-	  if (!response) {
-		return;
-	  }
+  endpoints["projects"] = useCrud("/api/projects", {groupBy: "tags", sortBy: "tags_group,name"});
+  endpoints["technologies"] = useCrud("/api/technologies");
+  endpoints["url_types"] = useCrud("/api/project_url_types");
 
-	  var data = await response.json();
-	  console.log(data);
-	  setProjectCategories(data);
-	}
+  const projects = endpoints["projects"].data as IGroupedData[];
 
-	fetchProjects();
-
-	/*const interval = setInterval(() => {
-      fetchProjects();
-    }, 5000);*/
-
-	return () => {
-	  //clearInterval(interval);
-	}
+  useEffect(() => {
+	endpoints["projects"].read();
+	endpoints["technologies"].read();
+  	endpoints["url_types"].read();
   }, [])
 
   return (
@@ -57,7 +55,7 @@ const Projects: React.FC = () => {
 	      }
       </ContentDiv>
       <div>
-          { projectCategories.map((projects) => (
+          { projects.map((projects) => (
 		  	  <div>
 			    <ContentDiv className="m-5">
 				  <h2 className="text-center m-0">{projects._id}</h2>

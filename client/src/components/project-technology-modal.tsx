@@ -1,15 +1,21 @@
+import { useContext } from 'react';
 import { Link } from 'react-router-dom';
-import Select from '../components/select.tsx'
-import Modal from '../components/modal.tsx'
+import Select from '../components/select.tsx';
+import Modal from '../components/modal.tsx';
+import { CrudContext } from '../components/crud-provider.tsx';
 
 interface ProjectTechnologyModalProps {
-  projectId: Number | String;
+  projectId: string | Number;
 }
 
 const ProjectTechnologyModal: React.FC<ProjectTechnologyModalProps> = ({projectId}) => { 
+  const { endpoints } = useContext(CrudContext);
+  const projects = endpoints["projects"];
+  const technologies = endpoints["technologies"];
+
   return (
-     <Modal modalId={`technologies-modal-${projectId}`} title="Add Technology to Project" formMethod="PATCH" formUrl={`/api/projects/${projectId}/add`} >
-	   <Select labelText="Technology" defaultText="Select Technology" optionsUrl={`/api/technologies`} inputName="technologies"></Select>
+     <Modal modalId={`technologies-modal-${projectId}`} title="Add Technology to Project" onSave={(data: FormData) => projects.patchAddOne(projectId, data)}>
+	   <Select labelText="Technology" defaultText="Select Technology" defaultOptions={technologies.data} inputName="technologies"></Select>
 	   <Link to="/add-technology">Technology not listed?</Link>
 	 </Modal>
   );

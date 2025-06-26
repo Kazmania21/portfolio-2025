@@ -1,15 +1,13 @@
 import React, { useEffect, useRef } from 'react';
-import ApiService from '../services/api-service';
 
 interface ModalProps {
   children: React.ReactNode;
   modalId: string;
   title: string;
-  formMethod: string;
-  formUrl: string;
+  onSave: Function;
 }
 
-const Modal: React.FC<ModalProps> = ({children, modalId, title, formMethod, formUrl}) => {
+const Modal: React.FC<ModalProps> = ({children, modalId, title, onSave}) => {
   var closeButtonRef = useRef<HTMLButtonElement | null>(null);
 
   const handleClose = () => {
@@ -39,16 +37,13 @@ const Modal: React.FC<ModalProps> = ({children, modalId, title, formMethod, form
     const formData = new FormData(form);
 	console.log("Saving Data");
 
-    var response = await ApiService({url: formUrl, formMethod: formMethod, reqBody: formData});
+	onSave(formData);
 
-	if (!response) {
-	  return;
-	}
-
-	if (response.ok) {
+	/*if (response.ok) {
 	  console.log("Closing");
 	  handleClose();
-	}
+	}*/
+	handleClose();
   };
 
   return (

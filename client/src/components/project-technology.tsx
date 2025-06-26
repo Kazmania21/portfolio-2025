@@ -1,14 +1,18 @@
+import { useContext } from 'react';
 import { Link } from 'react-router-dom';
 import { ITechnology } from '../types/technology.tsx'
 import DeleteButton from '../components/delete-button.tsx'
+import { CrudContext } from '../components/crud-provider.tsx'
 
 interface ProjectTechnologyProps {
-  projectId: Number | String;
+  projectId: string | Number;
   technology: ITechnology;
 }
 
 const ProjectTechnology: React.FC<ProjectTechnologyProps> = ({projectId, technology}) => { 
   const apiUrl = import.meta.env.VITE_API_URL;
+  const { endpoints } = useContext(CrudContext);
+  const projects = endpoints["projects"];
 
   return (
     <div className="row">
@@ -20,7 +24,7 @@ const ProjectTechnology: React.FC<ProjectTechnologyProps> = ({projectId, technol
           </Link>
 	  </div>
 
-      <DeleteButton deleteUrl={`/api/projects/${projectId}/remove`} reqBody={{"technologies": technology._id}} formMethod="PATCH" containerClassName="col-auto"></DeleteButton>
+      <DeleteButton onDelete={() => projects.patchRemoveOne(projectId, "technologies", technology._id)} containerClassName="col-auto"></DeleteButton>
     </div>
   );
 }

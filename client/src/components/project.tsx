@@ -1,11 +1,12 @@
-import React from 'react';
-import ContentDiv from '../components/content-div.tsx'
-import EditableText from '../components/editable-text.tsx'
-import DeleteButton from '../components/delete-button.tsx'
-import ProjectTechnologies from '../components/project-technologies.tsx'
-import ProjectUrls from '../components/project-urls.tsx'
-import ProjectTags from '../components/project-tags.tsx'
+import React, { useContext } from 'react';
+import ContentDiv from '../components/content-div.tsx';
+import EditableText from '../components/editable-text.tsx';
+import DeleteButton from '../components/delete-button.tsx';
+import ProjectTechnologies from '../components/project-technologies.tsx';
+import ProjectUrls from '../components/project-urls.tsx';
+import ProjectTags from '../components/project-tags.tsx';
 import { IProject } from '../types/project';
+import { CrudContext } from '../components/crud-provider.tsx';
 
 interface ProjectProps {
   project: IProject,
@@ -15,6 +16,8 @@ interface ProjectProps {
 const Project: React.FC<ProjectProps> = ({project, className=""}) => {
   //console.log(project);
   const apiUrl = import.meta.env.VITE_API_URL;
+  const { endpoints } = useContext(CrudContext);
+  const projects = endpoints["projects"];
 
   return (
     <div className={className}>
@@ -23,7 +26,8 @@ const Project: React.FC<ProjectProps> = ({project, className=""}) => {
             <div className="col">
               <EditableText text={project.name} Tag="h3" updateUrl={`/api/projects/${project._id}`} className="text-center m-0"></EditableText>
             </div>
-            <DeleteButton deleteUrl={`/api/projects/${project._id}`} containerClassName="col-auto"></DeleteButton>
+	  		
+			<DeleteButton onDelete={() => projects.deleteOne(project._id)} containerClassName="col-auto"></DeleteButton>
         </div>
 
         <img src={`${apiUrl}/${project.image_location}`} width="100%"></img>

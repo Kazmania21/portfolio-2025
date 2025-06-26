@@ -31,8 +31,14 @@ const app = express();
 
 app.use('/static', express.static(path.join(__dirname, 'uploads')));
 
+app.use((req, res, next) => {
+  console.log(`[${req.method}] ${req.originalUrl}`);
+  next();
+});
+
 app.use(cors({
   origin: 'http://localhost:5173',
+  methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE'],
   credentials: true,
 }));
 

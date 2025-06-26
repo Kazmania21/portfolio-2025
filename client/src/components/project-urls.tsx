@@ -5,7 +5,7 @@ import { IUrl } from '../types/url.tsx'
 
 
 interface ProjectUrlsProps {
-  projectId: Number | String;
+  projectId: string | Number;
   urls: [IUrl];
 }
 

@@ -1,14 +1,19 @@
+import { useContext } from 'react';
 import { Link } from 'react-router-dom';
 import { IUrl } from '../types/url.tsx'
 import DeleteButton from '../components/delete-button.tsx'
+import { CrudContext } from '../components/crud-provider.tsx'
 
 interface ProjectUrlProps {
-  projectId: Number | String;
+  projectId: string | Number;
   url: IUrl;
 }
 
 const ProjectUrl: React.FC<ProjectUrlProps> = ({projectId, url}) => { 
   const apiUrl = import.meta.env.VITE_API_URL;
+  const { endpoints } = useContext(CrudContext);
+  const projects = endpoints["projects"];
+
   return (
     <div className="row">
 	  <div className="col-auto">
@@ -17,7 +22,8 @@ const ProjectUrl: React.FC<ProjectUrlProps> = ({projectId, url}) => {
           {url.type.name}
         </Link>
 	  </div>
-      <DeleteButton deleteUrl={`/api/projects/${projectId}/remove`} reqBody={{"urls": url}} formMethod="PATCH" containerClassName="col-auto"></DeleteButton>
+	  
+	  <DeleteButton onDelete={() => projects.patchRemoveOne(projectId, "urls", url)} containerClassName="col-auto"></DeleteButton>
 	</div> 
   );
 }

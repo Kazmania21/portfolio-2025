@@ -116,7 +116,7 @@ class ServerRoute {
 				)
 			}*/
 			if (isArray & prefix == "") {
-				console.log(group);
+				//console.log(group);
 				if (((schemaType.options && schemaType.options.ref) || schemaType.schema)) {
 				group[path] = {$push: { 
 				  	$cond: [
@@ -159,7 +159,7 @@ class ServerRoute {
         // Grouping logic (optional)
         if (groupBy) {
 		  const lookupStages = this.getLookupStages();
-		  console.log(lookupStages);
+		  //console.log(lookupStages);
 		  var pipeline = [
 			...lookupStages,
 			/*{
@@ -211,7 +211,7 @@ class ServerRoute {
 			  }
               sortData[`data.${field}`] = order;
 			});
-			console.log(sortData);
+			//console.log(sortData);
 			pipeline.push({
               $sort: sortData
             });

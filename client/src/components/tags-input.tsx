@@ -51,13 +51,13 @@ const TagsInput: React.FC<TagsInputProps> = ({optionsUrl, className="", inputNam
 	  tagsInput.addItem(tag);
 	}
 	
-	const interval = setInterval(() => {
+	/*const interval = setInterval(() => {
 	  fetchOptions();
 	}, 5000)
 
 	return () => {
 	  clearInterval(interval);
-	}
+	}*/
   }, [])
 
   useEffect(() => {
