@@ -1,4 +1,4 @@
-import { useState, useContext } from 'react';
+import { useState, useContext, useEffect } from 'react';
 import { AuthContext } from '../components/auth-provider';
 import { ApiService } from '../services/api-service';
 
@@ -15,6 +15,10 @@ const EditableText: React.FC<EditableTextProps> = ({text="", className="", Tag="
   const [isEditing, setIsEditing] = useState(false);
   const [_text, setText] = useState(text);
   const {isLoggedIn} = useContext(AuthContext);
+
+  useEffect(() => {
+	setText(text);
+  }, [text])
 
   const handleBlur = async () => {
     setIsEditing(false);
