@@ -14,7 +14,7 @@ const Contact: React.FC = () => {
       <ContentDiv className="m-5" childrenClass="ms-2">
         <h1>Contact Me</h1>
         <p>
-		  <b>
+		  <b className="me-1">
 		    <FontAwesomeIcon icon={faPhone} className="me-1" />
 		  	Phone:
 		  </b> 
@@ -22,15 +22,15 @@ const Contact: React.FC = () => {
 		</p>
 
         <p>
-		  <b>
+		  <b className="me-1">
 		  	<FontAwesomeIcon icon={faEnvelope} className="me-1" />
 		  	Email:
 		  </b> 
 		  <Link to="mailto:cameronkazmarski@gmail.com">cameronkazmarski@gmail.com</Link>
 		</p>
 
-        <p className="mb-0">
-		  <b>
+        <p className="mb-0 ms-1">
+		  <b className="me-1">
 		    <FontAwesomeIcon icon={faLinkedin} className="me-1" />
 		    LinkedIn:
 		  </b> 
