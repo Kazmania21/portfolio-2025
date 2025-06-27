@@ -1,4 +1,14 @@
 @import "font-awesome";
+@import url('https://fonts.googleapis.com/css2?family=Russo+One&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Exo+2:ital,wght@0,100..900;1,100..900&family=Russo+One&display=swap');
+
+p, a, .btn {
+	font-family: "Exo 2", sans-serif;
+}
+
+h1, h2, h3, h1 p, h2 p, h3 p {
+	font-family: "Russo One", sans-serif;
+}
 
 $primary: red;
 $secondary: black;

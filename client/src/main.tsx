@@ -12,6 +12,9 @@ createRoot(document.getElementById('root')!).render(
 import ReactDOM from 'react-dom/client';
 import { BrowserRouter } from 'react-router-dom';
 import App from './App';
+import '@fortawesome/fontawesome-svg-core/styles.css';
+import { config } from '@fortawesome/fontawesome-svg-core'
+config.autoAddCss = false
 //import 'bootstrap/dist/css/bootstrap.min.css';
 import './styles/bootstrap.scss';
 //import 'bootstrap/dist/js/bootstrap.min.js';
