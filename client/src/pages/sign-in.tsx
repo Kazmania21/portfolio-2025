@@ -3,8 +3,11 @@ import { useNavigate } from 'react-router-dom';
 import ContentDiv from '../components/content-div.tsx'
 import Input from '../components/input.tsx'
 import ApiService from '../services/api-service.tsx'
+import { useTitle } from '../hooks/use-title.tsx';
 
 const SignIn: React.FC = () => {
+  useTitle("Sign In");
+
   const apiUrl = import.meta.env.VITE_API_URL; 
   const navigate = useNavigate();
 

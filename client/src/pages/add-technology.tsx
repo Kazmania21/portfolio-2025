@@ -6,8 +6,11 @@ import Select from '../components/select.tsx';
 import Modal from '../components/modal.tsx';
 import ApiService from '../services/api-service.tsx';
 import { useCrud } from '../hooks/use-crud.tsx';
+import { useTitle } from '../hooks/use-title.tsx';
 
 const AddTechnology: React.FC = () => {
+  useTitle("Add Technology");
+
   const apiUrl = import.meta.env.VITE_API_URL; 
   const navigate = useNavigate();
   const technologyTypes = useCrud("/api/technology_types");

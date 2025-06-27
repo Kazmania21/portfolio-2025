@@ -1,10 +1,13 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import ContentDiv from '../components/content-div.tsx'
-import Input from '../components/input.tsx'
-import ApiService from '../services/api-service.tsx'
+import ContentDiv from '../components/content-div.tsx';
+import Input from '../components/input.tsx';
+import ApiService from '../services/api-service.tsx';
+import { useTitle } from '../hooks/use-title.tsx';
 
 const AddUrlType: React.FC = () => {
+  useTitle("Add Url Type");
+
   const apiUrl = import.meta.env.VITE_API_URL; 
   const navigate = useNavigate();
 

@@ -6,8 +6,10 @@ import ApiService from '../services/api-service.tsx';
 import { IMetadata } from '../types/metadata.tsx';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faFolder } from '@fortawesome/free-solid-svg-icons';
+import { useTitle } from '../hooks/use-title.tsx';
 
 const Home: React.FC = () => {
+  useTitle("About");
   const [metadata, setMetadata] = useState<IMetadata>();
 
   useEffect(() => { 

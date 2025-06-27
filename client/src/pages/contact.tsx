@@ -4,8 +4,11 @@ import ContentDiv from '../components/content-div.tsx';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPhone, faEnvelope } from '@fortawesome/free-solid-svg-icons';
 import { faLinkedin } from '@fortawesome/free-brands-svg-icons';
+import { useTitle } from '../hooks/use-title.tsx';
 
 const Contact: React.FC = () => {
+  useTitle("Contact");
+
   return (
     <div>
       <ContentDiv className="m-5" childrenClass="ms-2">

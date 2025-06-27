@@ -6,8 +6,10 @@ import Fieldset from '../components/fieldset.tsx'
 import Select from '../components/select.tsx'
 import ApiService from '../services/api-service.tsx'
 import TagsInput from '../components/tags-input.tsx'
+import { useTitle } from '../hooks/use-title.tsx';
 
 const AddProject: React.FC = () => {
+  useTitle("Add Project");
   const apiUrl = import.meta.env.VITE_API_URL;
   
   const navigate = useNavigate();

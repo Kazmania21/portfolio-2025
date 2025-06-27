@@ -8,6 +8,7 @@ import { AuthContext } from '../components/auth-provider';
 import { CrudContext, CrudProvider } from '../components/crud-provider';
 import { useCrud } from '../hooks/use-crud.tsx';
 import '../styles/scrollable-projects.css';
+import { useTitle } from '../hooks/use-title.tsx';
 
 const Projects: React.FC = () => {
   return (
@@ -18,6 +19,7 @@ const Projects: React.FC = () => {
 }
 
 const ProjectContent: React.FC = () => {
+  useTitle("Projects");
   const {isLoggedIn} = useContext(AuthContext);
   const {endpoints} = useContext(CrudContext);
 
