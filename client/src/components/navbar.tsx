@@ -53,7 +53,7 @@ const Navbar: React.FC = () => {
           </ul>
 		  { isLoggedIn?  (
 			  <button className="btn btn-dark float-right" onClick={handleSignOut}>
-				<FontAwesomeIcon icon={faRightToBracket} className="me-2" />
+				<FontAwesomeIcon icon={faRightFromBracket} className="me-2" />
 			    Sign Out
 			  </button>
 			) : (
