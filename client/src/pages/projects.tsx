@@ -10,8 +10,9 @@ import { useCrud } from '../hooks/use-crud.tsx';
 import '../styles/scrollable-projects.css';
 import { useTitle } from '../hooks/use-title.tsx';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faSearch } from '@fortawesome/free-solid-svg-icons';
+import { faSearch, faFilter } from '@fortawesome/free-solid-svg-icons';
 import Input from '../components/input.tsx';
+import FilterOptionGroup from '../components/filter-option-group.tsx';
 
 const Projects: React.FC = () => {
   return (
@@ -27,22 +28,37 @@ const ProjectContent: React.FC = () => {
   const {endpoints} = useContext(CrudContext);
 
   //endpoints["projects"] = useCrud("/api/projects", {groupBy: "tags", sortBy: "tags_group,name"});
+  endpoints["grouped_projects"] = useCrud("/api/projects", {groupBy: "tags", sortBy: "tags_group,name"});
   endpoints["projects"] = useCrud("/api/projects", {sortBy: "name"});
-  endpoints["technologies"] = useCrud("/api/technologies");
-  endpoints["url_types"] = useCrud("/api/project_url_types");
+  endpoints["technologies"] = useCrud("/api/technologies", {sortBy: "name"});
+  endpoints["url_types"] = useCrud("/api/project_url_types", {sortBy: "name"});
 
   const projects = endpoints["projects"].data as IGroupedData[];
+  const groupedProjects = endpoints["grouped_projects"].data as IGroupedData[];
   const [filteredProjects, setFilteredProjects] = useState<IGroupedData[]>(projects);
   const [search, setSearch] = useState<string>("");
 
+  const tags = groupedProjects.map(project => ({
+    _id: project._id,
+    name: project._id,
+  }));
+
+  const [selectedTechnologies, setSelectedTechnologies] = useState<IGroupedData[]>(new Set());
+  const [selectedUrlTypes, setSelectedUrlTypes] = useState<IGroupedData[]>(new Set());
+  const [selectedTags, setSelectedTags] = useState<IGroupedData[]>(new Set());
+
   useEffect(() => {
+  	endpoints["grouped_projects"].read();
 	endpoints["projects"].read();
 	endpoints["technologies"].read();
   	endpoints["url_types"].read();
   }, [])
 
   useEffect(() => {
-    const searchedProjects = projects.filter(project => {
+	console.log("filtering");
+	console.log(selectedTechnologies);
+
+    var searchedProjects = projects.filter(project => {
 	  const stack = [project];
 
 	  while (stack.length) {
@@ -56,8 +72,33 @@ const ProjectContent: React.FC = () => {
 		stack.push(...(Array.isArray(val) ? val : Object.values(val)));
 	  }
 	})
+
+    searchedProjects = searchedProjects.filter(project => {
+	  const projectTechnologies = new Set(project.technologies.map(technology => technology._id));
+	  for (const technology of selectedTechnologies) {
+        if (!projectTechnologies.has(technology)) return false;
+	  }
+	  return true;
+    });
+
+	searchedProjects = searchedProjects.filter(project => {
+	  const projectUrls = new Set(project.urls.map(url => url.type._id));
+	  for (const url of selectedUrlTypes) {
+        if (!projectUrls.has(url)) return false;
+	  }
+	  return true;
+    }); 
+
+	searchedProjects = searchedProjects.filter(project => {
+	  const projectTags = new Set(project.tags);
+	  for (const tag of selectedTags) {
+        if (!projectTags.has(tag)) return false;
+	  }
+	  return true;
+    }); 
+
 	setFilteredProjects(searchedProjects);
-  }, [projects, search])
+  }, [projects, search, selectedTechnologies, selectedUrlTypes, selectedTags])
 
   return (
     <div>
@@ -81,11 +122,25 @@ const ProjectContent: React.FC = () => {
 	      }
       </ContentDiv>
 	  <ContentDiv className="m-5">
-		<div className="input-group justify-content-center">
-		  <input placeholder="Search" className="form-control ms-5" onChange={(e: React.ChangeEvent<HTMLInputElement>) => setSearch(e.target.value)}></input>
-		  <button type="button" class="btn btn-primary me-5" data-mdb-ripple-init>
-			<FontAwesomeIcon icon={faSearch} className="me-1" />
-  		  </button>
+	    <h2 className="text-center">Search and Filter</h2>
+		<div className="input-group justify-content-center pb-2">
+		  <input placeholder="Search" className="form-floating form-control ms-5 me-2 border-secondary" onChange={(e: React.ChangeEvent<HTMLInputElement>) => setSearch(e.target.value)}></input>
+		<div className="dropdown me-5">
+      	  <button
+            className="btn btn-outline-primary dropdown-toggle"
+            type="button"
+            data-bs-toggle="dropdown"
+          >
+            <FontAwesomeIcon icon={faFilter} /> Filter
+          </button>
+          <div className="dropdown-menu p-3" style={{ minWidth: "200px" }} onClick={(e) => e.stopPropagation()}>
+            <FilterOptionGroup header="Technologies" options={endpoints["technologies"].data} selected={selectedTechnologies} setSelected={setSelectedTechnologies}></FilterOptionGroup>
+			<hr></hr>
+            <FilterOptionGroup header="Url Type" options={endpoints["url_types"].data} selected={selectedUrlTypes} setSelected={setSelectedUrlTypes}></FilterOptionGroup>
+			<hr></hr>
+            <FilterOptionGroup header="Tags" options={tags} selected={selectedTags} setSelected={setSelectedTags}></FilterOptionGroup>
+          </div>
+        </div>
 		</div>
 	  </ContentDiv>
       {/*<div>
