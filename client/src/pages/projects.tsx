@@ -13,6 +13,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSearch, faFilter } from '@fortawesome/free-solid-svg-icons';
 import Input from '../components/input.tsx';
 import FilterOptionGroup from '../components/filter-option-group.tsx';
+import SearchBar from '../components/search-bar.tsx';
 
 const Projects: React.FC = () => {
   return (
@@ -35,8 +36,8 @@ const ProjectContent: React.FC = () => {
 
   const projects = endpoints["projects"].data as IGroupedData[];
   const groupedProjects = endpoints["grouped_projects"].data as IGroupedData[];
+  const [searchedProjects, setSearchedProjects] = useState<IGroupedData[]>(projects);
   const [filteredProjects, setFilteredProjects] = useState<IGroupedData[]>(projects);
-  const [search, setSearch] = useState<string>("");
 
   const tags = groupedProjects.map(project => ({
     _id: project._id,
@@ -58,22 +59,9 @@ const ProjectContent: React.FC = () => {
 	console.log("filtering");
 	console.log(selectedTechnologies);
 
-    var searchedProjects = projects.filter(project => {
-	  const stack = [project];
+	console.log(searchedProjects);
 
-	  while (stack.length) {
-		const val = stack.pop();
-
-		if (val == null | typeof val !== 'object') {
-		  if (String(val).toLowerCase().includes(search.toLowerCase())) return true;
-		  continue;
-		}
-
-		stack.push(...(Array.isArray(val) ? val : Object.values(val)));
-	  }
-	})
-
-    searchedProjects = searchedProjects.filter(project => {
+    let filteredProjects = searchedProjects.filter(project => {
 	  const projectTechnologies = new Set(project.technologies.map(technology => technology._id));
 	  for (const technology of selectedTechnologies) {
         if (!projectTechnologies.has(technology)) return false;
@@ -81,7 +69,7 @@ const ProjectContent: React.FC = () => {
 	  return true;
     });
 
-	searchedProjects = searchedProjects.filter(project => {
+	filteredProjects = filteredProjects.filter(project => {
 	  const projectUrls = new Set(project.urls.map(url => url.type._id));
 	  for (const url of selectedUrlTypes) {
         if (!projectUrls.has(url)) return false;
@@ -89,16 +77,18 @@ const ProjectContent: React.FC = () => {
 	  return true;
     }); 
 
-	searchedProjects = searchedProjects.filter(project => {
+	filteredProjects = filteredProjects.filter(project => {
 	  const projectTags = new Set(project.tags);
 	  for (const tag of selectedTags) {
         if (!projectTags.has(tag)) return false;
 	  }
 	  return true;
-    }); 
+    });
 
-	setFilteredProjects(searchedProjects);
-  }, [projects, search, selectedTechnologies, selectedUrlTypes, selectedTags])
+	console.log(filteredProjects);
+
+	setFilteredProjects(filteredProjects);
+  }, [projects, searchedProjects, selectedTechnologies, selectedUrlTypes, selectedTags])
 
   return (
     <div>
@@ -124,7 +114,7 @@ const ProjectContent: React.FC = () => {
 	  <ContentDiv className="m-5">
 	    <h2 className="text-center">Search and Filter</h2>
 		<div className="input-group justify-content-center pb-2">
-		  <input placeholder="Search" className="form-floating form-control ms-5 me-2 border-secondary" onChange={(e: React.ChangeEvent<HTMLInputElement>) => setSearch(e.target.value)}></input>
+		<SearchBar originalArray={projects} setFilteredArray={setSearchedProjects}></SearchBar>
 		<div className="dropdown me-5">
       	  <button
             className="btn btn-outline-primary dropdown-toggle"
