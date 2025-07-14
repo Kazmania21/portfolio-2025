@@ -10,10 +10,12 @@ import { useCrud } from '../hooks/use-crud.tsx';
 import '../styles/scrollable-projects.css';
 import { useTitle } from '../hooks/use-title.tsx';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faSearch, faFilter } from '@fortawesome/free-solid-svg-icons';
+import { faSearch } from '@fortawesome/free-solid-svg-icons';
 import Input from '../components/input.tsx';
 import FilterOptionGroup from '../components/filter-option-group.tsx';
 import SearchBar from '../components/search-bar.tsx';
+import FilterButton from '../components/filter-button.tsx';
+import ProjectFilter from '../components/project-filter.tsx';
 
 const Projects: React.FC = () => {
   return (
@@ -36,17 +38,7 @@ const ProjectContent: React.FC = () => {
 
   const projects = endpoints["projects"].data as IGroupedData[];
   const groupedProjects = endpoints["grouped_projects"].data as IGroupedData[];
-  const [searchedProjects, setSearchedProjects] = useState<IGroupedData[]>(projects);
   const [filteredProjects, setFilteredProjects] = useState<IGroupedData[]>(projects);
-
-  const tags = groupedProjects.map(project => ({
-    _id: project._id,
-    name: project._id,
-  }));
-
-  const [selectedTechnologies, setSelectedTechnologies] = useState<IGroupedData[]>(new Set());
-  const [selectedUrlTypes, setSelectedUrlTypes] = useState<IGroupedData[]>(new Set());
-  const [selectedTags, setSelectedTags] = useState<IGroupedData[]>(new Set());
 
   useEffect(() => {
   	endpoints["grouped_projects"].read();
@@ -54,41 +46,6 @@ const ProjectContent: React.FC = () => {
 	endpoints["technologies"].read();
   	endpoints["url_types"].read();
   }, [])
-
-  useEffect(() => {
-	console.log("filtering");
-	console.log(selectedTechnologies);
-
-	console.log(searchedProjects);
-
-    let filteredProjects = searchedProjects.filter(project => {
-	  const projectTechnologies = new Set(project.technologies.map(technology => technology._id));
-	  for (const technology of selectedTechnologies) {
-        if (!projectTechnologies.has(technology)) return false;
-	  }
-	  return true;
-    });
-
-	filteredProjects = filteredProjects.filter(project => {
-	  const projectUrls = new Set(project.urls.map(url => url.type._id));
-	  for (const url of selectedUrlTypes) {
-        if (!projectUrls.has(url)) return false;
-	  }
-	  return true;
-    }); 
-
-	filteredProjects = filteredProjects.filter(project => {
-	  const projectTags = new Set(project.tags);
-	  for (const tag of selectedTags) {
-        if (!projectTags.has(tag)) return false;
-	  }
-	  return true;
-    });
-
-	console.log(filteredProjects);
-
-	setFilteredProjects(filteredProjects);
-  }, [projects, searchedProjects, selectedTechnologies, selectedUrlTypes, selectedTags])
 
   return (
     <div>
@@ -102,37 +59,16 @@ const ProjectContent: React.FC = () => {
                 <Link className="btn btn-primary text-center" to="/add-project">Add Project</Link>
               </div>
             </div>
-		    ) : ( 
+		  ) : ( 
 			<div className="row justify-content-center">
               <div className="col-4">
                 <h1 className="text-center m-0">Projects</h1>
               </div>
             </div>
-			)
-	      }
+		  )
+	    }
       </ContentDiv>
-	  <ContentDiv className="m-5">
-	    <h2 className="text-center">Search and Filter</h2>
-		<div className="input-group justify-content-center pb-2">
-		<SearchBar originalArray={projects} setFilteredArray={setSearchedProjects}></SearchBar>
-		<div className="dropdown me-5">
-      	  <button
-            className="btn btn-outline-primary dropdown-toggle"
-            type="button"
-            data-bs-toggle="dropdown"
-          >
-            <FontAwesomeIcon icon={faFilter} /> Filter
-          </button>
-          <div className="dropdown-menu p-3" style={{ minWidth: "200px" }} onClick={(e) => e.stopPropagation()}>
-            <FilterOptionGroup header="Technologies" options={endpoints["technologies"].data} selected={selectedTechnologies} setSelected={setSelectedTechnologies}></FilterOptionGroup>
-			<hr></hr>
-            <FilterOptionGroup header="Url Type" options={endpoints["url_types"].data} selected={selectedUrlTypes} setSelected={setSelectedUrlTypes}></FilterOptionGroup>
-			<hr></hr>
-            <FilterOptionGroup header="Tags" options={tags} selected={selectedTags} setSelected={setSelectedTags}></FilterOptionGroup>
-          </div>
-        </div>
-		</div>
-	  </ContentDiv>
+	  <ProjectFilter filteredProjects={filteredProjects} setFilteredProjects={setFilteredProjects}></ProjectFilter>
       {/*<div>
           { projects.map((projects) => (
 		  	  <div>
