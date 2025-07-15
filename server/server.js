@@ -1,5 +1,8 @@
 const express = require('express');
 const ServerRoute = require('./server_routes.js');
+const AuthenticationServerRoute = require('./authentication_server_routes.js');
+const CrudQueryExecutor = require('./crud_query_executor.js');
+const AuthenticationQueryExecutor = require('./authentication_query_executor.js');
 const mongoose = require('mongoose');
 const { TechnologyType } = require('./models/technology_types.js');
 const { Technology } = require('./models/technologies.js');
@@ -47,45 +50,22 @@ app.use(cors({
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-app.post('/api/sign_up', async (req, res) => {
-  try {
-    const { username, password } = req.body;
-    const user = new User({ username, password });
-    await user.save();
-    res.status(201).json({ message: 'User registered successfully' });
-  } catch (err) {
-    res.status(400).json({ error: err.message });
-  }
-});
+authentication_query_executor = new AuthenticationQueryExecutor(mongoose, User);
+app.use('/api', new AuthenticationServerRoute(authentication_query_executor).router)
 
-app.post('/api/sign_in', async (req, res) => {
-  //console.log(req.body);
-  try {
-    const { username, password } = req.body;
-    const user = await User.findOne({ username });
-    if (!user) {
-      return res.status(400).json({ error: 'Invalid username or password' });
-    }
+const technology_type_query_executor = new CrudQueryExecutor(mongoose, TechnologyType);
+const technology_query_executor = new CrudQueryExecutor(mongoose, Technology);
+const project_url_type_query_executor = new CrudQueryExecutor(mongoose, ProjectUrlType);
+const project_url_query_executor = new CrudQueryExecutor(mongoose, ProjectUrl);
+const project_query_executor = new CrudQueryExecutor(mongoose, Project);
+const metadata_query_executor = new CrudQueryExecutor(mongoose, Metadata);
 
-    const isMatch = await user.comparePassword(password);
-    if (!isMatch) {
-      return res.status(400).json({ error: 'Invalid username or password' });
-    }
-
-	const token = jwt.sign({ username: user.username }, SECRET_KEY, { expiresIn: '1h' });
-
-    res.json({ message: 'Login successful', token: token });
-  } catch (err) {
-    res.status(500).json({ error: 'Server error' });
-  }
-});
-
-app.use('/api/technology_types', new ServerRoute(mongoose, TechnologyType, insert_form=createTechnologyTypeForm).router);
-app.use('/api/technologies', new ServerRoute(mongoose, Technology, insert_form=createTechnologyForm).router);
-app.use('/api/project_url_types', new ServerRoute(mongoose, ProjectUrlType, insert_form=createUrlTypeForm).router);
-app.use('/api/project_urls', new ServerRoute(mongoose, ProjectUrl).router);
-app.use('/api/projects', new ServerRoute(mongoose, Project, insert_form=createProjectForm).router);
-app.use('/api/metadata', new ServerRoute(mongoose, Metadata).router);
+app.use('/api/technology_types', new ServerRoute(technology_type_query_executor, insert_form=createTechnologyTypeForm).router);
+app.use('/api/technologies', new ServerRoute(technology_query_executor, insert_form=createTechnologyForm).router);
+app.use('/api/project_url_types', new ServerRoute(project_url_type_query_executor, insert_form=createUrlTypeForm).router);
+app.use('/api/project_urls', new ServerRoute(project_query_executor).router);
+app.use('/api/projects', new ServerRoute(project_query_executor, insert_form=createProjectForm).router);
+app.use('/api/metadata', new ServerRoute(metadata_query_executor).router);
 
 app.listen(3000, () => console.log('Server running on port 3000'));
 
