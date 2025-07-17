@@ -1,23 +1,16 @@
-import { useState, useEffect } from 'react';
+export type Option = {
+  _id: string;
+  name: string;
+}
 
 type FilterOptionGroupProps = {
-  options: { id: string; name: string }[];
+  options: Option[];
   header?: string;
+  selected: Set<unknown>;
+  setSelected: Function;
 };
 
-export default function FilterOptionGroup({ options, header=null, selected=new Set(), setSelected, getItemField, originalArray=[], setFilteredArray }: FilterOptionGroupProps) {
-  /*useEffect(() => {
-	let filteredArray = originalArray.filter(item => {
-	  const itemField = getItemField(item);
-	  for (const selectedItem of selected) {
-        if (!itemField.has(selectedItem)) return false;
-	  }
-	  return true;
-    });
-
-	setFilteredArray(filteredArray);
-  }, [originalArray])*/
-
+export default function FilterOptionGroup({ options, header="", selected, setSelected }: FilterOptionGroupProps) {
   const handleToggle = (id: string) => {
     if (selected.has(id)) {
       selected.delete(id);

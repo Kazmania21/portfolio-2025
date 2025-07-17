@@ -1,13 +1,12 @@
-import { useState, useContext, useEffect } from 'react';
-import { AuthContext } from '../components/auth-provider';
-import { ApiService } from '../services/api-service';
+import { useState, useEffect } from 'react';
 
 interface SearchBarProps {
   text?: string;
-  setText?: Function;
+  originalArray: Object[];
+  setFilteredArray: Function;
 }
 
-const SearchBar: React.FC<EditableTextProps> = ({text="", originalArray=[], setFilteredArray=null}) => {
+const SearchBar: React.FC<SearchBarProps> = ({text="", originalArray, setFilteredArray}) => {
   const [_text, setText] = useState<string>(text);
 
   useEffect(() => {
@@ -17,7 +16,7 @@ const SearchBar: React.FC<EditableTextProps> = ({text="", originalArray=[], setF
 	  while (stack.length) {
 		const val = stack.pop();
 
-		if (val == null | typeof val !== 'object') {
+		if (val == null || typeof val !== 'object') {
 		  if (String(val).toLowerCase().includes(_text.toLowerCase())) return true;
 		  continue;
 		}
@@ -26,6 +25,9 @@ const SearchBar: React.FC<EditableTextProps> = ({text="", originalArray=[], setF
 	  }
 	})
 
+	console.log(`Searching`);
+	console.log(originalArray);
+	console.log(filteredArray);
 	setFilteredArray(filteredArray);
   }, [originalArray, _text])
 

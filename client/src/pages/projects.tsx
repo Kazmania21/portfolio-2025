@@ -2,19 +2,12 @@ import React, { useEffect, useContext, useState } from 'react';
 import { Link } from 'react-router-dom';
 import ContentDiv from '../components/content-div.tsx';
 import Project from '../components/project.tsx';
-import { IGroupedData } from '../types/grouped.tsx';
 import { IProject } from '../types/project.tsx';
 import { AuthContext } from '../components/auth-provider';
 import { CrudContext, CrudProvider } from '../components/crud-provider';
 import { useCrud } from '../hooks/use-crud.tsx';
 import '../styles/scrollable-projects.css';
 import { useTitle } from '../hooks/use-title.tsx';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faSearch } from '@fortawesome/free-solid-svg-icons';
-import Input from '../components/input.tsx';
-import FilterOptionGroup from '../components/filter-option-group.tsx';
-import SearchBar from '../components/search-bar.tsx';
-import FilterButton from '../components/filter-button.tsx';
 import ProjectFilter from '../components/project-filter.tsx';
 
 const Projects: React.FC = () => {
@@ -36,9 +29,8 @@ const ProjectContent: React.FC = () => {
   endpoints["technologies"] = useCrud("/api/technologies", {sortBy: "name"});
   endpoints["url_types"] = useCrud("/api/project_url_types", {sortBy: "name"});
 
-  const projects = endpoints["projects"].data as IGroupedData[];
-  const groupedProjects = endpoints["grouped_projects"].data as IGroupedData[];
-  const [filteredProjects, setFilteredProjects] = useState<IGroupedData[]>(projects);
+  const projects = endpoints["projects"].data as IProject[];
+  const [filteredProjects, setFilteredProjects] = useState<IProject[]>(projects);
 
   useEffect(() => {
   	endpoints["grouped_projects"].read();
@@ -68,7 +60,7 @@ const ProjectContent: React.FC = () => {
 		  )
 	    }
       </ContentDiv>
-	  <ProjectFilter filteredProjects={filteredProjects} setFilteredProjects={setFilteredProjects}></ProjectFilter>
+	  <ProjectFilter setFilteredProjects={setFilteredProjects}></ProjectFilter>
       {/*<div>
           { projects.map((projects) => (
 		  	  <div>

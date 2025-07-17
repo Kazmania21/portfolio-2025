@@ -1,42 +1,42 @@
 import React, { useEffect, useContext, useState } from 'react';
-import { Link } from 'react-router-dom';
 import ContentDiv from '../components/content-div.tsx';
-import Project from '../components/project.tsx';
 import { IGroupedData } from '../types/grouped.tsx';
 import { IProject } from '../types/project.tsx';
-import { AuthContext } from '../components/auth-provider';
-import { CrudContext, CrudProvider } from '../components/crud-provider';
-import { useCrud } from '../hooks/use-crud.tsx';
+import { CrudContext } from '../components/crud-provider';
 import '../styles/scrollable-projects.css';
-import { useTitle } from '../hooks/use-title.tsx';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faSearch } from '@fortawesome/free-solid-svg-icons';
-import Input from '../components/input.tsx';
-import FilterOptionGroup from '../components/filter-option-group.tsx';
+import FilterOptionGroup, { Option } from '../components/filter-option-group.tsx';
 import SearchBar from '../components/search-bar.tsx';
 import FilterButton from '../components/filter-button.tsx';
+import { ITechnology } from '../types/technology.tsx';
+import { IUrlType } from '../types/url_type.tsx';
 
-const ProjectFilter: React.FC = ({filteredProjects, setFilteredProjects}) => {
+type ProjectFilterProps = {
+  setFilteredProjects: Function;
+};
+
+const ProjectFilter: React.FC<ProjectFilterProps> = ({setFilteredProjects}) => {
   const {endpoints} = useContext(CrudContext);
 
-  const projects = endpoints["projects"].data as IGroupedData[];
+  const projects = endpoints["projects"].data as IProject[];
   const groupedProjects = endpoints["grouped_projects"].data as IGroupedData[];
-  const [searchedProjects, setSearchedProjects] = useState<IGroupedData[]>(projects);
+  const technologies = endpoints["technologies"].data as ITechnology[];
+  const urlTypes = endpoints["url_types"].data as IUrlType[];
+  const [searchedProjects, setSearchedProjects] = useState<IProject[]>(projects);
 
   const tags = groupedProjects.map(project => ({
     _id: project._id,
     name: project._id,
   }));
 
-  const [selectedTechnologies, setSelectedTechnologies] = useState<IGroupedData[]>(new Set());
-  const [selectedUrlTypes, setSelectedUrlTypes] = useState<IGroupedData[]>(new Set());
-  const [selectedTags, setSelectedTags] = useState<IGroupedData[]>(new Set());
+  const [selectedTechnologies, setSelectedTechnologies] = useState<Set<Option>>(new Set());
+  const [selectedUrlTypes, setSelectedUrlTypes] = useState<Set<Option>>(new Set());
+  const [selectedTags, setSelectedTags] = useState<Set<Option>>(new Set());
 
-  const getProjectTechnologies = (project) => new Set(project.technologies.map(technology => technology._id));
-  const getProjectUrls = (project) => new Set(project.urls.map(url => url.type._id));
-  const getProjectTags = (project) => new Set(project.tags);
+  const getProjectTechnologies = (project: IProject) => new Set(project.technologies.map(technology => technology._id));
+  const getProjectUrls = (project: IProject) => new Set(project.urls.map(url => url.type._id));
+  const getProjectTags = (project: IProject) => new Set(project.tags);
 
-  const filterProjects = (originalArray: string[], getItemField: Function, selectedItems: string[]) => {
+  const filterProjects = (originalArray: IProject[], getItemField: Function, selectedItems: Set<Option>) => {
 	let filteredProjects = originalArray.filter(project => {
 	  const projectTechnologies = getItemField(project);
 	  for (const item of selectedItems) {
@@ -70,11 +70,11 @@ const ProjectFilter: React.FC = ({filteredProjects, setFilteredProjects}) => {
 		<div className="input-group justify-content-center pb-2">
 		  <SearchBar originalArray={projects} setFilteredArray={setSearchedProjects}></SearchBar>
 		  <FilterButton>
-		    <FilterOptionGroup header="Technologies" options={endpoints["technologies"].data} selected={selectedTechnologies} setSelected={setSelectedTechnologies} getItemField={getProjectTechnologies} originalArray={searchedProjects} setFilteredArray={setFilteredProjects}></FilterOptionGroup>
+		    <FilterOptionGroup header="Technologies" options={technologies} selected={selectedTechnologies} setSelected={setSelectedTechnologies}></FilterOptionGroup>
 		    <hr></hr>
-            <FilterOptionGroup header="Url Type" options={endpoints["url_types"].data} selected={selectedUrlTypes} setSelected={setSelectedUrlTypes} getItemField={getProjectUrls} originalArray={searchedProjects} setFilteredArray={setFilteredProjects}></FilterOptionGroup>
+            <FilterOptionGroup header="Url Type" options={urlTypes} selected={selectedUrlTypes} setSelected={setSelectedUrlTypes}></FilterOptionGroup>
 		    <hr></hr>
-            <FilterOptionGroup header="Tags" options={tags} selected={selectedTags} setSelected={setSelectedTags} getItemField={getProjectTags} originalArray={searchedProjects} setFilteredArray={setFilteredProjects}></FilterOptionGroup>
+            <FilterOptionGroup header="Tags" options={tags} selected={selectedTags} setSelected={setSelectedTags}></FilterOptionGroup>
 		  </FilterButton>
 		</div>
 	  </ContentDiv>
