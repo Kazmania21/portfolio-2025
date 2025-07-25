@@ -5,6 +5,7 @@ import DeleteButton from '../components/delete-button.tsx';
 import ProjectTechnologies from '../components/project-technologies.tsx';
 import ProjectUrls from '../components/project-urls.tsx';
 import ProjectTags from '../components/project-tags.tsx';
+import UpdateImageButton from '../components/update-image-button.tsx';
 import { IProject } from '../types/project';
 import { CrudContext } from '../components/crud-provider.tsx';
 
@@ -30,7 +31,10 @@ const Project: React.FC<ProjectProps> = ({project, className=""}) => {
 			<DeleteButton onDelete={() => projects.deleteOne(project._id)} containerClassName="col-auto"></DeleteButton>
         </div>
 
-        <img src={`${apiUrl}/${project.image_location}`} width="100%"></img>
+        <div className="position-relative">
+          <img src={`${apiUrl}/${project.image_location}`} width="100%"></img>
+          <UpdateImageButton projectId={project._id} className="position-absolute top-0 end-0 m-2"></UpdateImageButton>
+		</div>
 
         <div className="ms-2">
           <EditableText text={project.tagline} updateUrl={`/api/projects/${project._id}`} fieldName="tagline" className="mb-0"></EditableText>
