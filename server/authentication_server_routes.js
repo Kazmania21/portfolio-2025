@@ -17,13 +17,13 @@ class AuthenticationServerRoute {
 	sign_up = async (req, res) => {
   	  const { username, password } = req.body;
   	  const response = await authentication_query_executor.sign_up(username, password);
-  	  res.json(response);
+  	  res.status(response.status).json(response);
 	};
 
 	sign_in = async (req, res) => {
   	  const { username, password } = req.body;
   	  const response = await authentication_query_executor.sign_in(username, password);
-  	  res.json(response);
+  	  res.status(response.status).json(response);
 	};
 }
 

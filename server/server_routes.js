@@ -5,8 +5,9 @@ const authMiddleware = require('./middleware/authorization.js');
 const storage = require('./multer_storage.js');
 
 class ServerRoute {
-    constructor(crud_query_executor, insert_form=null) {
+    constructor(crud_query_executor, crud_file_manager, insert_form=null) {
 		this.crud_query_executor = crud_query_executor;
+		this.crud_file_manager = crud_file_manager;
         this.insert_form = insert_form;
         //console.log(this.model);
         //console.log(insert_form);
@@ -49,24 +50,44 @@ class ServerRoute {
         console.log(req.body);
 		console.log(req.body.urls);
         console.log(this.insert_form.validate(req));
-        var fields = {...req.body};
-		const response = await this.crud_query_executor.create(fields, req.files);
-        res.json(response); 
+		var files = this.crud_file_manager.createFiles(req.files);
+        var fields = {...req.body, ...files};
+		const response = await this.crud_query_executor.create(fields);
+        res.status(response.status).json(response); 
     }
 
     updateAll = async (req, res) => {
         console.log(req.body);
         console.log(this.insert_form.validate(req));
         const response = await this.crud_query_executor.updateAll(req.body);
-		res.json(response);
+		res.status(response.status).json(response);
     }
 
     updateOne = async (req, res) => {
 		console.log(req.headers['content-type']);
 		console.log(req.body);
         const id = req.params.id;
-        const response = await this.crud_query_executor.updateOne(id, req.body);
-		res.json(response);
+
+		var item = (await this.crud_query_executor.read_by_id(id))
+		var oldFiles = [];
+		console.log(item);
+		for (const [field, value] of Object.entries(item)) {
+		  console.log(`${field}: ${value}`);
+		  if (field.includes("_location")) {
+            oldFiles.push(value);
+		  }
+		}
+
+		var files = [];
+
+		if (req.files) {
+		  files = this.crud_file_manager.updateFiles(oldFiles, req.files);
+		}
+
+		var fields = {...req.body, ...files};
+
+        const response = await this.crud_query_executor.updateOne(id, fields);
+		res.status(response.status).json(response);
     }
 
 	patchAddOne = async (req, res) => {
@@ -74,20 +95,31 @@ class ServerRoute {
         const id = req.params.id;
 		console.log(req.body);
         const response = await this.crud_query_executor.patchAddOne(id, req.body);
-		res.json(response);
+		res.status(response.status).json(response);
     }
 
 	patchRemoveOne = async (req, res) => {
         const id = req.params.id;
 		console.log(req.body);
         const response = await this.crud_query_executor.patchRemoveOne(id, req.body);
-		res.json(response);
+		res.status(response.status).json(response);
     }
 
     deleteOne = async (req, res) => {
         const id = req.params.id;
+		var item = (await this.crud_query_executor.read_by_id(id))
+		var files = [];
+		console.log(item);
+		for (const [field, value] of Object.entries(item)) {
+		  console.log(`${field}: ${value}`);
+		  if (field.includes("_location")) {
+            files.push(value);
+		  }
+		}
+		console.log(files);
+		this.crud_file_manager.deleteFiles(files);
         const response = await this.crud_query_executor.deleteOne(id);
-		res.json(response);
+		res.status(response.status).json(response);
     }
 }
 

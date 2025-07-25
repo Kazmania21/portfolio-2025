@@ -176,7 +176,7 @@ class CrudQueryExecutor {
         );
 
         try {
-            const item = await this.model.findById(id).populate(populateFields);
+            const item = await this.model.findById(id).populate(populateFields).lean();
             if (subitem) {
                 if (id2) {
                     for (var row of item[subitem]) {
@@ -199,24 +199,21 @@ class CrudQueryExecutor {
     }
 
     create = (fields = {}, files = []) => {
-		for (var file of files) {
-          fields[file.fieldname.replace("File", "_location")] = `static/images/${file.filename}`;
-		}
         //console.log(fields);
         const newDocument = new this.model(fields);
         console.log(newDocument)
         return newDocument.save()
-          .then(data => ({'message': 'Data saved:', 'data': data}))
+          .then(data => ({'status': 200, 'message': 'Data saved:', 'data': data}))
           //.then(data => res.redirect("/projects"))
-          .catch(err => ({'message': err.message}));
+          .catch(err => ({'status': 400, 'message': err.message}));
     }
 
     updateAll = (fields) => {
         const newDocument = new this.model(fields);
         console.log(newDocument)
         return newDocument.save()
-          .then(data => ({'message': 'Data saved:', 'data': data}))
-          .catch(err => ({'message': err.message}));
+          .then(data => ({'status': 200, 'message': 'Data saved:', 'data': data}))
+          .catch(err => ({'status': 400, 'message': err.message}));
     }
 
     updateOne = async (id, fields) => {
@@ -228,13 +225,13 @@ class CrudQueryExecutor {
           );
 
           if (!updatedItem) {
-            return { message: "Item not found" };
+            return { status: 404, message: "Item not found" };
           }
 
-          return updatedItem;
+          return {status: 200, item: updatedItem};
         } catch (error) {
           console.log(error);
-          return { message: "Error updating item", error };
+          return { status: 500, message: "Error updating item", error };
         }
     }
 
@@ -247,13 +244,13 @@ class CrudQueryExecutor {
           );
 
           if (!updatedItem) {
-            return { message: "Item not found" };
+            return { status: 404, message: "Item not found" };
           }
 
-          return updatedItem;
+          return { status: 200, item: updatedItem };
         } catch (error) {
           console.log(error);
-          return { message: "Error updating item", error };
+          return { status: 500, message: "Error updating item", error };
         }
     }
 
@@ -266,13 +263,13 @@ class CrudQueryExecutor {
           );
 
           if (!updatedItem) {
-            return { message: "Item not found" };
+            return { status: 404, message: "Item not found" };
           }
 
-          return updatedItem;
+          return { status: 200, item: updatedItem };
         } catch (error) {
           console.log(error);
-          return { message: "Error updating item", error };
+          return { status: 500, message: "Error updating item", error };
         }
     }
 
@@ -283,13 +280,13 @@ class CrudQueryExecutor {
           );
 
           if (!updatedItem) {
-            return { message: "Item not found" };
+            return { status: 404, message: "Item not found" };
           }
 
-          return updatedItem;
+          return { status: 200, item: updatedItem};
         } catch (error) {
           console.log(error);
-          return { message: "Error updating item", error };
+          return { status: 500, message: "Error updating item", error };
         }
     }
 }
