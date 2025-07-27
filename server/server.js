@@ -59,7 +59,7 @@ app.use(
         "img-src": ["'self'", "data:"],
         "connect-src": isDev
           ? ["'self'", "http://localhost:5173", "ws://localhost:5173"]
-          : ["'self'", "https://yourdomain.com"],
+          : ["'self'", "https://rojoware.com"],
       },
     },
   })
