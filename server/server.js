@@ -20,11 +20,13 @@ const { createTechnologyTypeForm } = require('./forms/create_technology_type_for
 const cors = require('cors');
 const path = require('path');
 const multer = require('multer');
+const helmet = require('helmet');
 const config = require('./config/config');
 
 const SECRET_KEY = config.SECRET_KEY;
 
 const uri = config.MONGO_URI;
+const isDev = config.IS_DEV;
 
 mongoose.connect(uri, { useNewUrlParser: true, useUnifiedTopology: true })
   .then(() => console.log('MongoDB connected'))
@@ -44,6 +46,24 @@ app.use(cors({
   methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE'],
   credentials: true,
 }));
+
+
+app.use(
+  helmet({
+    contentSecurityPolicy: {
+      useDefaults: true,
+      directives: {
+        "default-src": ["'self'"],
+        "script-src": isDev ? ["'self'", "'unsafe-inline'"] : ["'self'"],
+        "style-src": isDev ? ["'self'", "'unsafe-inline'"] : ["'self'"],
+        "img-src": ["'self'", "data:"],
+        "connect-src": isDev
+          ? ["'self'", "http://localhost:5173", "ws://localhost:5173"]
+          : ["'self'", "https://yourdomain.com"],
+      },
+    },
+  })
+);
 
 //console.log(createProjectForm);
 
