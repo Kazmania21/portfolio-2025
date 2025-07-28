@@ -1,8 +1,8 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import ContentDiv from '../components/content-div.tsx'
-import Input from '../components/input.tsx'
-import ApiService from '../services/api-service.tsx'
+import ContentDiv from '../components/content-div.tsx';
+import Input from '../components/input.tsx';
+import ApiService from '../services/api-service.tsx';
 import { useTitle } from '../hooks/use-title.tsx';
 
 const SignIn: React.FC = () => {
@@ -25,7 +25,7 @@ const SignIn: React.FC = () => {
 	if (response.ok) {
 	  var data = await response.json();
 	  console.log("Server response: ", data)
-	  sessionStorage.setItem('authToken', data.token); 
+	  //sessionStorage.setItem('authToken', data.token); 
       navigate("/projects");
 	}
   }

@@ -16,7 +16,8 @@ export const ApiService = async ({url, formMethod = "GET", contentType, reqBody,
 
     var reqOptions: RequestInit = {
       method: formMethod,
-      headers: headers
+      headers: headers,
+	  credentials: "include"
     }
 
 	if (formMethod != "GET") {

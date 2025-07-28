@@ -1,6 +1,7 @@
 import React, { useEffect, useContext } from 'react';
 import { Link, useLocation } from 'react-router-dom';  // Import Link from react-router-dom
 import { AuthContext } from './auth-provider';
+import ApiService from '../services/api-service.tsx';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHouse, faFolder, faPhone, faRightToBracket, faRightFromBracket } from '@fortawesome/free-solid-svg-icons';
 import logo from '../assets/logo.svg';
@@ -10,12 +11,17 @@ const Navbar: React.FC = () => {
   const location = useLocation();
 
   useEffect(() => {
-    const token = sessionStorage.getItem('authToken');
-    setIsLoggedIn(!!token);
+    //const token = sessionStorage.getItem('authToken');
+	getProfile();
   }, [location]);
 
+  const getProfile = async () => {
+    var token = await ApiService({url: "/api/profile_info", formMethod: "GET"});
+    setIsLoggedIn(!!token);
+  }
+
   const handleSignOut = () => {
-    sessionStorage.removeItem("authToken");
+    //sessionStorage.removeItem("authToken");
 	setIsLoggedIn(false);
   }
 

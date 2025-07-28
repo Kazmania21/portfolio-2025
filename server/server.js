@@ -21,6 +21,7 @@ const cors = require('cors');
 const path = require('path');
 const multer = require('multer');
 const helmet = require('helmet');
+const cookieParser = require('cookie-parser');
 const config = require('./config/config');
 
 const SECRET_KEY = config.SECRET_KEY;
@@ -64,6 +65,8 @@ app.use(
     },
   })
 );
+
+app.use(cookieParser());
 
 //console.log(createProjectForm);
 
