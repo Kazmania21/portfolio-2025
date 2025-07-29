@@ -16,6 +16,8 @@ const { createProjectForm } = require('./forms/create_project_form.js');
 const { createTechnologyForm } = require('./forms/create_technology_form.js');
 const { createUrlTypeForm } = require('./forms/create_url_type_form.js');
 const { createTechnologyTypeForm } = require('./forms/create_technology_type_form.js');
+const csrfProtection = require('./middleware/csrf.js');
+const authMiddleware = require('./middleware/authorization.js');
 //const { body, validationResult } = require('express-validator');
 const cors = require('cors');
 const path = require('path');
@@ -67,6 +69,11 @@ app.use(
 );
 
 app.use(cookieParser());
+app.use(csrfProtection);
+
+app.get('/api/csrf-token', (req, res) => {
+  res.json({ csrfToken: req.csrfToken() });
+});
 
 //console.log(createProjectForm);
 

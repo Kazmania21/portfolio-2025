@@ -33,7 +33,7 @@ class AuthenticationServerRoute {
           httpOnly: true,
           secure: true,
           sameSite: 'Strict',
-          maxAge: 15000
+          maxAge: 1000 * 60 * 15
 	    })
 		.json({"Message": "Logged in successfully"});
 		return

@@ -10,8 +10,16 @@ export const ApiService = async ({url, formMethod = "GET", contentType, reqBody,
   //console.log(reqBody)
   //console.log(sessionStorage.getItem("authToken"));
   try {
+    var csrfToken = "";
+
+    if (formMethod != "GET") {
+      csrfToken = (await (await fetch(`${baseUrl}/api/csrf-token`, {credentials: "include"})).json()).csrfToken;
+	  console.log(csrfToken);
+	}
+
 	var headers: HeadersInit = { 
-      "authorization": `Bearer ${sessionStorage.getItem("authToken")}`
+      "authorization": `Bearer ${sessionStorage.getItem("authToken")}`,
+	  "X-CSRF-Token": csrfToken
 	}
 
     var reqOptions: RequestInit = {
