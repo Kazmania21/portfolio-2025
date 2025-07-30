@@ -66,7 +66,9 @@ const ProjectFilter: React.FC<ProjectFilterProps> = ({setFilteredProjects}) => {
   }, [projects, searchedProjects, selectedTechnologies, selectedUrlTypes, selectedTags])
 
   const removeEndBorders = () => {
+	//console.log("removing borders");
     const items = document.querySelectorAll('.has-end-border');
+	//console.log(items);
     const rowMap = new Map();
 
     items.forEach((el) => {
@@ -76,10 +78,10 @@ const ProjectFilter: React.FC<ProjectFilterProps> = ({setFilteredProjects}) => {
         rowMap.set(key, []);
       }
       rowMap.get(key).push(el);
-    });
 
-    // Remove any prior markings
-    items.forEach((el) => el.classList.remove('is-last-in-column'));
+      // Remove any prior markings
+	  el.classList.remove('is-last-in-column');
+    });
 
     // Mark last item in each column
     for (const group of rowMap.values()) {
@@ -100,7 +102,7 @@ const ProjectFilter: React.FC<ProjectFilterProps> = ({setFilteredProjects}) => {
 	    <h2 className="text-center">Search and Filter</h2>
 		<div className="input-group justify-content-center pb-2">
 		  <SearchBar originalArray={projects} setFilteredArray={setSearchedProjects}></SearchBar>
-		  <FilterButton>
+		  <FilterButton onClick={removeEndBorders}>
 		    <h2>Technologies</h2>
 			<div className="column-wrap gap-4" style={{width: "80vw"}}>
 			{ technologyTypes.map((technologyType) => (
