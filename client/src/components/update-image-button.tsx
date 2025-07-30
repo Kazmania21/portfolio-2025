@@ -1,4 +1,5 @@
 import React, { useContext, useRef } from 'react';
+import { AuthContext } from '../components/auth-provider.tsx';
 import { CrudContext } from '../components/crud-provider.tsx';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPencil } from '@fortawesome/free-solid-svg-icons';
@@ -11,6 +12,7 @@ interface UpdateImageButtonProps {
 const UpdateImageButton: React.FC<UpdateImageButtonProps> = ({projectId, className=""}) => {
   //console.log(project);
   const inputRef = useRef<HTMLInputElement>(null);
+  const { isLoggedIn } = useContext(AuthContext);
   const { endpoints } = useContext(CrudContext);
   const projects = endpoints["projects"];
 
@@ -25,15 +27,20 @@ const UpdateImageButton: React.FC<UpdateImageButtonProps> = ({projectId, classNa
   }
 
   return (
-    <div className={className}>
-	  <input
-        type="file"
-        ref={inputRef}
-        onChange={handleFileChange}
-        style={{ display: 'none' }}
-      />
-	  <FontAwesomeIcon icon={faPencil} onClick={() => inputRef.current?.click()} />
-	</div>
+    <>
+	  { isLoggedIn && (
+          <div className={className}>
+	        <input
+              type="file"
+              ref={inputRef}
+              onChange={handleFileChange}
+              style={{ display: 'none' }}
+            />
+	        <FontAwesomeIcon icon={faPencil} onClick={() => inputRef.current?.click()} />
+	      </div>
+        )
+	  }
+	</>
   );
 }
 

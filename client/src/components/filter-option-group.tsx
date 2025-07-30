@@ -1,3 +1,5 @@
+import '../styles/column-wrap.css';
+
 export type Option = {
   _id: string;
   name: string;
@@ -8,9 +10,11 @@ type FilterOptionGroupProps = {
   header?: string;
   selected: Set<unknown>;
   setSelected: Function;
+  HeaderTag?: React.ElementType;
+  width?: string;
 };
 
-export default function FilterOptionGroup({ options, header="", selected, setSelected }: FilterOptionGroupProps) {
+export default function FilterOptionGroup({ options, header="", selected, setSelected, HeaderTag="h2", width="80vw" }: FilterOptionGroupProps) {
   const handleToggle = (id: string) => {
     if (selected.has(id)) {
       selected.delete(id);
@@ -25,8 +29,8 @@ export default function FilterOptionGroup({ options, header="", selected, setSel
 
   return (
     <div>
-	  <h2>{header}</h2>
-      <div className="d-flex flex-wrap" style={{width: "80vw"}}>
+	  <HeaderTag>{header}</HeaderTag>
+      <div className="column-wrap" style={{width: width}}>
         {options.map(({ _id, name }) => (
           <div className="form-check me-2" key={_id}>
             <input className="form-check-input" type="checkbox" value="" id={_id} onChange={() => handleToggle(_id)} />

@@ -19,7 +19,7 @@ const ProjectTechnologies: React.FC<ProjectTechnologiesProps> = ({projectId, tec
     <div className="mt-3 mb-3">
       <div className="row">
 	    <div className="col-auto">
-          <h4>Technologies Used</h4>
+          <h3>Technologies Used</h3>
 	    </div>
 	    <ProjectTechnologyModal projectId={projectId}></ProjectTechnologyModal>
 	    <ProjectTechnologyModalButton projectId={projectId}></ProjectTechnologyModalButton>

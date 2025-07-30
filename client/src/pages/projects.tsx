@@ -27,6 +27,7 @@ const ProjectContent: React.FC = () => {
   endpoints["grouped_projects"] = useCrud("/api/projects", {groupBy: "tags", sortBy: "tags_group,name"});
   endpoints["projects"] = useCrud("/api/projects", {sortBy: "name"});
   endpoints["technologies"] = useCrud("/api/technologies", {sortBy: "name"});
+  endpoints["technology_types"] = useCrud("/api/technology_types", {sortBy: "name"});
   endpoints["url_types"] = useCrud("/api/project_url_types", {sortBy: "name"});
 
   const projects = endpoints["projects"].data as IProject[];
@@ -36,6 +37,7 @@ const ProjectContent: React.FC = () => {
   	endpoints["grouped_projects"].read();
 	endpoints["projects"].read();
 	endpoints["technologies"].read();
+	endpoints["technology_types"].read();
   	endpoints["url_types"].read();
   }, [])
 

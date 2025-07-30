@@ -8,6 +8,7 @@ import ProjectTags from '../components/project-tags.tsx';
 import UpdateImageButton from '../components/update-image-button.tsx';
 import { IProject } from '../types/project';
 import { CrudContext } from '../components/crud-provider.tsx';
+import '../styles/hover.css';
 
 interface ProjectProps {
   project: IProject,
@@ -25,15 +26,17 @@ const Project: React.FC<ProjectProps> = ({project, className=""}) => {
       <ContentDiv className="ms-3 me-3" childrenClass="ms-3 me-3">
         <div className="row">
             <div className="col">
-              <EditableText text={project.name} Tag="h3" updateUrl={`/api/projects/${project._id}`} className="text-center m-0"></EditableText>
+              <EditableText text={project.name} Tag="h2" updateUrl={`/api/projects/${project._id}`} className="text-center m-0"></EditableText>
             </div>
 	  		
 			<DeleteButton onDelete={() => projects.deleteOne(project._id)} containerClassName="col-auto"></DeleteButton>
         </div>
 
-        <div className="position-relative">
+        <div className="project-image position-relative">
           <img src={`${apiUrl}/${project.image_location}`} width="100%"></img>
-          <UpdateImageButton projectId={project._id} className="position-absolute top-0 end-0 m-2"></UpdateImageButton>
+		  <div className="project-button">
+            <UpdateImageButton projectId={project._id} className="position-absolute top-0 end-0 m-2 p-1 px-2 bg-light rounded-1 border border-dark"></UpdateImageButton>
+		  </div>
 		</div>
 
         <div className="ms-2">
