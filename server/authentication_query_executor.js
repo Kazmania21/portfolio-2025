@@ -1,5 +1,6 @@
 const jwt = require('jsonwebtoken');
 const config = require('./config/config');
+const Response = require('./response');
 
 
 class AuthenticationQueryExecutor {
@@ -14,7 +15,7 @@ class AuthenticationQueryExecutor {
       await user.save();
       return { message: 'User registered successfully' };
     } catch (err) {
-      return { status: 400, error: err.message };
+      return new Response({ status: 400, errors: [err.message] });
     }
   }
 
@@ -24,7 +25,7 @@ class AuthenticationQueryExecutor {
     try {
       const user = await this.model.findOne({ username });
       if (!user) {
-        return { status: 400, error: 'Invalid username or password' };
+        return new Response(400, { errors: ['Invalid username or password'] });
       }
 	  //user.attempts = 0;
 
@@ -35,14 +36,14 @@ class AuthenticationQueryExecutor {
 	  console.log(`Attempts: ${user.attempts}`);
 
 	  if (user.attempts > 3) {
-        return { status: 400, error: 'Account locked out' };
+        return new Response(400, { errors: ['Account locked out'] });
 	  }
 
       const isMatch = await user.comparePassword(password);
       if (!isMatch) {
 		user.attempts++;
 		user.save();
-        return { status: 400, error: 'Invalid username or password' };
+        return new Response(400, { errors: ['Invalid username or password'] });
       }
 
 	  const token = jwt.sign({ username: user.username }, SECRET_KEY, { expiresIn: '1h' });
@@ -50,10 +51,10 @@ class AuthenticationQueryExecutor {
 	  user.attempts = 0;
 	  user.save();
 
-      return { status: 200, message: 'Login successful', token: token };
+      return new Response(200, { message: 'Login successful', token: token });
     } catch (err) {
 	  console.log(err);
-      return { status: 500, error: `Server error: ${err}` };
+      return new Response(500, { errors: [`Server error: ${err}`] });
     }
   }
 }

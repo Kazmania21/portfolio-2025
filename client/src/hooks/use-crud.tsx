@@ -30,7 +30,7 @@ export function useCrud(baseUrl: string, initialQueryParams?: Record<string, str
 
     var json = await response.json();
     console.log(json);
-    setData(json);
+    setData(json.data);
   }
 
   const create = async (data: FormData) => {

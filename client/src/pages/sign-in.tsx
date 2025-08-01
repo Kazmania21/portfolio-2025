@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import ContentDiv from '../components/content-div.tsx';
 import Input from '../components/input.tsx';
@@ -10,6 +10,7 @@ const SignIn: React.FC = () => {
 
   const apiUrl = import.meta.env.VITE_API_URL; 
   const navigate = useNavigate();
+  const [errors, setErrors] = useState<string[]>([""]);
 
   const submitForm = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -22,11 +23,16 @@ const SignIn: React.FC = () => {
 	  return;
 	}
 
+	var data = await response.json();
+
 	if (response.ok) {
-	  var data = await response.json();
 	  console.log("Server response: ", data)
 	  //sessionStorage.setItem('authToken', data.token); 
       navigate("/projects");
+	}
+
+    if (data.errors) {
+      setErrors(data.errors);
 	}
   }
 
@@ -36,9 +42,18 @@ const SignIn: React.FC = () => {
         <h1 className="text-center m-0">Sign In</h1>
       </ContentDiv>
       <ContentDiv className="m-5">
-        <form className="p-2" method="POST" action={`${apiUrl}/api/technologies`} onSubmit={submitForm}>
-          <Input labelText="Username" placeholder="Username" inputName="username"></Input>
-          <Input labelText="Password" placeholder="Password" inputName="password" inputType="password"></Input>
+        <form className="p-2" method="POST" onSubmit={submitForm}>
+		  {(errors.length > 0) && (
+			<div className="mb-3">
+		      { errors.map((error, index) => (
+		        <div className="m-0">
+		          <p className="text-danger mb-1">{error}</p>
+			    </div>
+		      ))}
+			</div>
+		  )}
+          <Input labelText="Username" placeholder="Username" inputName="username" required minlength="3" maxlength="20"></Input>
+          <Input labelText="Password" placeholder="Password" inputName="password" inputType="password" required minlength="8" maxlength="128"></Input>
           <button type="submit" className="btn btn-primary">Submit</button>
         </form>
       </ContentDiv>

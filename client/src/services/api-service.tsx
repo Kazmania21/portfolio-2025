@@ -42,6 +42,7 @@ export const ApiService = async ({url, formMethod = "GET", contentType, reqBody,
 
     if (!response.ok) {
       //console.log(response);
+	  return response;
       throw new Error("Api call failed");
     }
 

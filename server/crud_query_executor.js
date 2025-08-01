@@ -1,3 +1,5 @@
+const Response = require('./response.js');
+
 class CrudQueryExecutor {
     constructor(database_connector, model) {
         this.database_connector = database_connector;
@@ -164,8 +166,12 @@ class CrudQueryExecutor {
           query = this.model.aggregate(pipeline);
         }
 
-        return query.then(results => results)
-        .catch(err => err)
+        return query.then(results => {
+          return new Response(200, { "data": results });
+		})
+        .catch(err => {
+          return new Response(500, { "message": "Internal Server Error.", "errors": [err] })
+		})
     }
 
     read_by_id = async (id, subitem, id2) => {
@@ -182,19 +188,19 @@ class CrudQueryExecutor {
                     for (var row of item[subitem]) {
                         console.log(row)
                         if (row["_id"] == id2) {
-                            return row;
+                            return new Response(200, { "data": row });
                         }
                     }
                 }
                 else {
-                    return item[subitem];
+                    return new Response(200, {"data": item[subitem] });
                 }
             }
             else {
-                return item;
+                return new Response(200, { "data": item });
             }
         } catch (err) {
-            return {"message": err.message};
+            return new Response(500, { "message": "Internal Server Error", "errors": [err.message] });
         }
     }
 
@@ -203,17 +209,17 @@ class CrudQueryExecutor {
         const newDocument = new this.model(fields);
         console.log(newDocument)
         return newDocument.save()
-          .then(data => ({'status': 200, 'message': 'Data saved:', 'data': data}))
+          .then(data => new Response(200, { 'message': 'Data saved:', 'data': data }))
           //.then(data => res.redirect("/projects"))
-          .catch(err => ({'status': 400, 'message': err.message}));
+          .catch(err => new Response(400, { 'message': 'Error saving data.', 'errors': [err.message] }));
     }
 
     updateAll = (fields) => {
         const newDocument = new this.model(fields);
         console.log(newDocument)
         return newDocument.save()
-          .then(data => ({'status': 200, 'message': 'Data saved:', 'data': data}))
-          .catch(err => ({'status': 400, 'message': err.message}));
+          .then(data => new Response(200, { 'message': 'Data saved:', 'data': data }))
+          .catch(err => new Response(400, { 'message': 'Error updating data.', 'errors': [err.message] }));
     }
 
     updateOne = async (id, fields) => {
@@ -225,13 +231,13 @@ class CrudQueryExecutor {
           );
 
           if (!updatedItem) {
-            return { status: 404, message: "Item not found" };
+            return new Response(404, { errors: ["Item not found"] });
           }
 
-          return {status: 200, item: updatedItem};
+          return new Response(200, { data: updatedItem });
         } catch (error) {
           console.log(error);
-          return { status: 500, message: "Error updating item", error };
+          return new Response(500, { "message": "Error updating item", "errors": [error] } );
         }
     }
 
@@ -244,13 +250,13 @@ class CrudQueryExecutor {
           );
 
           if (!updatedItem) {
-            return { status: 404, message: "Item not found" };
+            return new Response(404, { "errors": "Item not found" });
           }
 
-          return { status: 200, item: updatedItem };
+          return new Response(200, { data: updatedItem });
         } catch (error) {
           console.log(error);
-          return { status: 500, message: "Error updating item", error };
+          return new Response(500, { message: "Error updating item", errors: [error] });
         }
     }
 
@@ -263,13 +269,13 @@ class CrudQueryExecutor {
           );
 
           if (!updatedItem) {
-            return { status: 404, message: "Item not found" };
+            return new Response(404, { errors: ["Item not found"] });
           }
 
-          return { status: 200, item: updatedItem };
+          return new Response(200, { data: updatedItem });
         } catch (error) {
           console.log(error);
-          return { status: 500, message: "Error updating item", error };
+          return new Response(500, { message: "Error updating item", errors: [error] });
         }
     }
 
@@ -280,13 +286,13 @@ class CrudQueryExecutor {
           );
 
           if (!updatedItem) {
-            return { status: 404, message: "Item not found" };
+            return new Response(404, { errors: ["Item not found"] });
           }
 
-          return { status: 200, item: updatedItem};
+          return new Response(200, { data: updatedItem});
         } catch (error) {
           console.log(error);
-          return { status: 500, message: "Error updating item", error };
+          return new Response(500, { message: "Error updating item", errors: [error] });
         }
     }
 }

@@ -16,6 +16,7 @@ const { createProjectForm } = require('./forms/create_project_form.js');
 const { createTechnologyForm } = require('./forms/create_technology_form.js');
 const { createUrlTypeForm } = require('./forms/create_url_type_form.js');
 const { createTechnologyTypeForm } = require('./forms/create_technology_type_form.js');
+const { authenticationForm } = require('./forms/authentication_form.js');
 const csrfProtection = require('./middleware/csrf.js');
 const authMiddleware = require('./middleware/authorization.js');
 //const { body, validationResult } = require('express-validator');
@@ -83,7 +84,7 @@ app.use(express.urlencoded({ extended: true }));
 const file_manager = new CrudFileManager();
 
 authentication_query_executor = new AuthenticationQueryExecutor(mongoose, User);
-app.use('/api', new AuthenticationServerRoute(authentication_query_executor).router);
+app.use('/api', new AuthenticationServerRoute(authentication_query_executor, authenticationForm).router);
 
 const technology_type_query_executor = new CrudQueryExecutor(mongoose, TechnologyType);
 const technology_query_executor = new CrudQueryExecutor(mongoose, Technology);

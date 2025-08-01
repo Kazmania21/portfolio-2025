@@ -1,12 +1,14 @@
 const jwt = require('jsonwebtoken');
 const config = require('../config/config.js');
+const Response = require('../response.js');
 
 const SECRET_KEY = config.SECRET_KEY;
 
 const authMiddleware = (req, res, next) => {
   console.log(req.cookies);
   if (!req.cookies || !req.cookies.token) {
-    return res.status(401).json({ error: 'Unauthorized: No token given' });
+	const response = new Response(401, { errors: ['Unauthorized: No token given'] });
+    return res.status(response.status).json(response.getResponse());
   }
   const token = req.cookies.token;
   
@@ -16,7 +18,8 @@ const authMiddleware = (req, res, next) => {
     req.user = decoded; // Attach decoded token to request
     next(); // Proceed to the next middleware
   } catch (err) {
-    return res.status(403).json({ error: 'Invalid or expired token' });
+	const response = new Response(403, { errors: ['Invalid or expired token'] });
+    return res.status(response.status).json(response.getResponse());
   }
 };
 
