@@ -1,10 +1,10 @@
 class Response {
   constructor(status = 200, {message, data, errors, token}) {
-	this.status = status;
+    this.status = status;
     this.message = message;
-	this.data = data;
-	this.errors = errors;
-	this.token = token;
+    this.data = data;
+    this.errors = errors;
+    this.token = token;
   }
 
   getResponse() {

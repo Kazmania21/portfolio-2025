@@ -6,18 +6,18 @@ const userSchema = new mongoose.Schema({
     type: String,
     required: true,
     unique: true,
-	trim: true,
-	minlength: 3,
-	maxlength: 20
+    trim: true,
+    minlength: 3,
+    maxlength: 20
   },
   password: {
     type: String,
     required: true,
-	minlength: 8,
-	maxlength: 128
+    minlength: 8,
+    maxlength: 128
   },
   token: {
-	type: String
+    type: String
   },
   attempts: {
     type: Number
@@ -31,7 +31,7 @@ userSchema.pre('save', async function (next) {
   try {
     const salt = await bcrypt.genSalt(10);
     this.password = await bcrypt.hash(this.password, salt);
-	this.attempts = 0;
+    this.attempts = 0;
     next();
   } catch (err) {
     next(err);

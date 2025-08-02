@@ -1,6 +1,6 @@
 const validateForm = (form) => {
   return async (req, res, next) => {
-	console.log(req.body);
+    console.log(req.body);
     const validation = await form.validate(req);
     console.log(validation.errors);
     if (validation.errors) {

@@ -10,7 +10,7 @@ var authenticationForm = new Form([
   body('password')
     .isLength({ min:8, max: 128 })
     .withMessage('Password must be between 8 and 128 characters long')
-	.notEmpty()
+    .notEmpty()
     .withMessage('Password is required'),
 ])
 
