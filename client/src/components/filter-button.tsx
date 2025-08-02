@@ -13,12 +13,12 @@ const FilterButton: React.FC<FilterButtonProps> = ({children, onClick}) => {
         className="btn btn-outline-primary dropdown-toggle"
         type="button"
         data-bs-toggle="dropdown"
-		onClick={onClick}
+        onClick={onClick}
       >
       <FontAwesomeIcon icon={faFilter} /> Filter
       </button>
       <div className="dropdown-menu p-3" style={{ minWidth: "200px" }} onClick={(e) => e.stopPropagation()}>
-	    {children} 
+        {children} 
       </div>
     </div>
   );

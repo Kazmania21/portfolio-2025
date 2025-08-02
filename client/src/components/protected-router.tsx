@@ -6,11 +6,11 @@ const ProtectedRouter: React.FC = () => {
 
   return (
     <div>
-	  { isLoggedIn? (
-		  <Outlet />
-		) : (
-		  <Navigate to="/sign-in" />
-		)
+      { isLoggedIn? (
+          <Outlet />
+        ) : (
+          <Navigate to="/sign-in" />
+        )
       }
     </div>
   );

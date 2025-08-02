@@ -15,9 +15,9 @@ export const CrudProvider: React.FC<CrudContextProps> = ({children}) => {
   const endpoints: Record<string, UseCrudReturn> = {};
 
   return (
-	<CrudContext.Provider value={{ endpoints }}>
-	  {children}
-	</CrudContext.Provider>
+    <CrudContext.Provider value={{ endpoints }}>
+      {children}
+    </CrudContext.Provider>
   );
 }
 

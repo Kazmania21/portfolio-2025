@@ -21,48 +21,48 @@ const TagsInput: React.FC<TagsInputProps> = ({optionsUrl, className="", inputNam
   const tagsInputRef = useRef<HTMLSelectElement>(null);
 
   useEffect(() => {
-	Tags.init("select[multiple]");
+    Tags.init("select[multiple]");
 
-	const fetchOptions = async () => {
-	  var response = await ApiService({url: optionsUrl});
-	  if (!response) {return;}
-	  var data = await response.json();
-	  setOptions(data);
-	}
+    const fetchOptions = async () => {
+      var response = await ApiService({url: optionsUrl});
+      if (!response) {return;}
+      var data = await response.json();
+      setOptions(data);
+    }
 
-	const fetchDefaultTags = async () => {
-	  var response = await ApiService({url: defaultTagUrl});
-	  if (!response) {return;}
-	  var data = await response.json();
-	  var tags = [...defaultTags, ...data]; 
-	  var tagsInput = Tags.getInstance(tagsInputRef.current!);
-	  tagsInput.setData(tags);
-	}
+    const fetchDefaultTags = async () => {
+      var response = await ApiService({url: defaultTagUrl});
+      if (!response) {return;}
+      var data = await response.json();
+      var tags = [...defaultTags, ...data]; 
+      var tagsInput = Tags.getInstance(tagsInputRef.current!);
+      tagsInput.setData(tags);
+    }
 
-	fetchOptions();
-	if (defaultTagUrl != "") {
-	  fetchDefaultTags();
-	}
+    fetchOptions();
+    if (defaultTagUrl != "") {
+      fetchDefaultTags();
+    }
 
-	var tagsInput = Tags.getInstance(tagsInputRef.current!);
-	console.log(defaultTags);
-	for (var tag of defaultTags) {
-	  console.log(tag);
-	  tagsInput.addItem(tag);
-	}
-	
-	const interval = setInterval(() => {
-	  fetchOptions();
-	}, 5000)
+    var tagsInput = Tags.getInstance(tagsInputRef.current!);
+    console.log(defaultTags);
+    for (var tag of defaultTags) {
+      console.log(tag);
+      tagsInput.addItem(tag);
+    }
+    
+    const interval = setInterval(() => {
+      fetchOptions();
+    }, 5000)
 
-	return () => {
-	  clearInterval(interval);
-	}
+    return () => {
+      clearInterval(interval);
+    }
   }, [])
 
   useEffect(() => {
-	var tagsInput = Tags.getInstance(tagsInputRef.current!);
-	tagsInput.resetSuggestions();
+    var tagsInput = Tags.getInstance(tagsInputRef.current!);
+    tagsInput.resetSuggestions();
   }, [options])
 
   return (
@@ -72,7 +72,7 @@ const TagsInput: React.FC<TagsInputProps> = ({optionsUrl, className="", inputNam
           <option disabled hidden value="">{defaultText}</option>
           { options.map((option) => (
               <option value={option._id}>{ option._id }</option>
-			)
+            )
           )}
       </select>
     </div>

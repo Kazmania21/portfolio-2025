@@ -15,7 +15,7 @@ const ProjectTagModal: React.FC<ProjectTagModalProps> = ({projectId, tags}) => {
   return (
      <Modal modalId={`tags-modal-${projectId}`} title="Add Tags to Project" onSave={(data: FormData) => projects.updateOne(projectId, data)}>
       <TagsInput labelText="Tags" optionsUrl={`/api/projects?groupBy=tags`} defaultText="Add Tag" inputName="tags[]" defaultTags={tags}></TagsInput>
-	 </Modal>
+     </Modal>
   );
 }
 

@@ -21,35 +21,35 @@ const Select: React.FC<SelectProps> = ({optionsUrl=null, defaultOptions=null, cl
   const [options, setOptions] = useState<SelectOption[]>([]);
 
   useEffect(() => {
-	const fetchOptions = async () => {
-	  var response = await ApiService({url: optionsUrl!});
-	  if (!response) {return;}
-	  setOptions((await response.json()).data);
-	}
+    const fetchOptions = async () => {
+      var response = await ApiService({url: optionsUrl!});
+      if (!response) {return;}
+      setOptions((await response.json()).data);
+    }
 
-	if (optionsUrl) {
-	  fetchOptions();
-	}
+    if (optionsUrl) {
+      fetchOptions();
+    }
 
-	if (defaultOptions) {
-	  setOptions(defaultOptions as SelectOption[]);
-	}
-	
-	/*const interval = setInterval(() => {
-	  fetchOptions();
-	}, 5000)
+    if (defaultOptions) {
+      setOptions(defaultOptions as SelectOption[]);
+    }
+    
+    /*const interval = setInterval(() => {
+      fetchOptions();
+    }, 5000)
 
-	return () => {
-	  clearInterval(interval);
-	}*/
+    return () => {
+      clearInterval(interval);
+    }*/
   }, [defaultOptions])
 
   return (
     <div className="form-group">
       <label htmlFor={inputName}>
-	    {labelText}
-	    {required && <span class="text-danger">*</span>}
-	  </label>
+        {labelText}
+        {required && <span class="text-danger">*</span>}
+      </label>
       <select className={`form-select ${className}`} name={inputName} required={required}>
           <option value="" selected>{defaultText}</option>
           { options.map((option) => (

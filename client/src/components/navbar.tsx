@@ -12,7 +12,7 @@ const Navbar: React.FC = () => {
 
   useEffect(() => {
     //const token = sessionStorage.getItem('authToken');
-	getProfile();
+    getProfile();
   }, [location]);
 
   const getProfile = async () => {
@@ -22,7 +22,7 @@ const Navbar: React.FC = () => {
 
   const handleSignOut = () => {
     //sessionStorage.removeItem("authToken");
-	setIsLoggedIn(false);
+    setIsLoggedIn(false);
   }
 
   return (
@@ -31,8 +31,8 @@ const Navbar: React.FC = () => {
       <div className="container-fluid">
         <Link className="navbar-brand d-flex fw-bold align-items-center" to="/">
           <img src={logo} width="40px" className="me-2"></img>
-		  <span>My Portfolio</span>
-		</Link>
+          <span>My Portfolio</span>
+        </Link>
         <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
           <span className="navbar-toggler-icon"></span>
         </button>
@@ -40,35 +40,35 @@ const Navbar: React.FC = () => {
           <ul className="navbar-nav">
             <li className="nav-item">
               <Link className="nav-link active" to="/">
-			    <FontAwesomeIcon icon={faHouse} className="me-1" />
-			  	Home
-			  </Link>
+                <FontAwesomeIcon icon={faHouse} className="me-1" />
+                Home
+              </Link>
             </li>
             <li className="nav-item">
               <Link className="nav-link" to="/projects">
-				<FontAwesomeIcon icon={faFolder} className="me-1" />
-			    Projects
-			  </Link>
+                <FontAwesomeIcon icon={faFolder} className="me-1" />
+                Projects
+              </Link>
             </li>
             <li className="nav-item">
               <Link className="nav-link" to="/contact">
-			    <FontAwesomeIcon icon={faPhone} className="me-1" />
-			    Contact
-			  </Link>
+                <FontAwesomeIcon icon={faPhone} className="me-1" />
+                Contact
+              </Link>
             </li>
           </ul>
-		  { isLoggedIn?  (
-			  <button className="btn btn-dark float-right" onClick={handleSignOut}>
-				<FontAwesomeIcon icon={faRightFromBracket} className="me-2" />
-			    Sign Out
-			  </button>
-			) : (
-		      <Link className="btn btn-dark float-right" to="/sign-in">
-				<FontAwesomeIcon icon={faRightToBracket} className="me-2" />
-			  	Sign In
-			  </Link>
-			)
-		  }
+          { isLoggedIn?  (
+              <button className="btn btn-dark float-right" onClick={handleSignOut}>
+                <FontAwesomeIcon icon={faRightFromBracket} className="me-2" />
+                Sign Out
+              </button>
+            ) : (
+              <Link className="btn btn-dark float-right" to="/sign-in">
+                <FontAwesomeIcon icon={faRightToBracket} className="me-2" />
+                Sign In
+              </Link>
+            )
+          }
         </div>
       </div>
     </nav>

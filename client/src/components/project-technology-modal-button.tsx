@@ -11,11 +11,11 @@ const ProjectTechnologyModalButton: React.FC<ProjectTechnologyModalButtonProps> 
   return (
     <>
       { isLoggedIn && (
-		  <div className="col-auto">
-		    <button type="button" className="btn btn-primary" data-bs-toggle="modal" data-bs-target={`#technologies-modal-${projectId}`}>Add Technology</button>
-		  </div>
-		)
-	  } 
+          <div className="col-auto">
+            <button type="button" className="btn btn-primary" data-bs-toggle="modal" data-bs-target={`#technologies-modal-${projectId}`}>Add Technology</button>
+          </div>
+        )
+      } 
     </>
   );
 }

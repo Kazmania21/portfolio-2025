@@ -20,7 +20,7 @@ const CompactProjectTechnology: React.FC<ProjectTechnologyProps> = ({projectId, 
         <img src={`${apiUrl}/${technology.image_location}`} width="50px"></img>
       </Link>
       
-	  <DeleteButton onDelete={() => projects.patchRemoveOne(projectId, "technologies", technology._id)} containerClassName="col-auto"></DeleteButton>
+      <DeleteButton onDelete={() => projects.patchRemoveOne(projectId, "technologies", technology._id)} containerClassName="col-auto"></DeleteButton>
     </div>
   );
 }

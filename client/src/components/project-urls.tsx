@@ -12,26 +12,26 @@ interface ProjectUrlsProps {
 const ProjectUrls: React.FC<ProjectUrlsProps> = ({projectId, urls}) => { 
   return (
     <div>
-	  <ProjectUrlModal projectId={projectId}></ProjectUrlModal>
+      <ProjectUrlModal projectId={projectId}></ProjectUrlModal>
       <div className="row">
-		<div className="col-auto">
+        <div className="col-auto">
           <h3>Project Links</h3>
-	    </div>
-	    <ProjectUrlModalButton projectId={projectId}></ProjectUrlModalButton>
+        </div>
+        <ProjectUrlModalButton projectId={projectId}></ProjectUrlModalButton>
       </div>
       <div className="row justify-content-center">
         {urls.map((url) => (
           <p className="col col-auto">
-			<ProjectUrl projectId={projectId} url={url}></ProjectUrl>
+            <ProjectUrl projectId={projectId} url={url}></ProjectUrl>
           </p>
         ))}
 
-	    { Number(urls.length) === 0 && (
+        { Number(urls.length) === 0 && (
             <p>No Links available at this time</p>
-	      )
-		}
+          )
+        }
       </div>
-	</div>
+    </div>
   );
 }
 

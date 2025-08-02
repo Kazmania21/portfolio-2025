@@ -28,19 +28,19 @@ const UpdateImageButton: React.FC<UpdateImageButtonProps> = ({projectId, classNa
 
   return (
     <>
-	  { isLoggedIn && (
+      { isLoggedIn && (
           <div className={className}>
-	        <input
+            <input
               type="file"
               ref={inputRef}
               onChange={handleFileChange}
               style={{ display: 'none' }}
             />
-	        <FontAwesomeIcon icon={faPencil} onClick={() => inputRef.current?.click()} />
-	      </div>
+            <FontAwesomeIcon icon={faPencil} onClick={() => inputRef.current?.click()} />
+          </div>
         )
-	  }
-	</>
+      }
+    </>
   );
 }
 

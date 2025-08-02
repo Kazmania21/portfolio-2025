@@ -19,17 +19,17 @@ export default function FilterOptionGroup({ options, header="", selected, setSel
     if (selected.has(id)) {
       selected.delete(id);
     }
-	else {
+    else {
       selected.add(id);
-	}
+    }
 
-	console.log(selected);
-	setSelected(new Set(selected));
+    console.log(selected);
+    setSelected(new Set(selected));
   };
 
   return (
     <div>
-	  <HeaderTag>{header}</HeaderTag>
+      <HeaderTag>{header}</HeaderTag>
       <div className="column-wrap" style={{width: width}}>
         {options.map(({ _id, name }) => (
           <div className="form-check me-2" key={_id}>
@@ -40,6 +40,6 @@ export default function FilterOptionGroup({ options, header="", selected, setSel
           </div>
         ))}
       </div>
-	</div>
+    </div>
   );
 }

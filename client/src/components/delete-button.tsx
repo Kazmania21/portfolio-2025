@@ -12,12 +12,12 @@ const DeleteButton: React.FC<DeleteButtonProps> = ({containerClassName="", class
 
   return (
     <>
-		{ isLoggedIn && (
-			<div className={containerClassName}>
+        { isLoggedIn && (
+            <div className={containerClassName}>
               <i className={`fa fa-solid fa-trash text-danger ${className}`} onClick={() => onDelete?.()}></i>
-			</div>
-		  )
-		}
+            </div>
+          )
+        }
     </>
   );
 }

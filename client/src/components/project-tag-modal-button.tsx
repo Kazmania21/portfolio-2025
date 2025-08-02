@@ -11,11 +11,11 @@ const ProjectTagModalButton: React.FC<ProjectTagModalButtonProps> = ({projectId}
   return (
     <>
       { isLoggedIn && (
-		  <div className="col-auto">
-		    <button type="button" className="btn btn-primary" data-bs-toggle="modal" data-bs-target={`#tags-modal-${projectId}`}>Update Tags</button>
-		  </div>
-		)
-	  } 
+          <div className="col-auto">
+            <button type="button" className="btn btn-primary" data-bs-toggle="modal" data-bs-target={`#tags-modal-${projectId}`}>Update Tags</button>
+          </div>
+        )
+      } 
     </>
   );
 }

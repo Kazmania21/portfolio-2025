@@ -16,15 +16,15 @@ const ProjectUrl: React.FC<ProjectUrlProps> = ({projectId, url}) => {
 
   return (
     <div className="row">
-	  <div className="col-auto">
+      <div className="col-auto">
         <Link to={url.url} className="btn btn-primary text-center mb-0">
           <img src={`${apiUrl}/${url.type.image_location}`} width="20px"></img>
           {url.type.name}
         </Link>
-	  </div>
-	  
-	  <DeleteButton onDelete={() => projects.patchRemoveOne(projectId, "urls", url)} containerClassName="col-auto"></DeleteButton>
-	</div> 
+      </div>
+      
+      <DeleteButton onDelete={() => projects.patchRemoveOne(projectId, "urls", url)} containerClassName="col-auto"></DeleteButton>
+    </div> 
   );
 }
 

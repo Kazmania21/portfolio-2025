@@ -15,9 +15,9 @@ const ProjectTechnologyModal: React.FC<ProjectTechnologyModalProps> = ({projectI
 
   return (
      <Modal modalId={`technologies-modal-${projectId}`} title="Add Technology to Project" onSave={(data: FormData) => {return projects.patchAddOne(projectId, data)}}>
-	   <Select labelText="Technology" defaultText="Select Technology" defaultOptions={technologies.data} inputName="technologies" required></Select>
-	   <Link to="/add-technology">Technology not listed?</Link>
-	 </Modal>
+       <Select labelText="Technology" defaultText="Select Technology" defaultOptions={technologies.data} inputName="technologies" required></Select>
+       <Link to="/add-technology">Technology not listed?</Link>
+     </Modal>
   );
 }
 

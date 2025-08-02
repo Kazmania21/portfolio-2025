@@ -14,14 +14,14 @@ const Home: React.FC = () => {
 
   useEffect(() => { 
     const fetchMetadata = async () => {
-  	  var response = await ApiService({url: "/api/metadata"});
+      var response = await ApiService({url: "/api/metadata"});
 
-	  if (!response) {
-		return;
-	  }
+      if (!response) {
+        return;
+      }
 
-	  var data = await response.json();
-	  setMetadata(data[0]);
+      var data = await response.json();
+      setMetadata(data[0]);
     }
 
     fetchMetadata();
@@ -30,29 +30,29 @@ const Home: React.FC = () => {
       fetchMetadata();
     }, 5000);
 
-	return () => {
-	  clearInterval(interval);
-	}
+    return () => {
+      clearInterval(interval);
+    }
   }, [])
 
   return (
     <div>
       <ContentDiv className="m-5">
-		{ metadata && (
-		  <EditableText text={metadata.greeting} Tag="h1" InputTag="textarea" updateUrl={`/api/metadata/${metadata._id}`} fieldName="greeting" className="text-center m-0"></EditableText>
-		)}
+        { metadata && (
+          <EditableText text={metadata.greeting} Tag="h1" InputTag="textarea" updateUrl={`/api/metadata/${metadata._id}`} fieldName="greeting" className="text-center m-0"></EditableText>
+        )}
       </ContentDiv>
 
       <ContentDiv className="m-2" childrenClass="ms-2">
         <h2>About Me</h2>
-		{ metadata && (
-		  <EditableText text={metadata.bio} Tag="p" InputTag="textarea" updateUrl={`/api/metadata/${metadata._id}`} fieldName="bio" className="indented"></EditableText>
-		)}
+        { metadata && (
+          <EditableText text={metadata.bio} Tag="p" InputTag="textarea" updateUrl={`/api/metadata/${metadata._id}`} fieldName="bio" className="indented"></EditableText>
+        )}
         <p className="text-center mb-0">
           <Link to="/projects" className="btn btn-primary text-center mb-0">
-			<FontAwesomeIcon icon={faFolder} className="me-1" />
-		    Projects
-		  </Link>
+            <FontAwesomeIcon icon={faFolder} className="me-1" />
+            Projects
+          </Link>
         </p>
       </ContentDiv>
     </div>

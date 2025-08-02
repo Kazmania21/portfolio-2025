@@ -17,15 +17,15 @@ const EditableText: React.FC<EditableTextProps> = ({text="", className="", Tag="
   const {isLoggedIn} = useContext(AuthContext);
 
   useEffect(() => {
-	setText(text);
+    setText(text);
   }, [text])
 
   const handleBlur = async () => {
     setIsEditing(false);
-	var reqBody: Record<string, string> = {};
-	reqBody[fieldName] = _text;
+    var reqBody: Record<string, string> = {};
+    reqBody[fieldName] = _text;
 
-	ApiService({url: updateUrl, formMethod: "PUT", contentType: "application/json", reqBody: JSON.stringify(reqBody)});
+    ApiService({url: updateUrl, formMethod: "PUT", contentType: "application/json", reqBody: JSON.stringify(reqBody)});
   }
 
   return (
@@ -36,13 +36,13 @@ const EditableText: React.FC<EditableTextProps> = ({text="", className="", Tag="
           }} className={`form-control invisible-box ${className}`}></InputTag>
         ) : (
           <Tag onClick={() => setIsEditing(true)} className={className}>
-		    {_text.split("\n").map((line) => ( 
-			  <p className={className}>
-		        {line}
-			    <br />
-			  </p>
-			))}
-		  </Tag>
+            {_text.split("\n").map((line) => ( 
+              <p className={className}>
+                {line}
+                <br />
+              </p>
+            ))}
+          </Tag>
         )}
     </div>
   );

@@ -25,56 +25,56 @@ const Form: React.FC<FormProps> = ({ children, url="", method="", contentType, n
     const form = event.currentTarget;
     const formData = new FormData(form);
 
-	const jsonFormData = JSON.stringify(Object.fromEntries(formData));
+    const jsonFormData = JSON.stringify(Object.fromEntries(formData));
 
-	if (url == "") {
+    if (url == "") {
       const data = await onSubmit(formData);
-	  console.log(data);
-	  if (data.errors) {
+      console.log(data);
+      if (data.errors) {
         setErrors(data.errors);
-	  }
-	  return;
-	}
+      }
+      return;
+    }
 
-	var response = await ApiService({url: url, formMethod: method, contentType: contentType, reqBody: contentType ? jsonFormData : formData});
+    var response = await ApiService({url: url, formMethod: method, contentType: contentType, reqBody: contentType ? jsonFormData : formData});
 
-	if (!response) {
-	  return;
-	}
+    if (!response) {
+      return;
+    }
 
-	var data = await response.json();
+    var data = await response.json();
 
-	if (response.ok) {
-	  console.log("Server response: ", data)
-	  if (onSubmit) {
+    if (response.ok) {
+      console.log("Server response: ", data)
+      if (onSubmit) {
         onSubmit(data);
-	  }
-	  //sessionStorage.setItem('authToken', data.token); 
-	  if (navigate) {
+      }
+      //sessionStorage.setItem('authToken', data.token); 
+      if (navigate) {
         _navigate(navigate);
-	  }
-	}
+      }
+    }
 
     if (data.errors) {
       setErrors(data.errors);
-	}
+    }
   }
 
   return (
     <form className="p-2" method="POST" onSubmit={submitForm}>
-	  {(errors.length > 0) && (
-		<div className="mb-3">
-		  { errors.map((error, index) => (
-		    <div className="m-0">
-		      <p className="text-danger mb-1">{error}</p>
-			</div>
-		  ))}
-		</div>
-	  )}
-	  {children}
-	  { includeButton && (
+      {(errors.length > 0) && (
+        <div className="mb-3">
+          { errors.map((error, index) => (
+            <div className="m-0">
+              <p className="text-danger mb-1">{error}</p>
+            </div>
+          ))}
+        </div>
+      )}
+      {children}
+      { includeButton && (
         <button type="submit" className="btn btn-primary">Submit</button>
-	  )}
+      )}
     </form>
   );
 }

@@ -39,36 +39,36 @@ const ProjectFilter: React.FC<ProjectFilterProps> = ({setFilteredProjects}) => {
   const getProjectTags = (project: IProject) => new Set(project.tags);
 
   const filterProjects = (originalArray: IProject[], getItemField: Function, selectedItems: Set<Option>) => {
-	let filteredProjects = originalArray.filter(project => {
-	  const projectTechnologies = getItemField(project);
-	  for (const item of selectedItems) {
+    let filteredProjects = originalArray.filter(project => {
+      const projectTechnologies = getItemField(project);
+      for (const item of selectedItems) {
         if (!projectTechnologies.has(item)) return false;
-	  }
-	  return true;
+      }
+      return true;
     });
-	console.log("Filtering Projects");
-	console.log(filteredProjects);
-	console.log(originalArray);
-	return filteredProjects;
+    console.log("Filtering Projects");
+    console.log(filteredProjects);
+    console.log(originalArray);
+    return filteredProjects;
   }
 
   useEffect(() => {
-	console.log("filtering");
-	console.log(selectedTechnologies);
+    console.log("filtering");
+    console.log(selectedTechnologies);
 
-	console.log(searchedProjects);
+    console.log(searchedProjects);
 
-	let filtered = filterProjects(searchedProjects, getProjectTechnologies, selectedTechnologies);
-	filtered = filterProjects(filtered, getProjectUrls, selectedUrlTypes);
-	filtered = filterProjects(filtered, getProjectTags, selectedTags);
-	setFilteredProjects(filtered);
+    let filtered = filterProjects(searchedProjects, getProjectTechnologies, selectedTechnologies);
+    filtered = filterProjects(filtered, getProjectUrls, selectedUrlTypes);
+    filtered = filterProjects(filtered, getProjectTags, selectedTags);
+    setFilteredProjects(filtered);
 
   }, [projects, searchedProjects, selectedTechnologies, selectedUrlTypes, selectedTags])
 
   const removeEndBorders = () => {
-	//console.log("removing borders");
+    //console.log("removing borders");
     const items = document.querySelectorAll('.has-end-border');
-	//console.log(items);
+    //console.log(items);
     const rowMap = new Map();
 
     items.forEach((el) => {
@@ -80,7 +80,7 @@ const ProjectFilter: React.FC<ProjectFilterProps> = ({setFilteredProjects}) => {
       rowMap.get(key).push(el);
 
       // Remove any prior markings
-	  el.classList.remove('is-last-in-column');
+      el.classList.remove('is-last-in-column');
     });
 
     // Mark last item in each column
@@ -92,33 +92,33 @@ const ProjectFilter: React.FC<ProjectFilterProps> = ({setFilteredProjects}) => {
   
   useEffect(() => {
     removeEndBorders();
-	window.addEventListener("resize", removeEndBorders);
+    window.addEventListener("resize", removeEndBorders);
     return () => window.removeEventListener("resize", removeEndBorders);
   }, [technologyTypes]);
 
   return (
     <div>
-	  <ContentDiv className="m-5">
-	    <h2 className="text-center">Search and Filter</h2>
-		<div className="input-group justify-content-center pb-2">
-		  <SearchBar originalArray={projects} setFilteredArray={setSearchedProjects}></SearchBar>
-		  <FilterButton onClick={removeEndBorders}>
-		    <h2>Technologies</h2>
-			<div className="column-wrap gap-4" style={{width: "80vw"}}>
-			{ technologyTypes.map((technologyType) => (
-			  <div className="has-end-border">
-		        <FilterOptionGroup header={technologyType.name} options={technologies.filter(technology => technology.type.name == technologyType.name)} selected={selectedTechnologies} setSelected={setSelectedTechnologies} HeaderTag="h3" width="auto"></FilterOptionGroup>
-			  </div>
-			  )
-			)}
-			</div>
-		    <hr></hr>
+      <ContentDiv className="m-5">
+        <h2 className="text-center">Search and Filter</h2>
+        <div className="input-group justify-content-center pb-2">
+          <SearchBar originalArray={projects} setFilteredArray={setSearchedProjects}></SearchBar>
+          <FilterButton onClick={removeEndBorders}>
+            <h2>Technologies</h2>
+            <div className="column-wrap gap-4" style={{width: "80vw"}}>
+            { technologyTypes.map((technologyType) => (
+              <div className="has-end-border">
+                <FilterOptionGroup header={technologyType.name} options={technologies.filter(technology => technology.type.name == technologyType.name)} selected={selectedTechnologies} setSelected={setSelectedTechnologies} HeaderTag="h3" width="auto"></FilterOptionGroup>
+              </div>
+              )
+            )}
+            </div>
+            <hr></hr>
             <FilterOptionGroup header="Url Type" options={urlTypes} selected={selectedUrlTypes} setSelected={setSelectedUrlTypes}></FilterOptionGroup>
-		    <hr></hr>
+            <hr></hr>
             <FilterOptionGroup header="Tags" options={tags} selected={selectedTags} setSelected={setSelectedTags}></FilterOptionGroup>
-		  </FilterButton>
-		</div>
-	  </ContentDiv>
+          </FilterButton>
+        </div>
+      </ContentDiv>
     </div>
   );
 }

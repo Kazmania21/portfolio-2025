@@ -14,20 +14,20 @@ import ProtectedRouter from './components/protected-router';
 const App: React.FC = () => {
   return (
     <div>
-	  <AuthProvider>
+      <AuthProvider>
       <Navbar/>
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/projects" element={<Projects />} />
         <Route path="/contact" element={<Contact />} />
         <Route path="/sign-in" element={<SignIn />} />
-		<Route element={<ProtectedRouter />}>
+        <Route element={<ProtectedRouter />}>
           <Route path="/add-project" element={<AddProject />} />
           <Route path="/add-technology" element={<AddTechnology />} />
           <Route path="/add-url-type" element={<AddUrlType />} />
-	    </Route>
+        </Route>
       </Routes>
-	  </AuthProvider>
+      </AuthProvider>
     </div>
   );
 }

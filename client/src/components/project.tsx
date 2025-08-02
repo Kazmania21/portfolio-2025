@@ -28,24 +28,24 @@ const Project: React.FC<ProjectProps> = ({project, className=""}) => {
             <div className="col">
               <EditableText text={project.name} Tag="h2" updateUrl={`/api/projects/${project._id}`} className="text-center m-0"></EditableText>
             </div>
-	  		
-			<DeleteButton onDelete={() => projects.deleteOne(project._id)} containerClassName="col-auto"></DeleteButton>
+            
+            <DeleteButton onDelete={() => projects.deleteOne(project._id)} containerClassName="col-auto"></DeleteButton>
         </div>
 
         <div className="project-image position-relative">
           <img src={`${apiUrl}/${project.image_location}`} width="100%"></img>
-		  <div className="project-button">
+          <div className="project-button">
             <UpdateImageButton projectId={project._id} className="position-absolute top-0 end-0 m-2 p-1 px-2 bg-light rounded-1 border border-dark"></UpdateImageButton>
-		  </div>
-		</div>
+          </div>
+        </div>
 
         <div className="ms-2">
           <EditableText text={project.tagline} updateUrl={`/api/projects/${project._id}`} fieldName="tagline" className="mb-0"></EditableText>
 
-		  <ProjectTechnologies projectId={project._id} technologies={project.technologies}></ProjectTechnologies>
+          <ProjectTechnologies projectId={project._id} technologies={project.technologies}></ProjectTechnologies>
 
-		  <ProjectUrls projectId={project._id} urls={project.urls}></ProjectUrls>
-		  <ProjectTags projectId={project._id} tags={project.tags}></ProjectTags>
+          <ProjectUrls projectId={project._id} urls={project.urls}></ProjectUrls>
+          <ProjectTags projectId={project._id} tags={project.tags}></ProjectTags>
         </div>
 
       </ContentDiv>

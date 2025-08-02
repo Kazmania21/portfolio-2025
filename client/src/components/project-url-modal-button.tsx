@@ -10,12 +10,12 @@ const ProjectUrlModalButton: React.FC<ProjectUrlModalButtonProps> = ({projectId}
 
   return (
     <>
-	  { isLoggedIn && (
-		  <div className="col-auto">
-		    <button type="button" className="btn btn-primary" data-bs-toggle="modal" data-bs-target={`#urls-modal-${projectId}`}>Add Link</button>
-		  </div>
-	    )
-	  }
+      { isLoggedIn && (
+          <div className="col-auto">
+            <button type="button" className="btn btn-primary" data-bs-toggle="modal" data-bs-target={`#urls-modal-${projectId}`}>Add Link</button>
+          </div>
+        )
+      }
     </>
   );
 }

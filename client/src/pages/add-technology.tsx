@@ -16,14 +16,14 @@ const AddTechnology: React.FC = () => {
   console.log(technologyTypes);
 
   useEffect(() => {
-	technologyTypes.read();
+    technologyTypes.read();
   }, [])
 
   return (
     <div>
-	  <Modal modalId="addTechnologyTypeModal" title="Add Technology Type" onSave={(data: FormData) => technologyTypes.create(data)}>
-		<Input labelText="Technology Type" placeholder="Technology Type" inputName="name" required minlength="5" maxlength="255"></Input>
-	  </Modal>
+      <Modal modalId="addTechnologyTypeModal" title="Add Technology Type" onSave={(data: FormData) => technologyTypes.create(data)}>
+        <Input labelText="Technology Type" placeholder="Technology Type" inputName="name" required minlength="5" maxlength="255"></Input>
+      </Modal>
       <ContentDiv className="m-5">
         <h1 className="text-center m-0">Add Technology</h1>
       </ContentDiv>
@@ -33,7 +33,7 @@ const AddTechnology: React.FC = () => {
           <Input labelText="URL" placeholder="Technology URL" inputName="url" required minlength="5" maxlength="255" type="url"></Input>
           <Input labelText="Image" placeholder="Project Image" inputName="imageFile" inputType="file" required maxSize="2"></Input>
           <Select labelText="Technology Type" defaultOptions={technologyTypes.data} defaultText="Select Technology Type" inputName="type" required></Select>
-		  <button type="button" className="btn btn-primary" data-bs-toggle="modal" data-bs-target={`#addTechnologyTypeModal`}>Add Technology Type</button>
+          <button type="button" className="btn btn-primary" data-bs-toggle="modal" data-bs-target={`#addTechnologyTypeModal`}>Add Technology Type</button>
         </Form>
       </ContentDiv>
     </div>
