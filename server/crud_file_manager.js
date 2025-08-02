@@ -1,12 +1,27 @@
 const fs = require('fs');
 const path = require('path');
+const mime = require('mime-types');
 
 class CrudFileManager {
     createFiles = (files) => {
 		var fields = {};
 		for (var file of files) {
-          fields[file.fieldname.replace("File", "_location")] = `static/images/${file.filename}`;
+		  const extension = mime.extension(file.mimetype) || '';
+		  const filename = file.fieldname + '-' + Date.now() + (extension ? '.' + extension : '');
+
+		  const filePath = `static/images/${filename}`;
+		  console.log(filePath);
+          fields[file.fieldname.replace("File", "_location")] = filePath;
+          
+		  fs.writeFile(filePath.replace("static", "uploads"), file.buffer, (err) => {
+            if (err) {
+			  console.log(file);
+			  return console.log(`Failed to save file. ${err.message}`);
+		    }
+            console.log('Upload successful!');
+          });
 		}
+        
         return fields; 
     }
 
@@ -22,10 +37,9 @@ class CrudFileManager {
 	   console.log(filePath);
 	   fs.unlink(filePath, (err) => {
          if (err) {
-           console.error('Failed to delete file:', err);
-         } else {
-           console.log('File deleted successfully');
-         }
+           return console.error('Failed to delete file:', err);
+         } 
+         console.log('File deleted successfully');
        });
 	 }
    }

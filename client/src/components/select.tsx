@@ -9,6 +9,7 @@ interface SelectProps {
   inputName?: string;
   defaultText?: string;
   labelText?: string;
+  required?: boolean;
 }
 
 interface SelectOption {
@@ -16,7 +17,7 @@ interface SelectOption {
   name: string;
 }
 
-const Select: React.FC<SelectProps> = ({optionsUrl=null, defaultOptions=null, className="", inputName="", defaultText="Select Item", labelText=""}) => {
+const Select: React.FC<SelectProps> = ({optionsUrl=null, defaultOptions=null, className="", inputName="", defaultText="Select Item", labelText="", required}) => {
   const [options, setOptions] = useState<SelectOption[]>([]);
 
   useEffect(() => {
@@ -45,9 +46,12 @@ const Select: React.FC<SelectProps> = ({optionsUrl=null, defaultOptions=null, cl
 
   return (
     <div className="form-group">
-      <label htmlFor={inputName}>{labelText}</label>
-      <select className={`form-select ${className}`} name={inputName}>
-          <option selected>{defaultText}</option>
+      <label htmlFor={inputName}>
+	    {labelText}
+	    {required && <span class="text-danger">*</span>}
+	  </label>
+      <select className={`form-select ${className}`} name={inputName} required={required}>
+          <option value="" selected>{defaultText}</option>
           { options.map((option) => (
             <option value={option._id}>{ option.name }</option>
           ))}

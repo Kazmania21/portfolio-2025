@@ -34,34 +34,38 @@ export function useCrud(baseUrl: string, initialQueryParams?: Record<string, str
   }
 
   const create = async (data: FormData) => {
-	await ApiService({url: `${baseUrl}`, formMethod: "POST", reqBody: data});
+	const response = await ApiService({url: `${baseUrl}`, formMethod: "POST", reqBody: data});
 	await read();
+	return response.json();
   }
 
   const updateOne = async (id: string | Number, data: FormData) => {
     console.log(`Updating project: ${id}`);
-	await ApiService({url: `${baseUrl}/${id}`, formMethod: "PUT", reqBody: data});
+	const response = await ApiService({url: `${baseUrl}/${id}`, formMethod: "PUT", reqBody: data});
 	await read();
+	return response.json();
   }
 
   const deleteOne = async (id: string | Number) => {
     console.log(`Deleting project: ${id}`);
-	await ApiService({url: `${baseUrl}/${id}`, formMethod: "DELETE"});
+	const response = await ApiService({url: `${baseUrl}/${id}`, formMethod: "DELETE"});
 	await read();
+	return response.json();
   }
 
   const patchAddOne = async (id: string | Number, data: FormData) => {
-	await ApiService({url: `${baseUrl}/${id}/add`, formMethod: "PATCH", reqBody: data});
-
+	const response = await ApiService({url: `${baseUrl}/${id}/add`, formMethod: "PATCH", reqBody: data});
 	await read();
+	return response.json();
   }
 
   const patchRemoveOne = async (id: string | Number, field: string, fieldItem: unknown) => {
   	console.log(`Removing ${field} at ${baseUrl}/${id}/remove`);
 	var reqBody = {[field]: fieldItem};
-	await ApiService({url: `${baseUrl}/${id}/remove`, formMethod: "PATCH", contentType: "application/json", reqBody: JSON.stringify(reqBody)});
+	const response = await ApiService({url: `${baseUrl}/${id}/remove`, formMethod: "PATCH", contentType: "application/json", reqBody: JSON.stringify(reqBody)});
 
 	await read();
+	return response.json();
   }
 
   return { data, read, create, updateOne, deleteOne, patchAddOne, patchRemoveOne }

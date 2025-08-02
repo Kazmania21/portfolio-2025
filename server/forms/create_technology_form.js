@@ -12,10 +12,10 @@ var createTechnologyForm = new Form([
     .withMessage('URL must be between 5 and 255 characters long')
     .notEmpty()
     .withMessage('URL is required'),
-  body('imageFile')
+  /*body('imageFile')
     .notEmpty()
-    .withMessage('Thumbnail image is required'),
-  body('technology_type')
+    .withMessage('Thumbnail image is required'),*/
+  body('type')
     .notEmpty()
     .withMessage('Technology type required')
 ])

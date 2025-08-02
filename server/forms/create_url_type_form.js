@@ -7,9 +7,9 @@ var createUrlTypeForm = new Form([
     .withMessage('Name must be between 5 and 50 characters long')
     .notEmpty()
     .withMessage('Name is required'),
-  body('imageFile')
+  /*body('imageFile')
     .notEmpty()
-    .withMessage('Thumbnail image is required'),
+    .withMessage('Thumbnail image is required'),*/
 ])
 
 module.exports = { createUrlTypeForm }

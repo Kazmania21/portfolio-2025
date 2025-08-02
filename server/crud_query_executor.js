@@ -237,7 +237,7 @@ class CrudQueryExecutor {
           return new Response(200, { data: updatedItem });
         } catch (error) {
           console.log(error);
-          return new Response(500, { "message": "Error updating item", "errors": [error] } );
+          return new Response(500, { "message": "Error updating item", "errors": [error.message] } );
         }
     }
 
@@ -256,7 +256,7 @@ class CrudQueryExecutor {
           return new Response(200, { data: updatedItem });
         } catch (error) {
           console.log(error);
-          return new Response(500, { message: "Error updating item", errors: [error] });
+          return new Response(500, { message: "Error updating item", errors: [error.message] });
         }
     }
 
@@ -275,7 +275,7 @@ class CrudQueryExecutor {
           return new Response(200, { data: updatedItem });
         } catch (error) {
           console.log(error);
-          return new Response(500, { message: "Error updating item", errors: [error] });
+          return new Response(500, { message: "Error updating item", errors: [error.message] });
         }
     }
 
@@ -292,7 +292,7 @@ class CrudQueryExecutor {
           return new Response(200, { data: updatedItem});
         } catch (error) {
           console.log(error);
-          return new Response(500, { message: "Error updating item", errors: [error] });
+          return new Response(500, { message: "Error updating item", errors: [error.message] });
         }
     }
 }

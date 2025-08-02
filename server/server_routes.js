@@ -13,7 +13,7 @@ class ServerRoute {
         this.insert_form = insert_form;
         //console.log(this.model);
         //console.log(insert_form);
-		this.upload = multer({storage});
+		this.upload = multer({storage: multer.memoryStorage(), limits: { fileSize: 2 * 1024 * 1024 }});
         this.router = express.Router("");
         this.initRoutes();
         //this.index = this.index.bind(this);
