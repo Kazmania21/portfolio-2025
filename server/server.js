@@ -1,9 +1,9 @@
 const express = require('express');
-const ServerRoute = require('./server_routes.js');
-const AuthenticationServerRoute = require('./authentication_server_routes.js');
-const CrudQueryExecutor = require('./crud_query_executor.js');
-const CrudFileManager = require('./crud_file_manager.js');
-const AuthenticationQueryExecutor = require('./authentication_query_executor.js');
+const ServerRoute = require('./routes/server_routes.js');
+const AuthenticationServerRoute = require('./routes/authentication_server_routes.js');
+const CrudQueryExecutor = require('./services/crud_query_executor.js');
+const CrudFileManager = require('./utils/crud_file_manager.js');
+const AuthenticationQueryExecutor = require('./services/authentication_query_executor.js');
 const mongoose = require('mongoose');
 const { TechnologyType } = require('./models/technology_types.js');
 const { Technology } = require('./models/technologies.js');

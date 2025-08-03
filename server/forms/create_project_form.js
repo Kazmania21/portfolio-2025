@@ -1,5 +1,5 @@
 const { body } = require('express-validator');
-const { Form } = require("../form.js")
+const { Form } = require("../utils/form.js")
 
 var createProjectForm = new Form([
   body('name')

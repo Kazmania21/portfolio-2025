@@ -1,4 +1,4 @@
-const Response = require('./response.js');
+const Response = require('../utils/response.js');
 
 class CrudQueryExecutor {
     constructor(database_connector, model) {

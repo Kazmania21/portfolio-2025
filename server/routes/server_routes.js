@@ -1,10 +1,10 @@
 const express = require('express');
 const path = require('path');
 const multer = require('multer');
-const authMiddleware = require('./middleware/authorization.js');
-const validateForm = require('./middleware/validate_form.js');
-const Response = require('./response.js');
-const storage = require('./multer_storage.js');
+const authMiddleware = require('../middleware/authorization.js');
+const validateForm = require('../middleware/validate_form.js');
+const Response = require('../utils/response.js');
+const storage = require('../utils/multer_storage.js');
 
 class ServerRoute {
     constructor(crud_query_executor, crud_file_manager, insert_form=null) {

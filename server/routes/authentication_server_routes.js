@@ -1,7 +1,7 @@
 const express = require('express');
-const authMiddleware = require('./middleware/authorization');
-const validateForm = require('./middleware/validate_form');
-const Response = require('./response');
+const authMiddleware = require('../middleware/authorization');
+const validateForm = require('../middleware/validate_form');
+const Response = require('../utils/response');
 
 class AuthenticationServerRoute {
     constructor(authentication_query_executor, authentication_form) {

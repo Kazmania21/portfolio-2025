@@ -1,6 +1,6 @@
 const jwt = require('jsonwebtoken');
-const config = require('./config/config');
-const Response = require('./response');
+const config = require('../config/config');
+const Response = require('../utils/response');
 
 
 class AuthenticationQueryExecutor {
