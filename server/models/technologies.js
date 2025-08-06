@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 
+/* eslint-disable camelcase */
 const technologySchema = new mongoose.Schema({
   name: {
     type: String,
@@ -18,6 +19,7 @@ const technologySchema = new mongoose.Schema({
     required: true
   }
 });
+/* eslint-enable camelcase */
 
 const Technology = mongoose.model('Technology', technologySchema);
 

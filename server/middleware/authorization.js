@@ -11,13 +11,13 @@ const authMiddleware = (req, res, next) => {
     return res.status(response.status).json(response.getResponse());
   }
   const token = req.cookies.token;
-  
 
   try {
     const decoded = jwt.verify(token, SECRET_KEY);
     req.user = decoded; // Attach decoded token to request
     next(); // Proceed to the next middleware
   } catch (err) {
+    console.log(err);
     const response = new Response(403, { errors: ['Invalid or expired token'] });
     return res.status(response.status).json(response.getResponse());
   }

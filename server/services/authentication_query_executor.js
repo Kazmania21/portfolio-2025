@@ -2,14 +2,13 @@ const jwt = require('jsonwebtoken');
 const config = require('../config/config');
 const Response = require('../utils/response');
 
-
 class AuthenticationQueryExecutor {
-  constructor(database_connector, model) {
-    this.database_connector = database_connector;
+  constructor(databaseConnector, model) {
+    this.databaseConnector = databaseConnector;
     this.model = model;
-  }
+  };
 
-  sign_up = async (username, password) => {
+  signUp = async (username, password) => {
     try {
       const user = new this.model({ username, password });
       await user.save();
@@ -17,9 +16,9 @@ class AuthenticationQueryExecutor {
     } catch (err) {
       return new Response({ status: 400, errors: [err.message] });
     }
-  }
+  };
 
-  sign_in = async (username, password) => {
+  signIn = async (username, password) => {
     const SECRET_KEY = config.SECRET_KEY;
 
     try {
@@ -56,8 +55,7 @@ class AuthenticationQueryExecutor {
       console.log(err);
       return new Response(500, { errors: [`Server error: ${err}`] });
     }
-  }
+  };
 }
 
-
-module.exports = AuthenticationQueryExecutor
+module.exports = AuthenticationQueryExecutor;

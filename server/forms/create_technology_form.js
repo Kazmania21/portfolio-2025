@@ -1,7 +1,7 @@
 const { body } = require('express-validator');
-const { Form } = require("../utils/form.js")
+const { Form } = require('../utils/form.js');
 
-var createTechnologyForm = new Form([
+const createTechnologyForm = new Form([
   body('name')
     .isLength({ min: 5, max: 50 })
     .withMessage('Name must be between 5 and 50 characters long')
@@ -18,6 +18,6 @@ var createTechnologyForm = new Form([
   body('type')
     .notEmpty()
     .withMessage('Technology type required')
-])
+]);
 
-module.exports = { createTechnologyForm }
+module.exports = { createTechnologyForm };

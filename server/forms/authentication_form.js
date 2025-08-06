@@ -1,7 +1,7 @@
 const { body } = require('express-validator');
-const { Form } = require("../utils/form.js")
+const { Form } = require('../utils/form.js');
 
-var authenticationForm = new Form([
+const authenticationForm = new Form([
   body('username')
     .isLength({ min: 3, max: 20 })
     .withMessage('Username must be between 3 and 20 characters long')
@@ -12,6 +12,6 @@ var authenticationForm = new Form([
     .withMessage('Password must be between 8 and 128 characters long')
     .notEmpty()
     .withMessage('Password is required'),
-])
+]);
 
-module.exports = { authenticationForm }
+module.exports = { authenticationForm };

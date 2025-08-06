@@ -18,52 +18,51 @@ const { createUrlTypeForm } = require('./forms/create_url_type_form.js');
 const { createTechnologyTypeForm } = require('./forms/create_technology_type_form.js');
 const { authenticationForm } = require('./forms/authentication_form.js');
 const csrfProtection = require('./middleware/csrf.js');
-const authMiddleware = require('./middleware/authorization.js');
-//const { body, validationResult } = require('express-validator');
 const cors = require('cors');
 const path = require('path');
-const multer = require('multer');
 const helmet = require('helmet');
 const cookieParser = require('cookie-parser');
 const config = require('./config/config');
 
-const SECRET_KEY = config.SECRET_KEY;
-
 const uri = config.MONGO_URI;
 const isDev = config.IS_DEV;
 
+// Database
 mongoose.connect(uri, { useNewUrlParser: true, useUnifiedTopology: true })
   .then(() => console.log('MongoDB connected'))
   .catch(err => console.error('Connection error:', err));
 
 const app = express();
 
+// Uploads
 app.use('/static', express.static(path.join(__dirname, 'uploads')));
 
+// Log Traffic
 app.use((req, res, next) => {
   console.log(`[${req.method}] ${req.originalUrl}`);
   next();
 });
 
+// CORS
 app.use(cors({
   origin: 'http://localhost:5173',
   methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE'],
   credentials: true,
 }));
 
-
+// helmet
 app.use(
   helmet({
     contentSecurityPolicy: {
       useDefaults: true,
       directives: {
-        "default-src": ["'self'"],
-        "script-src": isDev ? ["'self'", "'unsafe-inline'"] : ["'self'"],
-        "style-src": isDev ? ["'self'", "'unsafe-inline'"] : ["'self'"],
-        "img-src": ["'self'", "data:"],
-        "connect-src": isDev
-          ? ["'self'", "http://localhost:5173", "ws://localhost:5173"]
-          : ["'self'", "https://rojoware.com"],
+        'default-src': ['\'self\''],
+        'script-src': isDev ? ['\'self\'', '\'unsafe-inline\''] : ['\'self\''],
+        'style-src': isDev ? ['\'self\'', '\'unsafe-inline\''] : ['\'self\''],
+        'img-src': ['\'self\'', 'data:'],
+        'connect-src': isDev
+          ? ['\'self\'', 'http://localhost:5173', 'ws://localhost:5173']
+          : ['\'self\'', 'https://rojoware.com'],
       },
     },
   })
@@ -81,24 +80,63 @@ app.get('/api/csrf-token', (req, res) => {
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-const file_manager = new CrudFileManager();
+const fileManager = new CrudFileManager();
 
-authentication_query_executor = new AuthenticationQueryExecutor(mongoose, User);
-app.use('/api', new AuthenticationServerRoute(authentication_query_executor, authenticationForm).router);
+// auth routes
+const authQueryExecutor = new AuthenticationQueryExecutor(mongoose, User);
+const authServerRoute = new AuthenticationServerRoute(authQueryExecutor, authenticationForm);
+app.use('/api', authServerRoute.router);
 
-const technology_type_query_executor = new CrudQueryExecutor(mongoose, TechnologyType);
-const technology_query_executor = new CrudQueryExecutor(mongoose, Technology);
-const project_url_type_query_executor = new CrudQueryExecutor(mongoose, ProjectUrlType);
-const project_url_query_executor = new CrudQueryExecutor(mongoose, ProjectUrl);
-const project_query_executor = new CrudQueryExecutor(mongoose, Project);
-const metadata_query_executor = new CrudQueryExecutor(mongoose, Metadata);
+// CRUD query executors
+const technologyTypeQueryExecutor = new CrudQueryExecutor(mongoose, TechnologyType);
+const technologyQueryExecutor = new CrudQueryExecutor(mongoose, Technology);
+const projectUrlTypeQueryExecutor = new CrudQueryExecutor(mongoose, ProjectUrlType);
+const projectUrlQueryExecutor = new CrudQueryExecutor(mongoose, ProjectUrl);
+const projectQueryExecutor = new CrudQueryExecutor(mongoose, Project);
+const metadataQueryExecutor = new CrudQueryExecutor(mongoose, Metadata);
 
-app.use('/api/technology_types', new ServerRoute(technology_type_query_executor, file_manager, insert_form=createTechnologyTypeForm).router);
-app.use('/api/technologies', new ServerRoute(technology_query_executor, file_manager, insert_form=createTechnologyForm).router);
-app.use('/api/project_url_types', new ServerRoute(project_url_type_query_executor, file_manager, insert_form=createUrlTypeForm).router);
-app.use('/api/project_urls', new ServerRoute(project_query_executor, file_manager).router);
-app.use('/api/projects', new ServerRoute(project_query_executor, file_manager, insert_form=createProjectForm).router);
-app.use('/api/metadata', new ServerRoute(metadata_query_executor, file_manager).router);
+// CRUD route instances
+const technologyTypesServerRoute = new ServerRoute(
+  technologyTypeQueryExecutor,
+  fileManager,
+  { insertForm: createTechnologyTypeForm }
+);
+
+const technologiesServerRoute = new ServerRoute(
+  technologyQueryExecutor,
+  fileManager,
+  { insertForm: createTechnologyForm }
+);
+
+const projectUrlTypesServerRoute = new ServerRoute(
+  projectUrlTypeQueryExecutor,
+  fileManager,
+  { insertForm: createUrlTypeForm }
+);
+
+const projectUrlsServerRoute = new ServerRoute(
+  projectUrlQueryExecutor,
+  fileManager
+);
+
+const projectsServerRoute = new ServerRoute(
+  projectQueryExecutor,
+  fileManager,
+  { insertForm: createProjectForm }
+);
+
+const metadataServerRoute = new ServerRoute(
+  metadataQueryExecutor,
+  fileManager
+);
+
+// CRUD route usage
+app.use('/api/technology_types', technologyTypesServerRoute.router);
+app.use('/api/technologies', technologiesServerRoute.router);
+app.use('/api/project_url_types', projectUrlTypesServerRoute.router);
+app.use('/api/project_urls', projectUrlsServerRoute.router);
+app.use('/api/projects', projectsServerRoute.router);
+app.use('/api/metadata', metadataServerRoute.router);
 
 app.listen(3000, () => console.log('Server running on port 3000'));
 

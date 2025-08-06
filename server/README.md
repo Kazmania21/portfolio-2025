@@ -29,7 +29,7 @@ npm start
 
 This project follows a modular and scalable architecture with clear separation of concerns:
 
-```
+```text
 ├── config/ # Application configuration and environment setup  
 ├── forms/ # Input validation forms for different features  
 ├── middleware/ # Express middleware (auth, validation, CSRF, etc.)  

@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 const { projectUrlSchema } = require('./project_urls.js');
 
+/* eslint-disable camelcase */
 const projectSchema = new mongoose.Schema({
   name: {
     type: String,
@@ -27,6 +28,7 @@ const projectSchema = new mongoose.Schema({
     required: true
   }
 });
+/* eslint-enable camelcase */
 
 const Project = mongoose.model('Project', projectSchema);
 

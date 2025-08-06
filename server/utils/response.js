@@ -1,5 +1,5 @@
 class Response {
-  constructor(status = 200, {message, data, errors, token}) {
+  constructor(status = 200, { message, data, errors, token }) {
     this.status = status;
     this.message = message;
     this.data = data;
@@ -8,7 +8,12 @@ class Response {
   }
 
   getResponse() {
-    return {"message": this.message, "data": this.data, "errors": this.errors, "token": this.token}
+    return { 
+      'message': this.message, 
+      'data': this.data, 
+      'errors': this.errors, 
+      'token': this.token 
+    };
   }
 }
 

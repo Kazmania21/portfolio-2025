@@ -6,6 +6,6 @@ const csrfProtection = csrf({
     sameSite: 'Strict',
     secure: true,
   },
-})
+});
 
 module.exports = csrfProtection;

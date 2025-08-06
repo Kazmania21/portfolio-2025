@@ -14,5 +14,5 @@ const projectTagSchema = new mongoose.Schema({
 
 const ProjectTag = mongoose.model('ProjectTag', projectTagSchema);
 
-module.exports = { Project, projectSchema };
+module.exports = { ProjectTag, projectTagSchema };
 
