@@ -16,7 +16,8 @@ const technologySchema = new mongoose.Schema({
   type: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'TechnologyType',
-    required: true
+    required: true,
+    index: true
   }
 });
 /* eslint-enable camelcase */

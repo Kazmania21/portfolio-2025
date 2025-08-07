@@ -4,7 +4,8 @@ const projectUrlSchema = new mongoose.Schema({
   type: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'ProjectUrlType',
-    required: true
+    required: true,
+    index: true
   },
   url: {
     type: String,

@@ -12,12 +12,14 @@ const projectSchema = new mongoose.Schema({
   },
   urls: {
     type: [projectUrlSchema],
-    required: false
+    required: false,
+    index: true
   },
   technologies: {
     type: [mongoose.Schema.Types.ObjectId], 
     ref: 'Technology',
-    required: false
+    required: false,
+    index: true
   },
   tags: {
     type: [String], 
