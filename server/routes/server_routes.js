@@ -4,10 +4,11 @@ const authMiddleware = require('../middleware/authorization.js');
 const validateForm = require('../middleware/validate_form.js');
 
 class ServerRoute {
-  constructor(crudQueryExecutor, crudFileManager, {insertForm = null} = {}) {
+  constructor(crudQueryExecutor, crudFileManager, {insertForm = null, patchForm = null} = {}) {
     this.crudQueryExecutor = crudQueryExecutor;
     this.crudFileManager = crudFileManager;
     this.insertForm = insertForm;
+    this.patchForm = patchForm;
     const fileSize = { fileSize: 2 * 1024 * 1024 };
     this.upload = multer({ storage: multer.memoryStorage(), limits: fileSize });
     this.router = express.Router('');
@@ -16,19 +17,22 @@ class ServerRoute {
 
   initRoutes = () => {
     // Middleware constants
+    const auth = authMiddleware;
     const uploadImages = this.upload.array('imageFile');
     const validateInsertForm = validateForm(this.insertForm);
+    const validateUpdateForm = validateForm(this.insertForm, { isUpdating: true });
+    const validatePatchForm = validateForm(this.patchForm, { isUpdating: true });
 
     // Route definitions
     this.router.get('/', this.index);
     this.router.get('/:id', this.getById);
     this.router.get('/:id/:item', this.getById);
     this.router.get('/:id/:item/:id2', this.getById);
-    this.router.post('/', authMiddleware, uploadImages, validateInsertForm, this.create);
-    this.router.put('/:id', authMiddleware, uploadImages, this.updateOne);
-    this.router.patch('/:id/add', authMiddleware, uploadImages, this.patchAddOne);
-    this.router.patch('/:id/remove', authMiddleware, uploadImages, this.patchRemoveOne);
-    this.router.delete('/:id', authMiddleware, this.deleteOne);
+    this.router.post('/', auth, uploadImages, validateInsertForm, this.create);
+    this.router.put('/:id', auth, uploadImages, validateUpdateForm, this.updateOne);
+    this.router.patch('/:id/add', auth, uploadImages, validatePatchForm, this.patchAddOne);
+    this.router.patch('/:id/remove', auth, uploadImages, validatePatchForm, this.patchRemoveOne);
+    this.router.delete('/:id', auth, this.deleteOne);
   };
 
   index = async (req, res) => {

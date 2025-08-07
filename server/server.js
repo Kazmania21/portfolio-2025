@@ -13,6 +13,7 @@ const { Project } = require('./models/projects.js');
 const { User } = require('./models/users.js');
 const { Metadata } = require('./models/metadata.js');
 const { createProjectForm } = require('./forms/create_project_form.js');
+const { patchProjectForm } = require('./forms/patch_project_form.js');
 const { createTechnologyForm } = require('./forms/create_technology_form.js');
 const { createUrlTypeForm } = require('./forms/create_url_type_form.js');
 const { createTechnologyTypeForm } = require('./forms/create_technology_type_form.js');
@@ -122,7 +123,10 @@ const projectUrlsServerRoute = new ServerRoute(
 const projectsServerRoute = new ServerRoute(
   projectQueryExecutor,
   fileManager,
-  { insertForm: createProjectForm }
+  { 
+    insertForm: createProjectForm,
+    patchForm: patchProjectForm
+  }
 );
 
 const metadataServerRoute = new ServerRoute(

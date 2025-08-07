@@ -6,8 +6,15 @@ class Form {
     this.validators = validators;
   }
 
-  async validate(req) {
-    await Promise.all(this.validators.map(validator => validator.run(req)));
+  async validate(req, { isUpdating = false } = {}) {
+    // Optional setting is added to validators if updating and not inserting
+    if (isUpdating) {
+      await Promise.all(this.validators.map(validator => validator.optional().run(req)));
+    }
+    else {
+      await Promise.all(this.validators.map(validator => validator.run(req)));
+    }
+
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
       const errorMessages = errors.array().map(error => error.msg);

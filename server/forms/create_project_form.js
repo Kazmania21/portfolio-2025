@@ -10,18 +10,15 @@ const createProjectForm = new Form([
   body('tagline')
     .isLength({ min:5, max: 255 })
     .withMessage('Tagline must be between 5 and 255 characters long'),
-  /*body('imageFile')
-    .notEmpty()
-    .withMessage('Thumbnail image is required'),*/
   body('technologies')
     .isArray({ max: 50 })
-    .withMessage('Technologies required'),
+    .withMessage('Technologies must be an array'),
   body('technologies.*')
     .notEmpty()
     .withMessage('Each technology must have a value'),
   body('urls')
     .isArray({ max: 50 })
-    .withMessage('Urls required'),
+    .withMessage('Urls must be an array'),
   body('urls.*.url')
     .notEmpty()
     .withMessage('Each URL must have a value'),
@@ -30,7 +27,7 @@ const createProjectForm = new Form([
     .withMessage('Each URL must have a type'),
   body('tags')
     .isArray({ max: 50 })
-    .withMessage('Tags required'),
+    .withMessage('Tags must be an array'),
   body('tags.*')
     .notEmpty()
     .withMessage('Each technology must have a value'),
