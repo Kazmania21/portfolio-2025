@@ -73,7 +73,7 @@ const Form: React.FC<FormProps> = ({ children, url="", method="", contentType, n
       )}
       {children}
       { includeButton && (
-        <button type="submit" className="btn btn-primary">Submit</button>
+        <button type="submit" className="btn btn-primary d-block mx-auto mt-3">Submit</button>
       )}
     </form>
   );

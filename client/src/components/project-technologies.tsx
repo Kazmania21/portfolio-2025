@@ -17,13 +17,13 @@ const ProjectTechnologies: React.FC<ProjectTechnologiesProps> = ({projectId, tec
 
   return (
     <div className="mt-3 mb-3">
+      <ProjectTechnologyModal projectId={projectId}></ProjectTechnologyModal>
       <div className="row">
         <div className="col-auto">
           <h3>Technologies Used</h3>
         </div>
-        <ProjectTechnologyModal projectId={projectId}></ProjectTechnologyModal>
-        <ProjectTechnologyModalButton projectId={projectId}></ProjectTechnologyModalButton>
-        <button className="btn btn-link col-auto pt-0" onClick={() => setIsExpanded(!isExpanded)}>
+        <ProjectTechnologyModalButton projectId={projectId} className="col-auto"></ProjectTechnologyModalButton>
+        <button className="btn btn-link col-auto pt-0 ps-1" onClick={() => setIsExpanded(!isExpanded)}>
           Expand
           { isExpanded ? (
               <FontAwesomeIcon icon={faChevronDown} rotation={180}></FontAwesomeIcon>

@@ -16,13 +16,19 @@ const Navbar: React.FC = () => {
   }, [location]);
 
   const getProfile = async () => {
-    var token = await ApiService({url: "/api/profile_info", formMethod: "GET"});
-    setIsLoggedIn(!!token);
+    var token = await(await ApiService({url: "/api/profile_info", formMethod: "GET"})).json();
+    if (!token) {
+      setIsLoggedIn(false);
+      return;
+    }
+    console.log(token);
+    setIsLoggedIn(!!token.data);
   }
 
   const handleSignOut = () => {
     //sessionStorage.removeItem("authToken");
     setIsLoggedIn(false);
+    ApiService({url: "/api/sign_out", formMethod: "POST"});
   }
 
   return (

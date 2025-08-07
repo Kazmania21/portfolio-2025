@@ -5,7 +5,7 @@ import EditableText from '../components/editable-text.tsx';
 import ApiService from '../services/api-service.tsx';
 import { IMetadata } from '../types/metadata.tsx';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faFolder } from '@fortawesome/free-solid-svg-icons';
+import { faFolder, faPhone } from '@fortawesome/free-solid-svg-icons';
 import { useTitle } from '../hooks/use-title.tsx';
 
 const Home: React.FC = () => {
@@ -21,7 +21,7 @@ const Home: React.FC = () => {
       }
 
       var data = await response.json();
-      setMetadata(data[0]);
+      setMetadata(data.data[0]);
     }
 
     fetchMetadata();
@@ -49,9 +49,13 @@ const Home: React.FC = () => {
           <EditableText text={metadata.bio} Tag="p" InputTag="textarea" updateUrl={`/api/metadata/${metadata._id}`} fieldName="bio" className="indented"></EditableText>
         )}
         <p className="text-center mb-0">
-          <Link to="/projects" className="btn btn-primary text-center mb-0">
+          <Link to="/projects" className="btn btn-primary text-center mb-0 me-2">
             <FontAwesomeIcon icon={faFolder} className="me-1" />
             Projects
+          </Link>
+          <Link to="/contact" className="btn btn-primary text-center mb-0">
+            <FontAwesomeIcon icon={faPhone} className="me-1" />
+            Contact
           </Link>
         </p>
       </ContentDiv>
