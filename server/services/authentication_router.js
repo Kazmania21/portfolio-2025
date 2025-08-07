@@ -3,7 +3,7 @@ const authMiddleware = require('../middleware/authorization');
 const validateForm = require('../middleware/validate_form');
 const Response = require('../utils/response');
 
-class AuthenticationServerRoute {
+class AuthenticationRouter {
   constructor(authenticationQueryExecutor, authenticationForm) {
     this.authenticationQueryExecutor = authenticationQueryExecutor;
     this.authenticationForm = authenticationForm;
@@ -68,4 +68,4 @@ class AuthenticationServerRoute {
   };
 }
 
-module.exports = AuthenticationServerRoute;
+module.exports = AuthenticationRouter;

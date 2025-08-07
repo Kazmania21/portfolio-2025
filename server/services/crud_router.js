@@ -3,8 +3,8 @@ const multer = require('multer');
 const authMiddleware = require('../middleware/authorization.js');
 const validateForm = require('../middleware/validate_form.js');
 
-class ServerRoute {
-  constructor(crudQueryExecutor, crudFileManager, {insertForm = null, patchForm = null} = {}) {
+class CrudRouter {
+  constructor(crudQueryExecutor, crudFileManager, { insertForm = null, patchForm = null } = {}) {
     this.crudQueryExecutor = crudQueryExecutor;
     this.crudFileManager = crudFileManager;
     this.insertForm = insertForm;
@@ -124,4 +124,4 @@ class ServerRoute {
   };
 }
 
-module.exports = ServerRoute;
+module.exports = CrudRouter;
