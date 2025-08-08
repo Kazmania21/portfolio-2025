@@ -1,7 +1,7 @@
 const express = require('express');
 const multer = require('multer');
 const authMiddleware = require('../middleware/authorization.js');
-const validateForm = require('../middleware/validate_form.js');
+const validateForm = require('../middleware/validate-form.js');
 
 class CrudRouter {
   constructor(crudQueryExecutor, crudFileManager, { insertForm = null, patchForm = null } = {}) {

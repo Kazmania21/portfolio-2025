@@ -1,5 +1,5 @@
 const AuthenticationRouter = require('../services/authentication-router.js');
-const AuthenticationQueryExecutor = require('../services/authentication-query-executor.js');
+const AuthenticationQueryExecutor = require('../services/authentication_query-executor.js');
 const { User } = require('../models/users.js');
 const { authenticationForm } = require('../forms/authentication-form.js');
 const mongoose = require('mongoose');

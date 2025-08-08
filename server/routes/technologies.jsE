@@ -1,8 +1,8 @@
 const CrudRouter = require('../services/crud-router.js');
-const CrudQueryExecutor = require('../services/crud-query-executor.js');
+const CrudQueryExecutor = require('../services/crud_query-executor.js');
 const { Technology } = require('../models/technologies.js');
-const { createTechnologyForm } = require('../forms/create-technology-form.js');
-const CrudFileManager = require('../utils/crud-file-manager.js');
+const { createTechnologyForm } = require('../forms/create_technology-form.js');
+const CrudFileManager = require('../utils/crud_file-manager.js');
 const mongoose = require('mongoose');
 
 const queryExecutor = new CrudQueryExecutor(mongoose, Technology);

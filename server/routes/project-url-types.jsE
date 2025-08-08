@@ -1,0 +1,17 @@
+const CrudRouter = require('../services/crud-router.js');
+const CrudQueryExecutor = require('../services/crud_query-executor.js');
+const { ProjectUrlType } = require('../models/project_url-types.js');
+const { createUrlTypeForm } = require('../forms/create_url_type-form.js');
+const CrudFileManager = require('../utils/crud_file-manager.js');
+const mongoose = require('mongoose');
+
+const queryExecutor = new CrudQueryExecutor(mongoose, ProjectUrlType);
+const fileManager = new CrudFileManager();
+
+const projectUrlTypesRouter = new CrudRouter(
+  queryExecutor,
+  fileManager,
+  { insertForm: createUrlTypeForm }
+);
+
+module.exports = projectUrlTypesRouter;

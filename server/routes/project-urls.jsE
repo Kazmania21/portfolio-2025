@@ -1,7 +1,7 @@
-const CrudRouter = require('../services/crud_router.js');
-const CrudQueryExecutor = require('../services/crud_query_executor.js');
-const { ProjectUrl } = require('../models/project_urls.js');
-const CrudFileManager = require('../utils/crud_file_manager.js');
+const CrudRouter = require('../services/crud-router.js');
+const CrudQueryExecutor = require('../services/crud_query-executor.js');
+const { ProjectUrl } = require('../models/project-urls.js');
+const CrudFileManager = require('../utils/crud_file-manager.js');
 const mongoose = require('mongoose');
 
 const queryExecutor = new CrudQueryExecutor(mongoose, ProjectUrl);
