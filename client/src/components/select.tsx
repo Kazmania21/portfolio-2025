@@ -48,7 +48,7 @@ const Select: React.FC<SelectProps> = ({optionsUrl=null, defaultOptions=null, cl
     <div className="form-group">
       <label htmlFor={inputName}>
         {labelText}
-        {required && <span class="text-danger">*</span>}
+        {required && <span className="text-danger">*</span>}
       </label>
       <select className={`form-select ${className}`} name={inputName} required={required}>
           <option value="" selected>{defaultText}</option>

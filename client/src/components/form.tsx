@@ -1,12 +1,10 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import ContentDiv from '../components/content-div.tsx';
-import Input from '../components/input.tsx';
 import ApiService from '../services/api-service.tsx';
-import { useTitle } from '../hooks/use-title.tsx';
 
 interface FormProps {
   children: React.ReactNode;
+  className?: string;
   url?: string;
   method?: string;
   contentType?: string;
@@ -16,7 +14,6 @@ interface FormProps {
 }
 
 const Form: React.FC<FormProps> = ({ children, url="", method="", contentType, navigate, onSubmit, includeButton=true }) => {
-  const apiUrl = import.meta.env.VITE_API_URL; 
   const _navigate = useNavigate();
   const [errors, setErrors] = useState<string[]>([""]);
 
@@ -27,7 +24,7 @@ const Form: React.FC<FormProps> = ({ children, url="", method="", contentType, n
 
     const jsonFormData = JSON.stringify(Object.fromEntries(formData));
 
-    if (url == "") {
+    if (url == "" && onSubmit) {
       const data = await onSubmit(formData);
       console.log(data);
       if (data.errors) {
@@ -64,7 +61,7 @@ const Form: React.FC<FormProps> = ({ children, url="", method="", contentType, n
     <form className="p-2" method="POST" onSubmit={submitForm}>
       {(errors.length > 0) && (
         <div className="mb-3">
-          { errors.map((error, index) => (
+          { errors.map((error) => (
             <div className="m-0">
               <p className="text-danger mb-1">{error}</p>
             </div>

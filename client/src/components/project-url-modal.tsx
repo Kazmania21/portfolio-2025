@@ -17,7 +17,7 @@ const ProjectUrlModal: React.FC<ProjectUrlModalProps> = ({projectId}) => {
   return (
     <Modal modalId={`urls-modal-${projectId}`} title="Add URL to Project" onSave={(data: FormData) => projects.patchAddOne(projectId, data)}>
       <Select labelText="URL Type" defaultText="Select URL Type" defaultOptions={urlTypes.data} inputName="urls[type]" required></Select>
-      <Input labelText="URL" placeholder="URL" inputName="urls[url]" required minlength="5" maxlength="50" type="url"></Input>
+      <Input labelText="URL" placeholder="URL" inputName="urls[url]" required minlength={5} maxlength={50} inputType="url"></Input>
       <Link to="/add-url-type">URL type not listed?</Link>
     </Modal>
   );

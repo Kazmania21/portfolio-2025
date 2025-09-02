@@ -7,15 +7,16 @@ interface InputProps {
   inputName?: string;
   inputType?: string;
   required?: boolean;
-  minlength?: string | undefined;
-  maxlength?: string | undefined;
+  minlength?: number | undefined;
+  maxlength?: number | undefined;
+  maxSize?: number | undefined;
 }
 
 const Input: React.FC<InputProps> = ({className="", inputType="text", inputName="", placeholder="", labelText="", required=false, minlength, maxlength, maxSize}) => {
   const [error, setError] = useState('');
-  const inputRef = useRef();
+  const inputRef = useRef<HTMLInputElement | null>(null);
 
-  const handleFileChange = (e) => {
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const files = e.target.files;
 
     if (!files || !maxSize) {
@@ -27,7 +28,7 @@ const Input: React.FC<InputProps> = ({className="", inputType="text", inputName=
     setError('');
     if (file.size > maxSize * 1024 * 1024) {
       setError(`File size must be less than ${maxSize}MB.`);
-      inputRef.current.value = "";
+      inputRef.current!.value = "";
     }
   }
 
@@ -36,10 +37,10 @@ const Input: React.FC<InputProps> = ({className="", inputType="text", inputName=
       {labelText && (
         <label htmlFor={inputName}>
           {labelText}
-          {required && <span class="text-danger">*</span>}
+          {required && <span className="text-danger">*</span>}
         </label>
       )}
-      <input type={inputType} className={`form-control ${className}`} id={inputName} name={inputName} placeholder={placeholder} required={required} minlength={minlength} maxlength={maxlength} onChange={handleFileChange} ref={inputRef} />
+      <input type={inputType} className={`form-control ${className}`} id={inputName} name={inputName} placeholder={placeholder} required={required} minLength={minlength} maxLength={maxlength} onChange={handleFileChange} ref={inputRef} />
       <span className="text-danger">{error}</span>
     </div>
   );

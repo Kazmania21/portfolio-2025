@@ -16,7 +16,7 @@ const Navbar: React.FC = () => {
   }, [location]);
 
   const getProfile = async () => {
-    var token = await(await ApiService({url: "/api/profile_info", formMethod: "GET"})).json();
+    var token = await(await ApiService({url: "/api/profile_info", formMethod: "GET"})!)!.json();
     if (!token) {
       setIsLoggedIn(false);
       return;

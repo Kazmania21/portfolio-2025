@@ -22,7 +22,7 @@ const ProjectTechnologies: React.FC<ProjectTechnologiesProps> = ({projectId, tec
         <div className="col-auto">
           <h3>Technologies Used</h3>
         </div>
-        <ProjectTechnologyModalButton projectId={projectId} className="col-auto"></ProjectTechnologyModalButton>
+        <ProjectTechnologyModalButton projectId={projectId}></ProjectTechnologyModalButton>
         <button className="btn btn-link col-auto pt-0 ps-1" onClick={() => setIsExpanded(!isExpanded)}>
           Expand
           { isExpanded ? (
