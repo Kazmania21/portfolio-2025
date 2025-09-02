@@ -30,11 +30,11 @@ jobs:
           cd portfolio-2025/
           sudo git pull origin main
           cd server/
-          npm install --production
+          sudo npm install --production
           pm2 restart server
           cd ../client
-          npm install
-          npm run build
+          sudo npm install
+          sudo npm run build
           sudo rm -rf /var/www/html/portfolio/
           sudo systemctl restart nginx
           sudo mv dist/ /var/www/html/portfolio/
