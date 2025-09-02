@@ -25,16 +25,34 @@ jobs:
         username: ${{ secrets.EC2_USER }}
         key: ${{ secrets.EC2_KEY }}
         script: |
-          set -euxo pipefail
+          set -euo pipefail
           trap 'echo "❌ Deployment failed at command: $BASH_COMMAND"' ERR
+
+          exec 5>&2
+          exec 2>&1
+          set -x
+          
+          echo "Changing to project directory"
           cd portfolio-2025/
+
+          echo "Pulling latest code"
           sudo git pull origin main
+
+          echo "Installing server dependencies"
           cd server/
           sudo npm install --production
+
+          echo "Restarting server"
           pm2 restart server
+
+          echo "Installing client dependencies"
           cd ../client
           sudo npm install
           sudo npm run build
+
+          echo "Deploying to /var/www/html"
           sudo rm -rf /var/www/html/portfolio/
           sudo systemctl restart nginx
           sudo mv dist/ /var/www/html/portfolio/
+
+          echo "✅ Deployment completed successfully!"
