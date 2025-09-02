@@ -26,6 +26,7 @@ jobs:
         key: ${{ secrets.EC2_KEY }}
         script: |
           set -euo pipefail
+          trap 'echo "❌ Deployment failed at command: $BASH_COMMAND"' ERR
           cd portfolio-2025/
           sudo git pull origin main
           cd server/
