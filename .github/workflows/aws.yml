@@ -25,6 +25,7 @@ jobs:
         username: ${{ secrets.EC2_USER }}
         key: ${{ secrets.EC2_KEY }}
         script: |
+          set -e
           cd portfolio-2025/
           sudo git pull origin main
           cd server/
